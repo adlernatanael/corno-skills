@@ -55,10 +55,12 @@ const groups = groupedSkills();
                       {s.name}
                       <span class="chev" aria-hidden="true" />
                     </button>
-                    <div class="preview" id={`prev-${s.name}`} hidden={k !== 0}>
-                      {(ABOUT[s.name] ?? [`${s.summary}.`]).map((p) => <p>{p}</p>)}
-                      {s.triggers[0] && <p class="say">Diga “{s.triggers[0]}”</p>}
-                      <a href={`/skills/${s.name}/`}>Ver a skill inteira</a>
+                    <div class="preview" id={`prev-${s.name}`} data-open={k === 0 ? "" : undefined}>
+                      <div class="preview-in">
+                        {(ABOUT[s.name] ?? [`${s.summary}.`]).map((p) => <p>{p}</p>)}
+                        {s.triggers[0] && <p class="say">Diga “{s.triggers[0]}”</p>}
+                        <a href={`/skills/${s.name}/`}>Ver a skill inteira</a>
+                      </div>
                     </div>
                   </li>
                 ))}
@@ -84,12 +86,12 @@ const groups = groupedSkills();
 
 <script>
   // Picking a skill opens its preview under the name and plays its example run in the terminal beside it.
+  function expand(b: HTMLButtonElement, on: boolean) {
+    b.setAttribute("aria-expanded", String(on));
+    document.getElementById(b.getAttribute("aria-controls")!)!.toggleAttribute("data-open", on);
+  }
   function openSkill(panel: HTMLElement, name: string) {
-    for (const b of panel.querySelectorAll<HTMLButtonElement>("[data-skill]")) {
-      const on = b.dataset.skill === name;
-      b.setAttribute("aria-expanded", String(on));
-      document.getElementById(b.getAttribute("aria-controls")!)!.hidden = !on;
-    }
+    for (const b of panel.querySelectorAll<HTMLButtonElement>("[data-skill]")) expand(b, b.dataset.skill === name);
     for (const t of panel.querySelectorAll<HTMLElement>("[data-term]")) {
       t.hidden = t.dataset.term !== name;
       // Restart the line-by-line reveal each time a run is shown.
@@ -99,7 +101,10 @@ const groups = groupedSkills();
   }
   for (const panel of document.querySelectorAll<HTMLElement>('[role="tabpanel"]')) {
     for (const b of panel.querySelectorAll<HTMLButtonElement>("[data-skill]")) {
-      b.addEventListener("click", () => openSkill(panel, b.dataset.skill!));
+      // Clicking the open one closes it; its run stays in the terminal.
+      b.addEventListener("click", () =>
+        b.getAttribute("aria-expanded") === "true" ? expand(b, false) : openSkill(panel, b.dataset.skill!),
+      );
     }
   }
 
@@ -322,16 +327,35 @@ const groups = groupedSkills();
   [aria-expanded="true"] .chev {
     transform: rotate(-135deg) translateY(-2px);
   }
+  /* Height animates through a 0fr to 1fr grid row; visibility keeps the closed one out of Tab and screen readers. */
   .preview {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 0 16px 18px;
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
     color: var(--fg-2);
     font-size: 15px;
   }
-  .preview[hidden] {
-    display: none;
+  .preview[data-open] {
+    grid-template-rows: 1fr;
+    visibility: visible;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .preview {
+      transition:
+        grid-template-rows 280ms var(--ease-out),
+        visibility 280ms;
+    }
+  }
+  .preview-in {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 16px;
+  }
+  .preview-in > :last-child {
+    margin-bottom: 18px;
   }
   .preview p {
     line-height: 1.55;

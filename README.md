@@ -3,18 +3,40 @@
 </p>
 
 <p align="center">
-  <b>Skills em português para o seu agente de código.</b><br>
-  Ele confere antes de dizer pronto, investiga antes de chutar e larga a cara de IA.<br>
-  E ainda julga sua ideia de negócio e seu currículo sem passar pano.
+  Com elas o teu agente confere antes de dizer pronto, investiga antes de chutar e larga a cara de IA.<br>
+  E ainda julga tua ideia de negócio e teu currículo sem passar pano.
 </p>
 
 <p align="center">
+  <a href="#na-prática">Na prática</a> ·
   <a href="#instalar">Instalar</a> ·
   <a href="#curral-das-skills">Curral das skills</a> ·
   <a href="#o-que-tem-aqui">O que tem aqui</a> ·
   <a href="CONTRIBUTING.md">Contribuir</a> ·
   <a href="https://corno.dev">corno.dev</a>
 </p>
+
+<br>
+
+## Na prática
+
+Você pergunta se terminou. Com a `corno-confere`, o agente não responde “pronto” de cara: põe cada pedido ao lado do que entregou e confere tudo duas vezes.
+
+```
+> e aí, terminou? queria subir isso ainda hoje
+
+usando a corno-confere
+  1ª volta: cada pedido ao lado do que entreguei
+  ✓ botão escrito “Entrar”: igual ao pedido (Login.tsx:42)
+  ✗ botão preto: entreguei cinza escuro, não é o que você pediu
+  ✗ tirar a barra do header, pedido no meio: esqueci
+    corrigi os dois
+  ✓ 2ª volta, do zero: 3 de 3 iguais ao pedido, 48 testes passando
+
+Agora sim, pronto e conferido. Pode subir.
+```
+
+Em [corno.dev](https://corno.dev) tem um exemplo desses para cada skill.
 
 <br>
 
@@ -44,7 +66,7 @@ Só no Claude Code. Instala todas as skills de uma vez, junto com o hook da `cor
 
 ### Baixar .zip
 
-Baixe o [.zip do repositório](https://github.com/adlernatanael/corno-skills/archive/refs/heads/main.zip) e copie as pastas de `skills/` para a pasta de skills do seu agente. Em [corno.dev](https://corno.dev) cada skill tem o seu próprio .zip.
+Baixe o [.zip com todas as skills](https://corno.dev/downloads/corno-skills.zip) e copie as pastas para a pasta de skills do seu agente. Em [corno.dev](https://corno.dev) cada skill tem o seu próprio .zip.
 
 <br>
 
@@ -94,6 +116,8 @@ Você não precisa chamar pelo nome: fale como sempre falou e o agente puxa a sk
 | Skill | O que faz | Diga |
 |---|---|---|
 | [`corno-cria-skill`](skills/corno-cria-skill/SKILL.md) | Cria ou finaliza uma skill no padrão deste repositório. | “cria uma skill” |
+
+<br>
 
 ## O que tem aqui
 
