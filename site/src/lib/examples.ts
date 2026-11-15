@@ -1,142 +1,150 @@
-// Illustrative exchanges used by the landings. They are examples of the behaviour, not transcripts.
+// Example conversations used by the landings. They show the behaviour, they are not transcripts. Written the way
+// people actually type to an agent, and the way a good colleague would answer.
 
+// One exchange per skill group, for the sticky stage on /nova.
 export const SCENES: Record<string, { you: string; agent: string }> = {
-  Código: { you: "corrigi o bug, pode subir?", agent: "Rodei a suíte inteira: um teste ainda falha em auth.test.ts. Não está pronto; olha a saída acima." },
-  Interface: { you: "deixa essa tela mais bonita", agent: "Tirei o gradiente roxo, troquei o div clicável pelo Button da casa e o estado vazio agora tem uma ação." },
-  "Texto e conversa": { you: "humaniza esse post", agent: "Cortei o “não é X, é Y”, os três travessões e o “isso muda tudo”. O resto é a sua voz, intacta." },
-  "Negócio e carreira": { you: "julga minha ideia: Uber de passeador de cachorro", agent: "Veredito: funcionalidade querendo ser empresa. Quem paga, se o vizinho já passeia de graça?" },
-  Máquina: { you: "meu disco tá cheio", agent: "O maior item é o modelo de IA que o Chrome baixa sozinho. Desligo o download antes de apagar, senão ele volta." },
-  "Para quem cria skills": { you: "transforma isso em skill", agent: "Criei com gatilhos, “Quando não usar” e “Pronto quando”. O validador do repo passa." },
+  Código: {
+    you: "corrigi o bug do login, posso subir?",
+    agent: "Ainda não. Rodei os testes e um ainda falha no auth.test.ts. Arrumo e te aviso.",
+  },
+  Interface: {
+    you: "essa tela tá feia demais, dá um jeito",
+    agent: "Tirei o gradiente roxo, usei o botão que o projeto já tem e a lista vazia agora diz o que fazer.",
+  },
+  "Texto e conversa": {
+    you: "escrevi esse post do lançamento, tá com cara de ChatGPT?",
+    agent: "Um pouco. Cortei o “não é X, é Y” e duas frases de efeito. O resto é você mesmo.",
+  },
+  "Negócio e carreira": {
+    you: "tive uma ideia: um Uber pra passear com cachorro. o que acha?",
+    agent: "Por enquanto é funcionalidade querendo ser empresa. Quem tem cachorro já pede pro vizinho de graça.",
+  },
+  Máquina: {
+    you: "meu Mac tá sem espaço nenhum, o que eu posso apagar?",
+    agent: "Achei 41 GB que voltam sozinhos. Antes, desligo o download do modelo de IA do Chrome, senão ele baixa de novo.",
+  },
+  "Para quem cria skills": {
+    you: "sempre faço o mesmo ritual pra subir release, vira skill?",
+    agent: "Virou. Coloquei quando usar, quando não usar e quando tá pronto. O validador passou.",
+  },
 };
 
-// What the agent says without the skill, and with it.
-export const BEFORE_AFTER: { skill: string; before: string; after: string }[] = [
-  { skill: "corno-confere", before: "Pronto! Deve funcionar.", after: "Rodei os testes: 2 falham em pagamento. Ainda não está pronto." },
-  { skill: "corno-investiga", before: "Provavelmente é cache. Limpei, tenta de novo.", after: "Reproduzi em 3 segundos. A causa é o fuso horário na data de vencimento." },
-  { skill: "corno-visagem", before: "Adicionei um gradiente roxo e um brilho no botão.", after: "Usei o Button da casa, tirei o gradiente e o vazio agora tem uma ação." },
-  { skill: "corno-julgador", before: "Que ideia incrível! Tem tudo para dar certo.", after: "Nível 2: funcionalidade querendo ser empresa. Faça 10 conversas antes de codar." },
-  { skill: "corno-recrutador", before: "Seu currículo está ótimo!", after: "Nota 58: nenhum bullet tem número. Reescrevi os cinco piores com {XX}." },
-  { skill: "corno-humano", before: "Isso não é só um post, é uma revolução.", after: "Cortei a frase de efeito e deixei o fato: lançamos na terça." },
-  { skill: "corno-limpa", before: "Apaguei a pasta do Chrome, liberou 4 GB.", after: "Desliguei o download do modelo antes de apagar, senão ele volta amanhã." },
-  { skill: "corno-testa", before: "Escrevi o código e depois uns testes que passam.", after: "O teste falhou primeiro pelo motivo certo. Agora passa, com a saída aqui." },
-];
-
-// One example run per skill, for the curral preview: what you say, then what the agent does with the skill on.
-// "ok" lines passed, "no" lines failed or were cut, "warn" lines are left for you to decide.
+// One example run per skill, for the curral preview: what the person says, then what the agent does with the skill.
+// "ok" lines are done, "no" lines failed or were cut, "warn" lines are left for the person to decide.
 export type Step = { kind: "ok" | "no" | "warn" | "plain"; text: string };
 export const SKILL_RUNS: Record<string, { you: string; steps: Step[]; result: string }> = {
   "corno-confere": {
-    you: "terminou?",
+    you: "e aí, terminou? queria subir isso ainda hoje",
     steps: [
-      { kind: "ok", text: "botão de login trocado (src/Login.tsx:42)" },
-      { kind: "ok", text: "testes: 48 passam, 0 falham" },
-      { kind: "no", text: "faltou: tirar a barra do header, pedida no meio" },
+      { kind: "ok", text: "trocar o botão de login: feito (Login.tsx:42)" },
+      { kind: "ok", text: "rodei os testes: 48 passaram" },
+      { kind: "no", text: "tirar a barra do header, que você pediu no meio: esqueci" },
     ],
-    result: "Ainda não: 2 de 3 itens feitos. Fazendo o que falta.",
+    result: "Quase. Faltou a barra do header, já tô tirando e te aviso.",
   },
   "corno-testa": {
-    you: "cobre o cálculo de frete com teste",
+    you: "o frete grátis acima de 200 tá cobrando 15, cobre isso com teste?",
     steps: [
-      { kind: "no", text: "frete_gratis_acima_de_200 falhou: esperado 0, veio 15" },
-      { kind: "ok", text: "corrigido o mínimo para passar" },
-      { kind: "ok", text: "suíte inteira: 31 passam" },
+      { kind: "no", text: "escrevi o teste antes: falhou, veio 15 em vez de 0" },
+      { kind: "ok", text: "corrigi só a regra do frete" },
+      { kind: "ok", text: "rodei tudo: 31 testes passando" },
     ],
-    result: "Falhou primeiro pelo motivo certo. Agora passa.",
+    result: "Pronto. Se alguém quebrar o frete de novo, o teste pega.",
   },
   "corno-investiga": {
-    you: "funcionava ontem",
+    you: "o boleto tá saindo com vencimento errado, ontem tava funcionando",
     steps: [
-      { kind: "ok", text: "reproduzido em 3 s com um curl" },
-      { kind: "ok", text: "git bisect: quebrou no commit a41f" },
-      { kind: "ok", text: "causa: fuso horário na data de vencimento" },
+      { kind: "ok", text: "consegui repetir o erro aqui em 3 segundos" },
+      { kind: "ok", text: "achei o commit que quebrou: o de ontem à tarde" },
+      { kind: "ok", text: "a causa: o fuso horário na data de vencimento" },
     ],
-    result: "Corrigido na raiz, com teste de regressão.",
+    result: "Corrigi na raiz e deixei um teste pra não voltar.",
   },
   "corno-revisa": {
-    you: "/corno-revisa",
+    you: "/corno-revisa, dá uma olhada no checkout antes do merge",
     steps: [
-      { kind: "warn", text: "Checkout.tsx passou de 1.200 linhas" },
-      { kind: "warn", text: "if de cupom espalhado em 4 lugares" },
+      { kind: "warn", text: "o Checkout.tsx passou de 1.200 linhas" },
+      { kind: "warn", text: "a regra de cupom tá espalhada em 4 lugares" },
     ],
-    result: "Entra com ajustes: separe o cálculo do cupom antes.",
+    result: "Entra, mas separa o cálculo do cupom antes. Te mostro como.",
   },
   "corno-pesquisa": {
-    you: "o Node 22 já tem fetch estável?",
+    you: "dá pra usar fetch direto no Node 22 ou ainda precisa de lib?",
     steps: [
-      { kind: "ok", text: "changelog oficial do Node" },
-      { kind: "ok", text: "documentação da API global fetch" },
+      { kind: "ok", text: "li o changelog oficial do Node" },
+      { kind: "ok", text: "conferi na documentação da API" },
     ],
-    result: "Sim. Salvo em docs/pesquisa/fetch-node.md, com links.",
+    result: "Dá, já é estável. Deixei as fontes em docs/pesquisa/fetch-node.md.",
   },
   "corno-visagem": {
-    you: "deixa essa tela mais bonita",
+    you: "essa tela tá feia demais, dá um jeito",
     steps: [
-      { kind: "ok", text: "gradiente roxo removido" },
-      { kind: "ok", text: "div clicável virou o Button da casa" },
-      { kind: "ok", text: "estado vazio ganhou uma ação" },
+      { kind: "ok", text: "tirei o gradiente roxo" },
+      { kind: "ok", text: "troquei o div clicável pelo botão que o projeto já tem" },
+      { kind: "ok", text: "a lista vazia agora diz o que fazer" },
     ],
-    result: "Pulei o modo escuro: ninguém pediu.",
+    result: "Ficou no padrão do resto do app. Modo escuro eu não mexi.",
   },
   "corno-sendo-corno": {
-    you: "aponta os problemas dessa tela",
+    you: "antes de eu aprovar esse PR, o que tá errado nessa tela?",
     steps: [
-      { kind: "no", text: "grave: botão só com ícone sem nome (Header.tsx:18)" },
-      { kind: "warn", text: "médio: p-[13px] fora da escala (Card.tsx:9)" },
-      { kind: "warn", text: "leve: raio diferente dos cards irmãos" },
+      { kind: "no", text: "grave: o botão de fechar não tem nome pro leitor de tela" },
+      { kind: "warn", text: "médio: um espaçamento fora do padrão no card" },
+      { kind: "warn", text: "leve: um card com borda diferente dos outros" },
     ],
-    result: "Veredito: entra com ajustes. Não mexi no código.",
+    result: "Dá pra aprovar depois de arrumar o botão. Não mexi em nada.",
   },
   "corno-humano": {
-    you: "humaniza esse post",
+    you: "escrevi esse post do lançamento, tá com cara de ChatGPT?",
     steps: [
       { kind: "no", text: "“Não é só um app, é uma revolução.”" },
       { kind: "ok", text: "“Lançamos o app na terça.”" },
     ],
-    result: "Cortei 3 frases de efeito. A voz continua sua.",
+    result: "Tava um pouco. Cortei três frases de efeito, o resto é você.",
   },
   "corno-com-tdah": {
-    you: "só me diz o que fazer",
+    you: "não entendi nada, só me diz o que fazer",
     steps: [
-      { kind: "plain", text: "1. Abra src/auth.ts" },
-      { kind: "plain", text: "2. Troque a linha 42 pelo trecho abaixo" },
-      { kind: "plain", text: "3. Rode npm test" },
+      { kind: "plain", text: "1. Abre o arquivo src/auth.ts" },
+      { kind: "plain", text: "2. Troca a linha 42 por esse trecho" },
+      { kind: "plain", text: "3. Roda npm test" },
     ],
-    result: "Agora: o passo 1. Leva 2 minutos.",
+    result: "Começa pelo 1. Leva uns 2 minutos.",
   },
   "corno-julgador": {
-    you: "julga minha ideia: Uber de passeador de cachorro",
+    you: "tive uma ideia: um Uber pra passear com cachorro. o que acha?",
     steps: [
-      { kind: "no", text: "dor: o vizinho já passeia de graça" },
-      { kind: "no", text: "diferencial: um concorrente copia em um mês" },
-      { kind: "ok", text: "teste de 7 dias: 10 conversas com donos" },
+      { kind: "no", text: "quem paga? quem tem cachorro já pede pro vizinho" },
+      { kind: "no", text: "uma empresa grande copia isso em um mês" },
+      { kind: "ok", text: "dá pra testar em 7 dias conversando com 10 donos" },
     ],
-    result: "Nível 2: funcionalidade querendo ser empresa.",
+    result: "Por enquanto é funcionalidade querendo ser empresa. Faz as 10 conversas antes de programar.",
   },
   "corno-recrutador": {
-    you: "analisa meu currículo (curriculo.pdf)",
+    you: "mandei uns 40 currículos e ninguém me chamou, olha aí (curriculo.pdf)",
     steps: [
-      { kind: "plain", text: "6 segundos: dev pleno, 5 anos, nenhum número" },
-      { kind: "no", text: "0 de 12 bullets com resultado" },
-      { kind: "ok", text: "PDF com texto, coluna única" },
+      { kind: "plain", text: "em 6 segundos o recrutador vê: dev pleno, 5 anos, nenhum resultado" },
+      { kind: "no", text: "nenhum dos 12 itens diz o que você entregou" },
+      { kind: "ok", text: "o PDF é lido direitinho pelos sistemas de triagem" },
     ],
-    result: "Nota 58, fraco. Reescrevi os 5 piores com {XX}.",
+    result: "Nota 58. Reescrevi os 5 piores itens, só falta você pôr os números.",
   },
   "corno-limpa": {
-    you: "meu disco tá cheio",
+    you: "meu Mac tá sem espaço nenhum, o que eu posso apagar?",
     steps: [
-      { kind: "ok", text: "38 GB em node_modules (volta com npm install)" },
-      { kind: "ok", text: "4,1 GB do modelo de IA do Chrome, download desligado" },
-      { kind: "warn", text: "2 pastas com código sem commit: não mexo" },
+      { kind: "ok", text: "38 GB de node_modules (voltam com um npm install)" },
+      { kind: "ok", text: "4 GB de um modelo de IA que o Chrome baixou sozinho" },
+      { kind: "warn", text: "2 pastas com código que você não commitou: não mexi" },
     ],
-    result: "Livre antes: 12 GB. Agora: 53 GB.",
+    result: "Liberei 42 GB. As duas pastas eu deixei pra você decidir.",
   },
   "corno-cria-skill": {
-    you: "transforma isso em skill",
+    you: "sempre faço o mesmo ritual pra subir release, vira skill?",
     steps: [
-      { kind: "ok", text: "skills/corno-ritual/SKILL.md criado" },
-      { kind: "ok", text: "gatilhos, Quando não usar e Pronto quando" },
-      { kind: "ok", text: "validador do repo: ok" },
+      { kind: "ok", text: "criei a skills/corno-release" },
+      { kind: "ok", text: "coloquei quando usar, quando não usar e quando tá pronto" },
+      { kind: "ok", text: "o validador do repo passou" },
     ],
-    result: "Pronta. Teste dizendo um gatilho numa conversa nova.",
+    result: "Tá pronta. Testa dizendo “sobe a release” numa conversa nova.",
   },
 };
