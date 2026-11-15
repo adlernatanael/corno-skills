@@ -5,7 +5,8 @@ import AsciiBoi from "../components/AsciiBoi.astro";
 import Command from "../components/Command.astro";
 import Footer from "../components/Footer.astro";
 import { groupedSkills } from "../lib/skills";
-import { INSTALL_CLAUDE, INSTALL_CLONE } from "../lib/links";
+import { INSTALL_CLAUDE } from "../lib/links";
+import Install from "../components/Install.astro";
 
 const groups = groupedSkills();
 const title = "Corno: skills para o seu agente";
@@ -58,21 +59,7 @@ const description =
 
     <section class="install container" id="instalar" aria-labelledby="instalar-title">
       <h2 id="instalar-title">Bota no curral</h2>
-      <div class="install-grid">
-        <div class="install-block">
-          <h3>Claude Code</h3>
-          <p class="muted">Dentro de uma sessão, adicione o curral e instale tudo de uma vez:</p>
-          {INSTALL_CLAUDE.map((c) => <Command code={c} />)}
-        </div>
-        <div class="install-block">
-          <h3>Qualquer agente</h3>
-          <p class="muted">Clone e copie as pastas para onde o seu agente lê skills (o exemplo usa a do Claude Code):</p>
-          {INSTALL_CLONE.map((c) => <Command code={c} />)}
-          <p class="muted small">
-            Ou baixe o <a href="/downloads/corno-skills.zip" download>.zip com todas</a> e descompacte na pasta de skills.
-          </p>
-        </div>
-      </div>
+      <Install />
     </section>
   </main>
   </div>
@@ -225,23 +212,8 @@ const description =
   .install {
     padding-block: 24px 80px;
   }
-  .install-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-    margin-top: 28px;
-  }
-  .install-block {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 24px;
-    border-radius: var(--radius-card);
-    background: var(--canvas);
-  }
-  .install-block h3 {
-    font-size: 20px;
-    font-weight: 650;
+  .install h2 {
+    margin-bottom: 28px;
   }
   .small {
     font-size: 14px;
@@ -257,9 +229,6 @@ const description =
       justify-self: center;
       max-width: 360px;
       order: -1;
-    }
-    .install-grid {
-      grid-template-columns: minmax(0, 1fr);
     }
   }
 </style>

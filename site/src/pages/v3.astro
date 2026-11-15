@@ -6,18 +6,19 @@ import Command from "../components/Command.astro";
 import AsciiBoi from "../components/AsciiBoi.astro";
 import { groupedSkills } from "../lib/skills";
 import { INSTALL_CLAUDE } from "../lib/links";
+import Install from "../components/Install.astro";
 import SkillRun from "../components/SkillRun.astro";
 
 const groups = groupedSkills();
 
 ---
-<Base title="Corno: deixe de ser corno junto com seu agente" description="Skills que fazem seu agente terminar de verdade, procurar a causa do bug e parar de elogiar sua ideia ruim." gate>
+<Base title="Corno: skills pra tu deixar de ser corno junto com teu agente" description="Skills que fazem seu agente terminar de verdade, procurar a causa do bug e parar de elogiar sua ideia ruim." gate>
   <Header tone="dark" />
   <div class="page-body v3">
     <main tabindex="-1">
       <section class="hero container">
         <h1>
-          {"Deixe de ser corno junto com seu agente.".split(" ").map((w, i) => (
+          {"Skills pra tu deixar de ser corno junto com teu agente.".split(" ").map((w, i) => (
             <span class="word">
               <span style={`--i: ${i}`}>{w}</span>
             </span>
@@ -25,6 +26,7 @@ const groups = groupedSkills();
         </h1>
         <div class="hero-cta">
           <Command code={INSTALL_CLAUDE[0]} />
+          <p class="cta-note">No Claude Code. Outro agente? <a href="#instalar">Clone ou baixe o .zip</a>.</p>
         </div>
         <div class="bull">
           <AsciiBoi src="/touro.svg" ratio="2 / 1" label="Um touro inteiro desenhado com letras e símbolos" />
@@ -71,9 +73,9 @@ const groups = groupedSkills();
         }
       </section>
 
-      <section class="sec container final">
+      <section class="sec container final" id="instalar">
         <h2>Bota o boi no curral.</h2>
-        <div class="final-cmds">{INSTALL_CLAUDE.map((c) => <Command code={c} />)}</div>
+        <Install />
       </section>
     </main>
   </div>
@@ -174,7 +176,7 @@ const groups = groupedSkills();
     text-align: center;
   }
   h1 {
-    max-width: 14ch;
+    max-width: 16ch;
     font-size: clamp(48px, 9vw, 128px);
     font-weight: 750;
     letter-spacing: -0.055em;
@@ -194,6 +196,16 @@ const groups = groupedSkills();
     width: min(100%, 520px);
     margin-top: 36px;
     text-align: left;
+  }
+  .cta-note {
+    margin-top: 10px;
+    color: var(--fg-2);
+    font-size: 14px;
+    text-align: center;
+  }
+  .cta-note a {
+    color: var(--fg);
+    text-underline-offset: 3px;
   }
   .bull {
     width: min(100%, 1040px);
@@ -353,11 +365,14 @@ const groups = groupedSkills();
   .final {
     padding-bottom: 140px;
   }
-  .final-cmds {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 520px;
+  /* The site's primary button and focus ring are black: flip them for this page. */
+  .v3 :global(.button-primary) {
+    background: var(--fg);
+    color: #0a0a0a;
+  }
+  .v3 :global(a:focus-visible),
+  .v3 :global(button:focus-visible) {
+    outline-color: var(--fg);
   }
 
   @media (max-width: 860px) {

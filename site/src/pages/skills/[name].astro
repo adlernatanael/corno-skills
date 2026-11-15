@@ -4,17 +4,18 @@ import { join } from "node:path";
 import MarkdownIt from "markdown-it";
 import Base from "../../layouts/Base.astro";
 import Header from "../../components/Header.astro";
-import Command from "../../components/Command.astro";
+import Install from "../../components/Install.astro";
 import Footer from "../../components/Footer.astro";
 import SkillRun from "../../components/SkillRun.astro";
 import { loadSkills, SKILLS_DIR, type Skill } from "../../lib/skills";
-import { INSTALL_CLAUDE } from "../../lib/links";
+import { ABOUT } from "../../lib/about";
 
 export function getStaticPaths() {
   return loadSkills().map((skill) => ({ params: { name: skill.name }, props: { skill } }));
 }
 
 const { skill } = Astro.props as { skill: Skill };
+const about = ABOUT[skill.name] ?? [skill.what];
 const md = new MarkdownIt({ html: false, linkify: true });
 const extras = skill.files
   .filter((f) => f !== "SKILL.md")
@@ -33,6 +34,7 @@ const extras = skill.files
         <h1>{skill.short}</h1>
         <p class="name">{skill.name}</p>
         <p class="lead">{skill.summary}.</p>
+        <div class="about">{about.map((p) => <p>{p}</p>)}</div>
       </header>
 
       <div class="layout">
@@ -67,11 +69,7 @@ const extras = skill.files
         <aside class="side" aria-label="Instalar e usar">
           <div class="box">
             <h2>Instalar</h2>
-            <a class="button button-primary" href={`/downloads/${skill.name}.zip`} download>Baixar .zip</a>
-            <p class="hint">No Claude Code, com todas as outras:</p>
-            <Command code={INSTALL_CLAUDE[1]} />
-            <p class="hint">Com o repositório clonado:</p>
-            <Command code={`cp -R ~/corno-skills/skills/${skill.name} ~/.claude/skills/`} />
+            <Install skill={skill.name} />
           </div>
 
           <div class="box">
@@ -147,6 +145,16 @@ const extras = skill.files
     margin-top: 18px;
     font-size: 20px;
     line-height: 1.45;
+  }
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 640px;
+    margin-top: 20px;
+    color: var(--ink-2);
+    font-size: 17px;
+    line-height: 1.6;
   }
 
   .layout {

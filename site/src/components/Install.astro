@@ -1,0 +1,66 @@
+---
+// The three ways in: clone (any agent), the Claude Code plugin, or a .zip. With `skill`, clone and zip are for that
+// one skill; the plugin always brings all of them. Colors come from the page, so it works on light and dark.
+import Command from "./Command.astro";
+import { INSTALL_CLAUDE, REPO_URL } from "../lib/links";
+
+interface Props {
+  skill?: string;
+}
+const { skill } = Astro.props;
+const folder = skill ?? "*";
+const zip = skill ?? "corno-skills";
+---
+<div class="install">
+  <div class="opt">
+    <h3>Clonar</h3>
+    <p>Qualquer agente que lê pastas de skills. Troque <code>~/.claude/skills</code> pela pasta do seu.</p>
+    <Command code={`git clone ${REPO_URL}.git ~/corno-skills`} />
+    <Command code={`cp -R ~/corno-skills/skills/${folder} ~/.claude/skills/`} />
+  </div>
+  <div class="opt">
+    <h3>Plugin</h3>
+    <p>Só no Claude Code. Instala todas as skills e o hook da corno-confere.</p>
+    {INSTALL_CLAUDE.map((c) => <Command code={c} />)}
+  </div>
+  <div class="opt">
+    <h3>Baixar .zip</h3>
+    <p>{skill ? "Só esta skill." : "Todas as skills."} Descompacte na pasta de skills do seu agente.</p>
+    <a class="button button-primary" href={`/downloads/${zip}.zip`} download>Baixar {zip}.zip</a>
+  </div>
+</div>
+
+<style>
+  .install {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 20px 32px;
+  }
+  .opt {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    padding-top: 16px;
+    border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  }
+  h3 {
+    font-size: 17px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+  p {
+    margin-bottom: 4px;
+    color: color-mix(in srgb, currentColor 64%, transparent);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  p code {
+    font-size: 0.92em;
+  }
+  .button {
+    align-self: flex-start;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+</style>

@@ -1,27 +1,58 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" role="img" aria-label="Corno: skills pra deixar seu agente menos corno">
-  <rect width="1280" height="420" rx="28" fill="#f3f4f0"/>
-  <text x="64" y="404" fill="#1b1d19" fill-opacity="0.05" font-family="Geist, Inter, Helvetica Neue, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="-4">O CRIADOR NÃO É CORNO</text>
-  <g transform="translate(860 52) scale(1.85)">
-  <!-- Horns: ivory, so they draw as light glyphs against the dark head. -->
-  <path fill="#d9d2c3" d="M76 50 C52 50 26 40 12 10 C26 26 50 36 78 40 Z"/>
-  <path fill="#d9d2c3" d="M124 50 C148 50 174 40 188 10 C174 26 150 36 122 40 Z"/>
-  <!-- Ears -->
-  <path fill="#2b2620" d="M72 60 C58 54 44 58 36 68 C50 74 62 74 73 71 Z"/>
-  <path fill="#2b2620" d="M128 60 C142 54 156 58 164 68 C150 74 138 74 127 71 Z"/>
-  <!-- Head -->
-  <path fill="#1c1916" d="M68 52 C70 38 130 38 132 52 L129 96 C127 122 114 142 100 142 C86 142 73 122 71 96 Z"/>
-  <!-- Forehead tuft -->
-  <path fill="#4a4036" d="M86 44 C92 52 108 52 114 44 C110 58 90 58 86 44 Z"/>
-  <!-- Eyes -->
-  <ellipse fill="#f2efe8" cx="84" cy="76" rx="6" ry="4.5"/>
-  <ellipse fill="#f2efe8" cx="116" cy="76" rx="6" ry="4.5"/>
-  <!-- Muzzle and nostrils -->
-  <ellipse fill="#b9ada0" cx="100" cy="126" rx="21" ry="15"/>
-  <ellipse fill="#1c1916" cx="92" cy="127" rx="4" ry="5"/>
-  <ellipse fill="#1c1916" cx="108" cy="127" rx="4" ry="5"/>
-</g>
-  <text x="64" y="190" fill="#1b1d19" font-family="Geist, Inter, Helvetica Neue, Arial, sans-serif" font-size="132" font-weight="800" letter-spacing="-3">corno</text>
-  <text x="68" y="252" fill="#4a4f45" font-family="Geist, Inter, Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="500" letter-spacing="-0.5">Skills pra deixar seu agente menos corno.</text>
-  <rect x="68" y="286" width="372" height="44" rx="10" fill="#1b1d19"/>
-  <text x="88" y="315" fill="#e8eae4" font-family="SF Mono, Menlo, Consolas, monospace" font-size="18">/plugin install corno@corno</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 560" role="img" aria-label="Corno: skills pra tu deixar de ser corno junto com teu agente. Um touro desenhado com letras, com a palavra você no meio.">
+  <!-- The bull is site/public/touro.svg rendered to characters, the same way the site draws it. Blanks are
+       no-break spaces so the drawing keeps its shape. -->
+  <rect width="1280" height="560" rx="28" fill="#0a0a0a"/>
+  <text x="64" y="176" fill="#fafafa" font-family="Geist, Inter, Helvetica Neue, Arial, sans-serif" font-size="132" font-weight="800" letter-spacing="-6">corno</text>
+  <text font-family="Geist, Inter, Helvetica Neue, Arial, sans-serif" font-size="34" font-weight="500" letter-spacing="-0.5" fill="#fafafa" fill-opacity="0.72">
+    <tspan x="68" y="250">Skills pra tu deixar de</tspan>
+    <tspan x="68" y="292">ser corno junto com</tspan>
+    <tspan x="68" y="334">teu agente.</tspan>
+  </text>
+  <text x="68" y="496" fill="#fafafa" fill-opacity="0.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18">corno.dev</text>
+  <g fill="#fafafa" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5">
+    <text x="491.0" y="112.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                                                                                                                  </text>
+    <text x="491.0" y="121.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                                                                                                                  </text>
+    <text x="491.0" y="131.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                                                                                                                  </text>
+    <text x="491.0" y="140.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                                                                                                                  </text>
+    <text x="491.0" y="150.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                                                                                                                  </text>
+    <text x="491.0" y="159.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                            =                                                                                                     </text>
+    <text x="491.0" y="169.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                           :8:               ;+*%#$&amp;8&amp;$#?*+;                                                                      </text>
+    <text x="491.0" y="178.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                           =8!            -!&amp;8888888888888888%=                                                                   </text>
+    <text x="491.0" y="188.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">         +=                !8&amp;:         !88888888888888888888888#+                                                                </text>
+    <text x="491.0" y="197.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">          $$~              !88#       !88888888888888888888888888888&amp;$$#%??!*=+~;:                                                </text>
+    <text x="491.0" y="207.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">          :88&amp;+            +888!    !888888888888888888888888888888888888888888888888&amp;$##?!=~-:                                   </text>
+    <text x="491.0" y="216.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">           ~888$*;          &amp;888! ;&amp;888888888888888888888888888888888888888888888888888888888888$%*+-:                            </text>
+    <text x="491.0" y="226.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">            ;&amp;88888?+:      -8888&amp;888888888888888888888888888888888888888888888888888888888888888888888&amp;?+:                       </text>
+    <text x="491.0" y="235.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">              *8888888&amp;?+;   +88888888888888888888888888888888888888888888888888888888888888888888888888888$+                     </text>
+    <text x="491.0" y="245.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                !88888888888#?*888888888888888888888888888888888888888888888888888888888888888888888888888888#                    </text>
+    <text x="491.0" y="254.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                  *$888888888?88888888888888888888888888888888888888888888888888888888888888888888888888888888%                   </text>
+    <text x="491.0" y="264.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                     ~!$888&amp;#8888888888888888888888888888888888888888888888888888888888888888888888888888888888~                  </text>
+    <text x="491.0" y="273.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                          +&amp;88888888888888888888888888888888888888888888888888888888888888888888888888888888888$                  </text>
+    <text x="491.0" y="283.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                         *888888888888888888888888888888888888888888888888888888888888888888$     &amp;8888888888888:                 </text>
+    <text x="491.0" y="292.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                        #888888888888888888888888888888888888888888888888888888888888888888?       %888888888888*                 </text>
+    <text x="491.0" y="302.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                      -8888888888888888888888888888888888888888888888888888888888888888888    !8    ?888888888888=                </text>
+    <text x="491.0" y="311.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                     *8888888888888888888$%%%%888888%%%%88888#?  !%&amp;888888888&amp;%   !#88888888&amp;%   %&amp;888888888888888%               </text>
+    <text x="491.0" y="321.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                    !88  8888888888888888?     8888!    $8$          !88888!          8888?         ?88888888888888%              </text>
+    <text x="491.0" y="330.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                   *888%%88888888888888888     8888     8%             888             &amp;8             88888888888&amp;88~             </text>
+    <text x="491.0" y="340.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                  ;88888888888888888888888$     88     &amp;&amp;     &amp;888      8      888#          #888?     8888888888*88$             </text>
+    <text x="491.0" y="349.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                  #888888888888888888888888     88     8     &amp;88888     8     88888$%%%$               8888888888;$88:            </text>
+    <text x="491.0" y="359.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                 ;8888888888888888888888888&amp;          88     888888     8     8888888888               8888888888 =88=            </text>
+    <text x="491.0" y="368.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                 =88888888888888888888888888         !88?    $88888     8     88888          $$$$$$###$8888888888  88?            </text>
+    <text x="491.0" y="378.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                 !888888888888888888888888888        8888     %88&amp;      8      &amp;8$            888%     888888888%  &amp;8%            </text>
+    <text x="491.0" y="387.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                 ~88888888888&amp;#$8888888888888?      %8888$             888             88             8888888888+  %8#            </text>
+    <text x="491.0" y="397.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                  *888888&amp;!-     ;%88888888888      8888888          $88888#         ?8888#         ?88888888888   !8%            </text>
+    <text x="491.0" y="406.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                    ;;;;           +88888888888888888888888888&amp;#%$8888888888888$%#&amp;88888888888$%$88888888888888*   *8!            </text>
+    <text x="491.0" y="416.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                    *88888888888888888888888888888888888888888888888888888888888888888888888888    *8+            </text>
+    <text x="491.0" y="425.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                     $888888888888888888888888888888888888888888888888888888888888888888888888=    !8;            </text>
+    <text x="491.0" y="435.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                     ~88888888888888888888888888888888888888888888888888888888888888888888888%     %8:            </text>
+    <text x="491.0" y="444.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                      88888888888888888888888888888888888888888888888888888888888888888888888:     $88-           </text>
+    <text x="491.0" y="454.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                      !888888888#%#88888888888888888888888888888888888888888888888&amp;!#88888888      ;~++           </text>
+    <text x="491.0" y="463.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                      ~8888888*:   !88888~~=!%#&amp;888888888888888888888888$%*+-88888?   *&amp;88888                     </text>
+    <text x="491.0" y="473.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                       88888&amp;      =88888         ;---~~++===+~-;;;;;:       &amp;8888*    *8888&amp;                     </text>
+    <text x="491.0" y="482.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                       &amp;8888$      ~8888&amp;                                    #8888=    +8888#                     </text>
+    <text x="491.0" y="492.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                       %8888$      ;8888#                                    ?8888~    -8888%                     </text>
+    <text x="491.0" y="501.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">                                       *8888$       8888?                                    *8888;     8888!                     </text>
+    <text x="491.0" y="511.0" textLength="741.0" lengthAdjust="spacingAndGlyphs">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=????!~~~~~~~????*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=????+~~~~~????*~~~~~~~~~~~~~~~~~~~~~</text>
+    <text x="491.0" y="520.5" textLength="741.0" lengthAdjust="spacingAndGlyphs">**********************************************************************************************************************************</text>
+  </g>
 </svg>

@@ -1,37 +1,52 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="Corno: skills pra deixar seu agente menos corno" width="100%">
+  <img src="assets/banner.svg" alt="Corno: skills pra tu deixar de ser corno junto com teu agente. Um touro desenhado com letras, com a palavra você no meio." width="100%">
 </p>
 
 <p align="center">
-  <b>Skills em português para Claude Code e qualquer agente que lê skills.</b><br>
+  <b>Skills em português para o seu agente de código.</b><br>
   Ele confere antes de dizer pronto, investiga antes de chutar e larga a cara de IA.<br>
   E ainda julga sua ideia de negócio e seu currículo sem passar pano.
 </p>
 
 <p align="center">
-  <a href="https://corno.dev">corno.dev</a> ·
   <a href="#instalar">Instalar</a> ·
   <a href="#curral-das-skills">Curral das skills</a> ·
-  <a href="CONTRIBUTING.md">Contribuir</a>
+  <a href="#o-que-tem-aqui">O que tem aqui</a> ·
+  <a href="CONTRIBUTING.md">Contribuir</a> ·
+  <a href="https://corno.dev">corno.dev</a>
 </p>
+
+<br>
 
 ## Instalar
 
-**Claude Code**, dentro de uma sessão:
+Três jeitos. Escolha um.
 
-```
-/plugin marketplace add adlernatanael/corno-skills
-/plugin install corno@corno
-```
+### Clonar
 
-**Qualquer agente**: clone e copie as pastas para onde o seu agente lê skills (o exemplo usa a do Claude Code):
+Funciona em qualquer agente que lê pastas de skills. O exemplo copia para a pasta do Claude Code; troque pela do seu agente.
 
 ```bash
 git clone https://github.com/adlernatanael/corno-skills.git ~/corno-skills
 cp -R ~/corno-skills/skills/* ~/.claude/skills/
 ```
 
-Também dá para baixar o `.zip` de uma skill, ou de todas, em [corno.dev](https://corno.dev).
+Quer só uma? Copie a pasta dela: `cp -R ~/corno-skills/skills/corno-confere ~/.claude/skills/`.
+
+### Plugin
+
+Só no Claude Code. Instala todas as skills de uma vez, junto com o hook da `corno-confere`. Dentro de uma sessão:
+
+```
+/plugin marketplace add adlernatanael/corno-skills
+/plugin install corno@corno
+```
+
+### Baixar .zip
+
+Baixe o [.zip do repositório](https://github.com/adlernatanael/corno-skills/archive/refs/heads/main.zip) e copie as pastas de `skills/` para a pasta de skills do seu agente. Em [corno.dev](https://corno.dev) cada skill tem o seu próprio .zip.
+
+<br>
 
 ## Curral das skills
 
@@ -102,4 +117,6 @@ cd site && npm install && npm run dev  # site em http://127.0.0.1:5191
 
 Quer criar ou mudar uma skill? Leia o [CONTRIBUTING.md](CONTRIBUTING.md) ou peça ao seu agente, que ele usa a `corno-cria-skill`.
 
-<p align="center"><sub>O criador não é corno.</sub></p>
+<br>
+
+<p align="center"><b>O CRIADOR NÃO É CORNO</b></p>

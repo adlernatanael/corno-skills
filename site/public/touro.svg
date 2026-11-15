@@ -12,7 +12,7 @@
   <!-- Tail -->
   <path fill="#0a0a0a" d="M346 100 C362 114 366 144 360 176 L368 186 L354 184 C358 156 354 124 340 106 Z"/>
   <!-- "você" cut out of the flank: the corno in question. Light pixels become the sparsest glyphs. -->
-  <text x="238" y="158" fill="#ffffff" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="88" font-weight="900" text-anchor="middle" letter-spacing="-3">você</text>
+  <text x="222" y="158" fill="#ffffff" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="88" font-weight="900" text-anchor="middle" letter-spacing="-3">você</text>
   <!-- Eye -->
   <circle fill="#fafafa" cx="74" cy="116" r="3.5"/>
   <!-- Ground -->
