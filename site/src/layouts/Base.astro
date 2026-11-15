@@ -4,34 +4,9 @@ import geistLatin from "@fontsource-variable/geist/files/geist-latin-wght-normal
 interface Props {
   title: string;
   description: string;
-  /** Pages other than the landing skip the mobile gate: someone sent there by a link already chose to look. */
-  gate?: boolean;
 }
-const { title, description, gate = false } = Astro.props;
+const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-// Phones get the gate once; the choice is remembered. Storage can be unavailable (private mode), so the gate then
-// simply shows each visit.
-const gateHead = `try {
-  if (matchMedia("(max-width: 700px)").matches && localStorage.getItem("corno-curral") !== "aberto") document.documentElement.dataset.gate = "";
-} catch {
-  if (matchMedia("(max-width: 700px)").matches) document.documentElement.dataset.gate = "";
-}`;
-// While the gate is open the page behind it is inert, so Tab and screen readers stay on the gate.
-const gateBody = `(() => {
-  const gate = document.querySelector(".gate");
-  const button = gate.querySelector("[data-gate-open]");
-  const behind = [...document.body.children].filter((el) => el !== gate && el.tagName !== "SCRIPT");
-  if (document.documentElement.hasAttribute("data-gate")) {
-    behind.forEach((el) => (el.inert = true));
-    button.focus();
-  }
-  button.addEventListener("click", () => {
-    try { localStorage.setItem("corno-curral", "aberto"); } catch {}
-    delete document.documentElement.dataset.gate;
-    behind.forEach((el) => (el.inert = false));
-    document.querySelector("main")?.focus({ preventScroll: true });
-  });
-})();`;
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -50,20 +25,8 @@ const gateBody = `(() => {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    {gate && <script is:inline set:html={gateHead} />}
   </head>
   <body>
-    {
-      gate && (
-        <div class="gate" role="dialog" aria-modal="true" aria-labelledby="gate-text">
-          <p id="gate-text">Tu quer ver um site de skills pelo celular? é um corno mesmo</p>
-          <button class="button button-primary" type="button" data-gate-open>
-            vou abrir o curral pra tu meu boi
-          </button>
-        </div>
-      )
-    }
     <slot />
-    {gate && <script is:inline set:html={gateBody} />}
   </body>
 </html>
