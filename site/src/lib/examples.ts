@@ -64,13 +64,16 @@ export const SKILL_RUNS: Record<string, { you: string; steps: Step[]; result: st
     result: "Corrigi na raiz e deixei um teste pra não voltar.",
   },
   "corno-revisa": {
-    you: "vê se esse PR do checkout tá bom pra entrar, /corno-revisa",
+    you: "/corno-revisa o PR 214 do checkout",
     steps: [
-      { kind: "warn", text: "o arquivo do checkout foi pra 1.200 linhas: dá pra separar o carrinho" },
-      { kind: "warn", text: "o desconto de cupom tá calculado em 4 lugares diferentes" },
-      { kind: "ok", text: "a regra nova em si tá certa" },
+      { kind: "plain", text: "PR seu, 14 arquivos. Veredito: entra com 2 ajustes" },
+      { kind: "no", text: "do PR: checkout.ts foi de 640 pra 1.200 linhas, separa o carrinho" },
+      { kind: "no", text: "do PR: o cupom é calculado em 4 lugares, junta numa função só" },
+      { kind: "ok", text: "impacto: carrinho e pedido usam o cupom novo, os testes deles passam" },
+      { kind: "warn", text: "fora do PR, fica de observação: o frete mistura regra com tela" },
+      { kind: "plain", text: "perguntei: corrigir os 2? comentar no PR? você marcou os dois" },
     ],
-    result: "Entra com um ajuste: junta o cálculo do cupom num lugar só. Te mostro como fica.",
+    result: "Corrigi os 2 e o comentário tá no PR, pela sua conta, escrito como gente.",
   },
 
   "corno-pesquisa": {
