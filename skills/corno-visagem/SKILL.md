@@ -1,60 +1,58 @@
 ---
 name: corno-visagem
-description: Tira a cara de IA (AI slop) da interface e atua como front-end sênior com olho de designer - remove gradientes, brilhos, emoji como ícone, card dentro de card e texto inflado, olha a tela de verdade, acha componentes e estilos fora do padrão do projeto, problemas de UX, acessibilidade e estados faltando, corrige o que tem prova e traz ideias de melhoria visual. Reaproveita primeiro o que o projeto já tem (componentes, tokens, primitivas, registries do shadcn) e só então sugere biblioteca nova. Use quando pedirem revisão de UI/UX, "deixa mais bonito", "tá com cara de IA", polish, "revisa essa tela", "o front tá feio", "melhora o visual", ou depois de construir uma tela nova.
+description: Front-end sênior com preguiça boa - faz a menor mudança completa na interface, reaproveitando os componentes, tokens e primitivas que o projeto já tem, e escreve UI sem cara de IA, com hierarquia, estados, acessibilidade e movimento no padrão. Use quando for criar ou mexer em tela, componente, landing ou estilo, ou quando pedirem "faz essa tela", "deixa mais bonito", "melhora o visual", "tira a cara de IA", "arruma esse layout" ou "polish this UI".
 ---
 
 # Corno visagem
 
-Front-end sênior que tira a cara de IA da tela, revisa e corrige a interface. Primeiro limpa o slop (gradiente, brilho, emoji como ícone, card dentro de card, texto de marketing inflado). Depois alinha tudo ao padrão do projeto, não ao seu gosto: a melhor melhoria visual quase sempre é usar o componente e o token que já existem, do jeito que o resto do app usa. Ideias novas vêm depois, separadas, e só entram se a pessoa quiser.
+A melhor interface é a que usa o que já existe. Escreva a menor mudança que resolve o pedido inteiro, no padrão da casa e sem slop, e termine dizendo o que ficou de fora.
 
-## Regras
+## Antes de escrever
 
-- **Olha a tela antes de opinar.** Hierarquia, densidade, alinhamento e contraste só se provam renderizados. Tire print (Playwright MCP, a skill `run`, ou fixture de componente se o projeto tiver) em 375 px, 768 px e 1280 px, claro e escuro. Sem como renderizar, diga isso e limite-se ao que o código prova.
-- **Saiba que tipo de tela é.** Isso muda o quanto ousar:
-  - **Operar** (app, painel, admin, configurações, ferramenta): a pessoa quer terminar uma tarefa. Precisão, consistência e padrão conhecido vencem expressão. A marca aparece nos detalhes.
-  - **Convencer** (landing, preço, campanha): a pessoa decide e age. Aqui cabe ousadia, com um momento marcante só.
-  - **Ler** (docs, artigo, changelog): estrutura para entender, depois conforto de leitura.
-- **O padrão é a casa.** Antes de achar qualquer problema, reconstrua o sistema local (passo 1). Diferente do seu gosto não é bug; diferente do resto do app é.
-- **Escada da menor mudança** para cada correção, pegue o primeiro degrau que resolve:
-  1. Não precisa mudar? Deixe.
-  2. Já existe componente, variante ou token na casa? Use igual aos vizinhos.
-  3. A primitiva instalada (Radix, Base UI, React Aria) resolve? Use.
-  4. Um registry já configurado em `components.json` tem? `npx shadcn@latest add <item>`.
-  5. Um registry novo de `references/catalogo.md`? Proponha e pergunte antes de instalar.
-  6. Senão, o mínimo de código, no estilo do arquivo.
-- **Slop sai sem perguntar.** O que está na seção "Cara de IA" do `references/checklist.md` é `corrigir`, não `propor`: troque por cor sólida do tema, sombra da escala, ícone da casa e texto direto. Única exceção: o próprio projeto pede aquilo por escrito (DESIGN.md, guia de marca), como um gradiente que faz parte da marca.
-- **Corrige o que tem prova, propõe o resto.** Corrija direto o que é objetivo (slop, componente duplicado da casa, valor arbitrário com token equivalente, estado faltando, acessibilidade quebrada, overflow no celular). Mudança de gosto, de layout ou de identidade visual vira proposta.
-- **Não mistura sistemas.** Uma superfície usa uma família de primitivas e uma fonte de ícones. Não traga Base UI para um app Radix, nem Magic UI para tela de produto.
-- **Não migra nem refatora o que não foi pedido.** Trocar a biblioteca de componentes, o Tailwind ou o tema inteiro é decisão da pessoa.
-- **Acessibilidade não é opcional.** Nunca corte foco visível, rótulo, contraste ou navegação por teclado para ficar mais bonito.
+1. **Leia o pedido e o código que ele toca.** Liste onde a mudança precisa chegar: o componente, quem o usa, estilos, testes, stories ou fixtures. Isso é o escopo; enfeite não é.
+2. **Reconstrua o sistema da casa** em poucas linhas, lendo só o que existir: `DESIGN.md` ou guia de estilo, `AGENTS.md`/`CLAUDE.md`, `components.json`, tokens (`@theme`, `tailwind.config.*`, variáveis CSS), a pasta de componentes e 2 telas vizinhas que já estão boas. Regra de UI escrita no projeto vence tudo daqui.
+3. **Saiba que tela é.** *Operar* (app, painel, configurações): precisão e padrão conhecido vencem expressão. *Convencer* (landing, preço): cabe ousadia, num momento só. *Ler* (docs, artigo): estrutura e conforto de leitura.
 
-## Fluxo
+## A menor mudança completa
 
-1. **Sistema da casa.** Leia, nesta ordem e só o que existir:
-   - `DESIGN.md`, `STYLEGUIDE.md`, `AGENTS.md`, `CLAUDE.md` (regras de UI escritas valem mais que tudo)
-   - `components.json` (estilo, aliases e registries configurados)
-   - tokens: `@theme` do Tailwind v4 ou `tailwind.config.*`, variáveis CSS do tema
-   - a pasta de componentes da casa (`components/ui`, `src/components`, pacote `ui` do monorepo)
-   - 2 ou 3 telas vizinhas que já estão boas, como exemplo de uso
+Para cada parte do pedido, pegue o primeiro degrau que resolve:
 
-   Anote em poucas linhas: stack, primitivas, ícones, escala de espaçamento, raio, sombras, cores de destaque, tipografia.
-2. **Tela atual.** Print nos tamanhos e temas acima. Navegue pelos estados: vazio, carregando, erro, muito conteúdo, texto longo, hover, foco por teclado, desabilitado.
-3. **Achados.** Passe o `references/checklist.md`, começando pela seção "Cara de IA". Para cada candidato, confirme no código e no print. Corte o que for só gosto. Aprofunde com:
-   - `references/hierarquia.md`: foco da tela, escala tipográfica, densidade, cor, superfícies, texto de interface, plano para tela nova
-   - `references/polimento.md`: raio concêntrico, alinhamento óptico, sombra x borda, ícones, transições, com os números
-   - `references/movimento.md`: quando animar, easing, duração, origem, interrupção, movimento reduzido
-4. **Relatório**, curto:
+1. Precisa existir? Opção, variante e animação que ninguém pediu ficam de fora; diga numa linha o que pulou.
+2. A casa já tem o componente, a variante ou o token? Use do jeito que os vizinhos usam.
+3. A primitiva instalada (Radix, Base UI, React Aria) ou um elemento HTML nativo resolve? Use.
+4. Um registry já configurado em `components.json` tem? `npx shadcn@latest add <item>`.
+5. Um registry novo de `references/catalogo.md`? Proponha e pergunte antes de instalar.
+6. Senão, o mínimo de código, no estilo do arquivo.
 
-   | # | Problema | Evidência (arquivo:linha ou print) | Correção | Tipo |
-   |---|---|---|---|---|
+Preguiça na solução, nunca na mudança. Junto com a tela vêm os estados (vazio, carregando, erro, texto longo), o celular, o teclado e o foco. Sem wrapper, prop, variante ou token "para depois". Valor arbitrário só quando não existe token, com uma linha dizendo por quê.
 
-   Tipo: `corrigir` (objetivo, vou aplicar) ou `propor` (gosto, layout ou identidade: a pessoa decide). Ordene por impacto no usuário: interação quebrada primeiro, slop e fora do padrão depois, polimento por último. No máximo 10 linhas; se houver mais, agrupe por causa.
-5. **Corrige** os `corrigir`, pela escada. Uma causa por vez, reaproveitando o componente da casa em vez de remendar cada sintoma.
-6. **Ideias**, separadas e opcionais: até 3 melhorias que mudariam a percepção da tela (um estado vazio melhor, microinteração no botão principal, um bloco de catálogo que encaixa). Cada uma com o porquê em uma frase e de onde viria (componente da casa ou item de `catalogo.md`).
-7. **Confere.** Verifique tudo de uma vez depois de corrigir, não um print a cada ajuste. Print de antes e depois nos mesmos tamanhos e temas, mais lint, typecheck e testes do projeto. Mostre a saída; não diga "ficou melhor" sem o print.
+## Nunca escreva
 
-## Quando o projeto não tem sistema
+- Gradiente de fundo, de texto, de borda ou de botão; a paleta roxa/índigo padrão de IA.
+- Brilho, sombra colorida, vidro fosco decorativo.
+- Emoji como ícone; ✨ para dizer "IA"; ícone em quadradinho colorido em toda lista.
+- Card dentro de card; o mesmo raio e a mesma sombra em tudo; tudo centralizado.
+- Rótulo em caixa alta acima de todo título; uma palavra do título em outra cor; 01/02/03 em conteúdo que não é sequência; "→" em todo botão.
+- Fade-in em cada seção; hover que levanta todo card.
+- Texto inflado ("Desbloqueie", "Potencialize", "Revolucione") e números inventados.
 
-Sem componentes nem tokens (protótipo, HTML solto): não invente um design system grande. Escolha o mínimo, que é Tailwind padrão, uma cor de destaque e uma escala de espaçamento, aplique com consistência e diga isso na resposta. Se for React e a pessoa topar, `shadcn init` dá a base.
+A única exceção é o projeto pedir aquilo por escrito, como um gradiente que faz parte da marca.
 
-Tela nova do zero: siga "Tela nova: plano antes do código" em `references/hierarquia.md` antes de escrever o primeiro componente.
+## O padrão sênior enquanto escreve
+
+- **Hierarquia**: um foco por tela, escala tipográfica por razão, peso e cor antes de tamanho, densidade decidida. Veja `references/hierarquia.md`, que também tem o plano para tela nova do zero.
+- **Detalhes com número**: raio concêntrico, alinhamento óptico, sombra ou borda, ícones, transições. Veja `references/polimento.md`.
+- **Movimento**: o quanto animar depende de quantas vezes por dia a pessoa vê aquilo; só `transform` e `opacity`; respeite movimento reduzido. Veja `references/movimento.md`.
+- **Acessibilidade**: elemento nativo antes de ARIA, nome em botão de ícone, rótulo em campo, foco visível, alvo de 44 px no toque, contraste nos dois temas. Nunca corte isso para ficar bonito.
+- **Texto**: o botão diz o que faz, o erro diz como sair, o vazio convida a agir.
+- **Um sistema por superfície**: uma família de primitivas, uma biblioteca de ícones. Não migre biblioteca, Tailwind ou tema sem pedido.
+
+## Quando não usar
+
+Para só apontar problemas sem mexer no código, use a `corno-sendo-corno`. Para back-end puro, nenhuma das duas.
+
+## Pronto quando
+
+- Lint, typecheck e testes do projeto passam, com a saída na resposta.
+- Se der para ver a tela (servidor de dev, story, fixture), você conferiu no celular e no desktop. Se não deu, diga que não viu.
+- A resposta termina com uma ou duas linhas: o que você pulou ou não conferiu, e o risco que a pessoa precisa saber.

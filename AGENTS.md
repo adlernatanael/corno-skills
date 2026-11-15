@@ -14,7 +14,7 @@ Repositório das skills do Corno e da landing em corno.dev. Leia o `README.md` p
 - **Texto próprio.** Todo texto de skill é escrito do zero. Não copie nem traduza trechos de skills, docs ou posts de terceiros e não cite autores ou projetos de outras pessoas como fonte. O validador recusa frases de atribuição. Ferramentas que a skill manda usar podem ser nomeadas.
 - **Padrão de skill**: siga `skills/corno-cria-skill/SKILL.md`.
 - **Commits** sem trailer de coautoria de IA (`Co-Authored-By`) e sem linha "Generated with". Mensagem em inglês, no formato `tipo: resumo` (`feat`, `fix`, `docs`, `chore`).
-- **Site sem cara de IA.** Mudanças visuais passam pela `corno-visagem`: sem gradiente, sem brilho, sem emoji como ícone, tokens de `site/src/styles/global.css`, e conferido em 375 px e 1280 px.
+- **Site sem cara de IA.** Mudanças visuais seguem a `corno-visagem` e podem ser revisadas com a `corno-sendo-corno`: sem gradiente, sem brilho, sem emoji como ícone, tokens de `site/src/styles/global.css`, e conferido em 375 px e 1280 px.
 - **Textos fixos da landing**: a tela do celular diz "Tu quer ver um site de skills pelo celular? é um corno mesmo" com o botão "vou abrir o curral pra tu meu boi", e a seção das skills se chama "Curral das skills". Não mude sem pedido.
 
 ## Antes de dizer que terminou

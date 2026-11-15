@@ -20,7 +20,7 @@ Quando a casa não tem o que precisa (degrau 5 da escada), estes são os lugares
 
 ## Landing e marketing
 
-Efeitos e blocos daqui são para página de marketing. Em tela de produto, quase sempre viram ruído (veja "Cara de IA" no checklist).
+Efeitos e blocos daqui são para página de marketing. Em tela de produto, quase sempre viram ruído (veja "Nunca escreva" no `SKILL.md`).
 
 | Fonte | O que tem | Como trazer |
 |---|---|---|

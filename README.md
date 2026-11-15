@@ -13,11 +13,14 @@ Site: [corno.dev](https://corno.dev)
 | `corno-cria-skill` | Cria uma skill nova ou dá acabamento numa existente, no padrão deste repositório. |
 | `corno-humano` | Reescreve um texto para soar como gente escrevendo, sem cara de IA. |
 | `corno-investiga` | Investiga bug difícil ou lentidão com método: reproduz, levanta hipóteses, testa uma por vez. |
+| `corno-julgador` | Descubra se sua ideia é digna de um próximo Elon Musk ou só mais um embalador do atacado: acha os defeitos de negócio e de vendas e propõe um teste de 7 dias. |
 | `corno-limpa` | Libera espaço em disco no macOS, Windows ou Linux sem apagar o que importa, incluindo o modelo de IA de 4 GB que o Chrome baixa sozinho. |
 | `corno-pesquisa` | Pesquisa em fontes primárias e salva o que achou num Markdown com links. |
+| `corno-recrutador` | Analisa seu currículo (.pdf, .doc, .docx) ou LinkedIn como um recrutador com 200 na fila: nota de 0 a 100, o que te elimina e reescritas sem inventar nada. |
 | `corno-revisa` | Revisão de código pesada sobre estrutura e manutenção. Só roda quando chamada pelo nome. |
+| `corno-sendo-corno` | Aponta os problemas de UI de uma tela ou site, com arquivo, linha e correção, sem mexer no código. |
 | `corno-testa` | Desenvolve com teste primeiro. |
-| `corno-visagem` | Tira a cara de IA da interface e revisa como front-end sênior, usando o que o projeto já tem. |
+| `corno-visagem` | Front-end sênior com preguiça boa: a menor mudança completa na interface, com o que o projeto já tem e sem cara de IA. |
 
 ## Instalar
 

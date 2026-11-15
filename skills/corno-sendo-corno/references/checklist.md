@@ -29,7 +29,7 @@ Sai sem perguntar, a menos que DESIGN.md ou o guia de marca peça por escrito. T
 | "→" no fim de todo link e botão | Seta só onde indica navegação para frente |
 | Fonte mono em todo rótulo pequeno | Fonte do corpo; mono só para código e dado técnico |
 | Hover que levanta e brilha em todo card | Hover só no que é clicável, e discreto |
-| Paletas-padrão de IA: fundo creme com acento terracota; preto com um verde-ácido ou vermelhão; "jornal" com fio fino e raio zero | Paleta que vem do produto (veja `hierarquia.md`) |
+| Paletas-padrão de IA: fundo creme com acento terracota; preto com um verde-ácido ou vermelhão; "jornal" com fio fino e raio zero | Paleta que vem do mundo do produto, com um destaque só |
 | Mesmo raio, mesma sombra cinza e mesmo tamanho em todos os cards | Raio e elevação conforme a hierarquia; nem tudo é card |
 
 ## 1. Fora do padrão da casa
