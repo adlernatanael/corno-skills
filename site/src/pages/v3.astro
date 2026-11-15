@@ -6,10 +6,9 @@ import Command from "../components/Command.astro";
 import AsciiBoi from "../components/AsciiBoi.astro";
 import { groupedSkills } from "../lib/skills";
 import { INSTALL_CLAUDE } from "../lib/links";
-import { SKILL_RUNS } from "../lib/examples";
+import SkillRun from "../components/SkillRun.astro";
 
 const groups = groupedSkills();
-const MARK = { ok: "✓", no: "✗", warn: "!", plain: " " };
 
 ---
 <Base title="Corno: deixe de ser corno junto com seu agente" description="Skills que fazem seu agente terminar de verdade, procurar a causa do bug e parar de elogiar sua ideia ruim." gate>
@@ -63,35 +62,9 @@ const MARK = { ok: "✓", no: "✗", warn: "!", plain: " " };
                 ))}
               </ul>
               <div class="terms">
-                {g.skills.map((s, k) => {
-                  const run = SKILL_RUNS[s.name];
-                  return run ? (
-                    <div class="term" data-term={s.name} hidden={k !== 0} aria-label={`Exemplo da ${s.name}`}>
-                      <div class="term-bar">
-                        <span>exemplo</span>
-                      </div>
-                      <div class="term-body">
-                        <p class="line you" style="--l: 0">
-                          {run.you}
-                        </p>
-                        <p class="line using" style="--l: 1">
-                          usando a <b>{s.name}</b>
-                        </p>
-                        {run.steps.map((st, j) => (
-                          <p class={`line step ${st.kind}`} style={`--l: ${j + 2}`}>
-                            <span class="mark" aria-hidden="true">
-                              {MARK[st.kind]}
-                            </span>
-                            {st.text}
-                          </p>
-                        ))}
-                        <p class="line result" style={`--l: ${run.steps.length + 2}`}>
-                          {run.result}
-                        </p>
-                      </div>
-                    </div>
-                  ) : null;
-                })}
+                {g.skills.map((s, k) => (
+                  <SkillRun name={s.name} controlled hidden={k !== 0} />
+                ))}
               </div>
             </div>
           ))
@@ -376,88 +349,6 @@ const MARK = { ok: "✓", no: "✗", warn: "!", plain: " " };
     position: sticky;
     top: 96px;
   }
-  .term {
-    overflow: hidden;
-    border: 1px solid var(--line-d);
-    border-radius: 18px;
-    background: #050505;
-  }
-  .term[hidden] {
-    display: none;
-  }
-  .term-bar {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    padding: 0 16px;
-    border-bottom: 1px solid var(--line-d);
-    color: var(--fg-2);
-    font-size: 12px;
-  }
-  .term-body {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 22px 22px 26px;
-    font-family: var(--font-mono);
-    font-size: 14.5px;
-    line-height: 1.5;
-  }
-  .line {
-    display: flex;
-    gap: 10px;
-  }
-  .you {
-    color: var(--fg);
-  }
-  .you::before {
-    content: ">";
-    color: var(--fg-2);
-  }
-  .using {
-    color: var(--fg-2);
-  }
-  .using b {
-    color: var(--fg);
-    font-weight: 600;
-  }
-  .step {
-    padding-left: 4px;
-    color: rgb(250 250 250 / 0.82);
-  }
-  .mark {
-    flex: none;
-    width: 1ch;
-  }
-  .step.no {
-    color: rgb(250 250 250 / 0.5);
-  }
-  .step.no .mark,
-  .step.warn .mark {
-    color: var(--fg);
-  }
-  .result {
-    margin-top: 6px;
-    padding-top: 14px;
-    border-top: 1px solid var(--line-d);
-    color: var(--fg);
-    font-weight: 600;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .term .line {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-    .term[data-play] .line {
-      opacity: 1;
-      transform: none;
-      transition:
-        opacity 220ms var(--ease-out),
-        transform 220ms var(--ease-out);
-      transition-delay: calc(var(--l) * 260ms);
-    }
-  }
-
   /* Final */
   .final {
     padding-bottom: 140px;

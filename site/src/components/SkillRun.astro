@@ -1,0 +1,140 @@
+---
+// One example run of a skill as a terminal: what the person said, the skill in use, the steps and the answer.
+// Lines reveal one by one when the box gets data-play. With `controlled`, the page decides when to play (the /v3
+// curral replays on every pick); otherwise it plays once on first view.
+import { SKILL_RUNS } from "../lib/examples";
+
+interface Props {
+  name: string;
+  controlled?: boolean;
+  hidden?: boolean;
+}
+const { name, controlled = false, hidden = false } = Astro.props;
+const run = SKILL_RUNS[name];
+const MARK = { ok: "✓", no: "✗", warn: "!", plain: " " };
+---
+{
+  run && (
+    <div class="run" data-term={name} data-controlled={controlled ? "" : undefined} hidden={hidden} aria-label={`Exemplo da ${name}`}>
+      <div class="bar">exemplo</div>
+      <div class="body">
+        <p class="line you" style="--l: 0">
+          {run.you}
+        </p>
+        <p class="line using" style="--l: 1">
+          usando a <b>{name}</b>
+        </p>
+        {run.steps.map((st, j) => (
+          <p class={`line step ${st.kind}`} style={`--l: ${j + 2}`}>
+            <span class="mark" aria-hidden="true">
+              {MARK[st.kind]}
+            </span>
+            {st.text}
+          </p>
+        ))}
+        <p class="line result" style={`--l: ${run.steps.length + 2}`}>
+          {run.result}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        (e.target as HTMLElement).dataset.play = "";
+        io.unobserve(e.target);
+      }
+    },
+    { threshold: 0.4 },
+  );
+  document.querySelectorAll<HTMLElement>(".run:not([data-controlled])").forEach((el) => io.observe(el));
+</script>
+
+<style>
+  .run {
+    --t-fg: #fafafa;
+    --t-fg-2: rgb(250 250 250 / 0.6);
+    --t-line: rgb(255 255 255 / 0.12);
+    overflow: hidden;
+    border: 1px solid var(--t-line);
+    border-radius: 18px;
+    background: #050505;
+    color: var(--t-fg);
+  }
+  .run[hidden] {
+    display: none;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--t-line);
+    color: var(--t-fg-2);
+    font-size: 12px;
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px 22px 26px;
+    font-family: var(--font-mono);
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+  .line {
+    display: flex;
+    gap: 10px;
+    margin: 0;
+  }
+  .you::before {
+    content: ">";
+    color: var(--t-fg-2);
+  }
+  .using {
+    color: var(--t-fg-2);
+  }
+  .using b {
+    color: var(--t-fg);
+    font-weight: 600;
+  }
+  .step {
+    padding-left: 4px;
+    color: rgb(250 250 250 / 0.82);
+  }
+  .mark {
+    flex: none;
+    width: 1ch;
+  }
+  .step.no {
+    color: rgb(250 250 250 / 0.5);
+  }
+  .step.no .mark,
+  .step.warn .mark {
+    color: var(--t-fg);
+  }
+  .result {
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px solid var(--t-line);
+    font-weight: 600;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .line {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    .run[data-play] .line {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity 220ms var(--ease-out),
+        transform 220ms var(--ease-out);
+      transition-delay: calc(var(--l) * 260ms);
+    }
+  }
+</style>

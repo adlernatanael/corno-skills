@@ -51,14 +51,14 @@ Você não precisa chamar pelo nome: fale como sempre falou e o agente puxa a sk
 
 | Skill | O que faz | Diga |
 |---|---|---|
-| [`corno-visagem`](skills/corno-visagem/SKILL.md) | Front-end sênior preguiçoso do jeito certo: o mínimo de código, com o que o projeto já tem e sem cara de IA. | “deixa mais bonito” |
+| [`corno-visagem`](skills/corno-visagem/SKILL.md) | Front-end sênior: o mínimo de código novo, com o que o projeto já tem e sem cara de IA. | “deixa mais bonito” |
 | [`corno-sendo-corno`](skills/corno-sendo-corno/SKILL.md) | Aponta os problemas de UI de uma tela, com arquivo, linha e correção, sem mexer no código. | “aponta os problemas dessa tela” |
 
 ### Texto e conversa
 
 | Skill | O que faz | Diga |
 |---|---|---|
-| [`corno-humano`](skills/corno-humano/SKILL.md) | Reescreve um texto para soar como gente, mantendo o que ele diz e a voz de quem escreveu. | “tá com cara de ChatGPT” |
+| [`corno-humano`](skills/corno-humano/SKILL.md) | Tira a cara de IA do texto do site, do roteiro, do post ou do README, mantendo o que ele diz e a voz de quem escreveu. | “tá com cara de ChatGPT” |
 | [`corno-com-tdah`](skills/corno-com-tdah/SKILL.md) | Responde no formato que uma cabeça com TDAH usa na hora: próxima ação primeiro. | “só me diz o que fazer” |
 
 ### Negócio e carreira

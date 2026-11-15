@@ -6,7 +6,9 @@ import Base from "../../layouts/Base.astro";
 import Header from "../../components/Header.astro";
 import Command from "../../components/Command.astro";
 import Footer from "../../components/Footer.astro";
+import SkillRun from "../../components/SkillRun.astro";
 import { loadSkills, SKILLS_DIR, type Skill } from "../../lib/skills";
+import { INSTALL_CLAUDE } from "../../lib/links";
 
 export function getStaticPaths() {
   return loadSkills().map((skill) => ({ params: { name: skill.name }, props: { skill } }));
@@ -24,59 +26,97 @@ const extras = skill.files
 <Base title={`${skill.name} · Corno`} description={skill.description}>
   <Header />
   <div class="page-body">
-  <main class="container skill" tabindex="-1">
-    <a class="back" href="/#curral">Voltar ao curral</a>
-    <h1>{skill.short}</h1>
-    <p class="lead muted">{skill.what}</p>
-    {
-      skill.triggers.length >= 2 ? (
-        <div class="triggers">
-          <p>O agente usa quando você diz</p>
-          <ul>
-            {skill.triggers.map((t) => (
-              <li>“{t}”</li>
-            ))}
-          </ul>
+    <main class="container" tabindex="-1">
+      <a class="back" href="/#curral">Voltar ao curral</a>
+
+      <header class="head">
+        <h1>{skill.short}</h1>
+        <p class="name">{skill.name}</p>
+        <p class="lead">{skill.summary}.</p>
+      </header>
+
+      <div class="layout">
+        <div class="main">
+          <section aria-labelledby="pratica">
+            <h2 id="pratica">Na prática</h2>
+            <SkillRun name={skill.name} />
+          </section>
+
+          <section aria-labelledby="como">
+            <h2 id="como">Como ela trabalha</h2>
+            <article class="prose" set:html={md.render(skill.body)} />
+          </section>
+
+          {
+            extras.length > 0 && (
+              <section aria-labelledby="arquivos">
+                <h2 id="arquivos">Arquivos de apoio</h2>
+                {extras.map((e) => (
+                  <details>
+                    <summary>
+                      <code>{e.path}</code>
+                    </summary>
+                    {e.html ? <div class="prose" set:html={e.html} /> : <pre><code>{e.text}</code></pre>}
+                  </details>
+                ))}
+              </section>
+            )
+          }
         </div>
-      ) : (
-        skill.when && <p class="when">{skill.when}</p>
-      )
-    }
-    <div class="actions">
-      <a class="button button-primary" href={`/downloads/${skill.name}.zip`} download>Baixar {skill.name}.zip</a>
-    </div>
-    <div class="install">
-      <p class="muted">Ou, com o repositório clonado:</p>
-      <Command code={`cp -R ~/corno-skills/skills/${skill.name} ~/.claude/skills/`} />
-    </div>
-    {skill.manualOnly && <p class="manual">Esta skill só roda quando você chama pelo nome (/{skill.name}).</p>}
 
-    <article class="prose" set:html={md.render(skill.body)} />
+        <aside class="side" aria-label="Instalar e usar">
+          <div class="box">
+            <h2>Instalar</h2>
+            <a class="button button-primary" href={`/downloads/${skill.name}.zip`} download>Baixar .zip</a>
+            <p class="hint">No Claude Code, com todas as outras:</p>
+            <Command code={INSTALL_CLAUDE[1]} />
+            <p class="hint">Com o repositório clonado:</p>
+            <Command code={`cp -R ~/corno-skills/skills/${skill.name} ~/.claude/skills/`} />
+          </div>
 
-    {
-      extras.length > 0 && (
-        <section class="extras" aria-labelledby="arquivos">
-          <h2 id="arquivos">Arquivos de apoio</h2>
-          {extras.map((e) => (
-            <details>
-              <summary>
-                <code>{e.path}</code>
-              </summary>
-              {e.html ? <div class="prose" set:html={e.html} /> : <pre><code>{e.text}</code></pre>}
-            </details>
-          ))}
-        </section>
-      )
-    }
-  </main>
+          <div class="box">
+            <h2>{skill.manualOnly ? "Como chamar" : "O agente usa quando você diz"}</h2>
+            {
+              skill.manualOnly ? (
+                <p class="hint">
+                  Só quando chamada pelo nome: <code>/{skill.name}</code>
+                </p>
+              ) : skill.triggers.length ? (
+                <ul class="says">
+                  {skill.triggers.map((t) => (
+                    <li>“{t}”</li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="hint">{skill.when}</p>
+              )
+            }
+          </div>
+
+          {
+            skill.files.length > 1 && (
+              <div class="box">
+                <h2>Arquivos</h2>
+                <ul class="files">
+                  {skill.files.map((f) => (
+                    <li>
+                      <code>{f}</code>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
+        </aside>
+      </div>
+    </main>
   </div>
   <Footer />
 </Base>
 
 <style>
-  .skill {
-    max-width: 760px;
-    padding-block: 24px 96px;
+  main {
+    padding-block: 24px 112px;
   }
   .back {
     display: inline-flex;
@@ -86,68 +126,106 @@ const extras = skill.files
     font-size: 15px;
     text-decoration: none;
   }
+  .head {
+    max-width: 760px;
+    padding-bottom: 40px;
+  }
   h1 {
     margin-top: 8px;
-    font-size: clamp(36px, 6vw, 56px);
-    font-weight: 700;
-    letter-spacing: -0.045em;
+    font-size: clamp(44px, 7vw, 80px);
+    font-weight: 750;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+  .name {
+    margin-top: 10px;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 15px;
   }
   .lead {
-    margin-top: 16px;
-    font-size: 17px;
+    margin-top: 18px;
+    font-size: 20px;
+    line-height: 1.45;
   }
-  .triggers {
-    margin-top: 20px;
-    font-size: 14px;
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 56px;
+    align-items: start;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
   }
-  .triggers p,
-  .when {
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    min-width: 0;
+  }
+  .main h2,
+  .box h2 {
+    margin-bottom: 16px;
+    color: var(--ink-2);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .side {
+    position: sticky;
+    top: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+  .box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    padding: 20px;
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+  }
+  .box h2 {
+    margin-bottom: 4px;
+  }
+  .hint {
+    margin-top: 6px;
     color: var(--ink-3);
     font-size: 14px;
   }
-  .when {
-    margin-top: 16px;
-  }
-  .triggers ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 8px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-  .triggers li {
-    padding: 4px 10px;
-    border-radius: 6px;
-    background: var(--canvas);
-    color: var(--ink-2);
-  }
-  .actions {
-    margin-top: 28px;
-  }
-  .install {
+  .says,
+  .files {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-top: 20px;
-    font-size: 14px;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 15px;
   }
-  .manual {
-    margin-top: 16px;
-    color: var(--wood);
-    font-weight: 500;
+  .files {
+    color: var(--ink-2);
+    font-size: 13px;
+    overflow-wrap: anywhere;
   }
 
   .prose {
-    margin-top: 48px;
     font-size: 16px;
+    line-height: 1.65;
+    overflow-wrap: break-word;
   }
   .prose :global(h1) {
-    font-size: 28px;
+    font-size: 26px;
   }
   .prose :global(h2) {
     margin-top: 40px;
     font-size: 22px;
+    letter-spacing: -0.02em;
   }
   .prose :global(h3) {
     margin-top: 28px;
@@ -168,9 +246,11 @@ const extras = skill.files
     border-radius: 4px;
     background: var(--canvas);
     font-size: 0.88em;
+    overflow-wrap: anywhere;
   }
   .prose :global(pre) {
     overflow-x: auto;
+    max-width: 100%;
     padding: 14px 16px;
     border-radius: var(--radius-control);
     background: var(--ink);
@@ -179,9 +259,11 @@ const extras = skill.files
   .prose :global(pre code) {
     padding: 0;
     background: none;
+    overflow-wrap: normal;
   }
   .prose :global(table) {
     display: block;
+    max-width: 100%;
     overflow-x: auto;
     border-collapse: collapse;
     font-size: 14px;
@@ -194,18 +276,11 @@ const extras = skill.files
     vertical-align: top;
   }
   .prose :global(a) {
-    color: var(--accent-ink);
+    color: var(--ink);
   }
 
-  .extras {
-    margin-top: 56px;
-  }
-  .extras h2 {
-    font-size: 22px;
-    font-weight: 650;
-  }
   details {
-    margin-top: 12px;
+    margin-top: 10px;
     border-radius: var(--radius-control);
     background: var(--surface);
     box-shadow: var(--shadow-card);
@@ -225,5 +300,16 @@ const extras = skill.files
   details > pre {
     overflow-x: auto;
     font-size: 13px;
+  }
+
+  @media (max-width: 960px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+    .side {
+      position: static;
+      order: -1;
+    }
   }
 </style>

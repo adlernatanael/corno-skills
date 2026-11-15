@@ -67,7 +67,8 @@ const { src = "/boi.svg", ratio = "5 / 4", label = "Cabeça de boi com chifres d
       for (let i = 0; i < cols * rows; i++) {
         const alpha = px[i * 4 + 3] / 255;
         const lum = (px[i * 4] * 0.3 + px[i * 4 + 1] * 0.59 + px[i * 4 + 2] * 0.11) / 255;
-        const density = alpha < 0.15 ? 0 : 0.16 + (1 - lum) * 0.84;
+        // Near-white pixels are cut-outs (eyes, the word on the bull): they stay blank so they read as holes.
+        const density = alpha < 0.15 || lum > 0.5 ? 0 : 0.16 + (1 - lum) * 0.84;
         const c = density === 0 ? " " : RAMP[Math.min(RAMP.length - 1, Math.round(density * (RAMP.length - 1)))];
         grid.push({ c, a: alpha });
       }

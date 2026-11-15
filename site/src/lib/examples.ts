@@ -12,16 +12,16 @@ export const SCENES: Record<string, { you: string; agent: string }> = {
     agent: "Tirei o gradiente roxo, usei o botão que o projeto já tem e a lista vazia agora diz o que fazer.",
   },
   "Texto e conversa": {
-    you: "escrevi esse post do lançamento, tá com cara de ChatGPT?",
-    agent: "Um pouco. Cortei o “não é X, é Y” e duas frases de efeito. O resto é você mesmo.",
+    you: "o texto do site e o roteiro do vídeo tão com cara de IA, arruma?",
+    agent: "Troquei “Revolucione sua rotina com o poder da IA” por “Organiza sua agenda sozinho” e cortei o “E isso muda tudo” do roteiro.",
   },
   "Negócio e carreira": {
     you: "tive uma ideia: um Uber pra passear com cachorro. o que acha?",
     agent: "Por enquanto é funcionalidade querendo ser empresa. Quem tem cachorro já pede pro vizinho de graça.",
   },
   Máquina: {
-    you: "meu Mac tá sem espaço nenhum, o que eu posso apagar?",
-    agent: "Achei 41 GB que voltam sozinhos. Antes, desligo o download do modelo de IA do Chrome, senão ele baixa de novo.",
+    you: "o Mac tá dizendo que o disco tá cheio e eu nem consigo atualizar o sistema",
+    agent: "O Chrome tinha baixado sozinho uma IA de 4 GB. Desliguei antes de apagar, senão ele baixa de novo. Com o resto, foi de 9 GB para 63 GB livres.",
   },
   "Para quem cria skills": {
     you: "sempre faço o mesmo ritual pra subir release, vira skill?",
@@ -61,21 +61,25 @@ export const SKILL_RUNS: Record<string, { you: string; steps: Step[]; result: st
     result: "Corrigi na raiz e deixei um teste pra não voltar.",
   },
   "corno-revisa": {
-    you: "/corno-revisa, dá uma olhada no checkout antes do merge",
+    you: "vê se esse PR do checkout tá bom pra entrar, /corno-revisa",
     steps: [
-      { kind: "warn", text: "o Checkout.tsx passou de 1.200 linhas" },
-      { kind: "warn", text: "a regra de cupom tá espalhada em 4 lugares" },
+      { kind: "warn", text: "o arquivo do checkout foi pra 1.200 linhas: dá pra separar o carrinho" },
+      { kind: "warn", text: "o desconto de cupom tá calculado em 4 lugares diferentes" },
+      { kind: "ok", text: "a regra nova em si tá certa" },
     ],
-    result: "Entra, mas separa o cálculo do cupom antes. Te mostro como.",
+    result: "Entra com um ajuste: junta o cálculo do cupom num lugar só. Te mostro como fica.",
   },
+
   "corno-pesquisa": {
-    you: "dá pra usar fetch direto no Node 22 ou ainda precisa de lib?",
+    you: "o Safari já aceita aquele :has() do CSS ou ainda não dá pra usar?",
     steps: [
-      { kind: "ok", text: "li o changelog oficial do Node" },
-      { kind: "ok", text: "conferi na documentação da API" },
+      { kind: "ok", text: "olhei a tabela de compatibilidade oficial" },
+      { kind: "ok", text: "conferi nas notas de versão do Safari" },
+      { kind: "plain", text: "aceita desde o Safari 15.4, de 2022" },
     ],
-    result: "Dá, já é estável. Deixei as fontes em docs/pesquisa/fetch-node.md.",
+    result: "Pode usar. Salvei as fontes em docs/pesquisa/css-has.md.",
   },
+
   "corno-visagem": {
     you: "essa tela tá feia demais, dá um jeito",
     steps: [
@@ -95,13 +99,16 @@ export const SKILL_RUNS: Record<string, { you: string; steps: Step[]; result: st
     result: "Dá pra aprovar depois de arrumar o botão. Não mexi em nada.",
   },
   "corno-humano": {
-    you: "escrevi esse post do lançamento, tá com cara de ChatGPT?",
+    you: "o texto do site e o roteiro do vídeo tão com cara de IA, arruma?",
     steps: [
-      { kind: "no", text: "“Não é só um app, é uma revolução.”" },
-      { kind: "ok", text: "“Lançamos o app na terça.”" },
+      { kind: "no", text: "site: “Revolucione sua rotina com o poder da IA”" },
+      { kind: "ok", text: "site: “Organiza sua agenda sozinho”" },
+      { kind: "no", text: "roteiro: “E isso muda tudo.”" },
+      { kind: "ok", text: "roteiro: o vídeo agora termina mostrando o preço" },
     ],
-    result: "Tava um pouco. Cortei três frases de efeito, o resto é você.",
+    result: "Tirei a cara de IA dos dois. O jeito de falar continua o seu.",
   },
+
   "corno-com-tdah": {
     you: "não entendi nada, só me diz o que fazer",
     steps: [
@@ -130,14 +137,16 @@ export const SKILL_RUNS: Record<string, { you: string; steps: Step[]; result: st
     result: "Nota 58. Reescrevi os 5 piores itens, só falta você pôr os números.",
   },
   "corno-limpa": {
-    you: "meu Mac tá sem espaço nenhum, o que eu posso apagar?",
+    you: "o Mac tá dizendo que o disco tá cheio e eu nem consigo atualizar o sistema",
     steps: [
-      { kind: "ok", text: "38 GB de node_modules (voltam com um npm install)" },
-      { kind: "ok", text: "4 GB de um modelo de IA que o Chrome baixou sozinho" },
-      { kind: "warn", text: "2 pastas com código que você não commitou: não mexi" },
+      { kind: "ok", text: "o Chrome tinha baixado sozinho uma IA de 4 GB: desliguei e apaguei" },
+      { kind: "ok", text: "38 GB de dependências de projetos parados (voltam quando precisar)" },
+      { kind: "ok", text: "12 GB de simuladores de iPhone que nem abrem mais" },
+      { kind: "warn", text: "2 pastas com código que você não salvou no git: deixei" },
     ],
-    result: "Liberei 42 GB. As duas pastas eu deixei pra você decidir.",
+    result: "Tinha 9 GB livres, agora tem 63 GB. Já dá pra atualizar.",
   },
+
   "corno-cria-skill": {
     you: "sempre faço o mesmo ritual pra subir release, vira skill?",
     steps: [

@@ -1,11 +1,11 @@
 ---
 name: corno-visagem
-description: Front-end sênior preguiçoso do jeito certo - resolve o pedido inteiro com o mínimo de código novo, usando primeiro os componentes, tokens e primitivas que o projeto já tem, sem cara de IA e sem cortar acessibilidade, estados ou responsivo. Termina dizendo o que pulou e o risco. Use quando for criar ou mexer em tela, componente, landing ou estilo, ou quando pedirem "faz essa tela", "deixa mais bonito", "melhora o visual", "tira a cara de IA", "arruma esse layout" ou "polish this UI".
+description: Front-end sênior que resolve o pedido inteiro com o mínimo de código novo, usando primeiro os componentes, tokens e primitivas que o projeto já tem, sem cara de IA e sem cortar acessibilidade, estados ou responsivo. Termina dizendo o que pulou e o risco. Use quando for criar ou mexer em tela, componente, landing ou estilo, ou quando pedirem "faz essa tela", "deixa mais bonito", "melhora o visual", "tira a cara de IA", "arruma esse layout" ou "polish this UI".
 ---
 
 # Corno visagem
 
-O melhor código de interface é o que você não precisou escrever. Resolva o pedido inteiro com o mínimo de código novo, no padrão da casa e sem slop. Seja preguiçoso na solução, nunca na mudança.
+O melhor código de interface é o que você não precisou escrever. Resolva o pedido inteiro com o mínimo de código novo, no padrão da casa e sem slop. Economize na solução, nunca na mudança.
 
 ## Antes de escrever
 
