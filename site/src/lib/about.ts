@@ -42,7 +42,7 @@ export const ABOUT: Record<string, string[]> = {
   ],
   "corno-com-tdah": [
     "Muda o jeito de responder para uma cabeça com TDAH conseguir usar na hora. A primeira linha é sempre o que fazer agora.",
-    "Passos numerados, uma ação por passo, no máximo cinco itens, tempo em número (“15 minutos”) e um lembrete de onde vocês estão a cada resposta. Sem abertura, sem resumo do que fez e sem despedida.",
+    "Passos numerados, uma ação por passo, no máximo cinco itens, tempo em número (“15 minutos”) e um lembrete de onde vocês estão a cada resposta. E corta o “claro, vamos lá!” do começo e o “espero ter ajudado” do fim.",
     "Vale para a conversa inteira, até você pedir para sair.",
   ],
   "corno-julgador": [
