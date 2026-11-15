@@ -91,4 +91,19 @@ Get-ChildItem -LiteralPath $LA, $RA -Directory -Force -ErrorAction SilentlyConti
   Where-Object { $_.Bytes -ge $min } | Sort-Object Bytes -Descending | Select-Object -First 15 |
   ForEach-Object { '{0,10}  {1}' -f (Human $_.Bytes), $_.Path.Replace($U, '~') }
 
+""
+"== Installers left behind (ask; the app is already installed) =="
+Get-ChildItem -LiteralPath "$U\Downloads", "$U\Desktop" -Recurse -Depth 1 -File -Force -ErrorAction SilentlyContinue |
+  Where-Object { $_.Extension -in '.exe', '.msi', '.msix', '.iso', '.zip' -and $_.Length -ge 50MB } |
+  Sort-Object Length -Descending | Select-Object -First 15 |
+  ForEach-Object { '{0,10}  {1}' -f (Human $_.Length), $_.FullName.Replace($U, '~') }
+""
+
+"== Files over 1 GB not changed in 6 months (ask; outside AppData) =="
+Get-ChildItem -LiteralPath $U -Directory -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -ne 'AppData' } |
+  ForEach-Object { Get-ChildItem -LiteralPath $_.FullName -Recurse -File -Force -ErrorAction SilentlyContinue } |
+  Where-Object { $_.Length -ge 1GB -and $_.LastWriteTime -lt (Get-Date).AddMonths(-6) -and $_.FullName -notmatch '\\node_modules\\' } |
+  Sort-Object Length -Descending | Select-Object -First 15 |
+  ForEach-Object { '{0,10}  {1}' -f (Human $_.Length), $_.FullName.Replace($U, '~') }
+
 if (Get-Command docker -ErrorAction SilentlyContinue) { ""; "== Docker =="; docker system df 2>$null }

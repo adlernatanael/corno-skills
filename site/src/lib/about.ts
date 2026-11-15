@@ -56,9 +56,8 @@ export const ABOUT: Record<string, string[]> = {
     "Reescreve os itens mais fracos sem inventar nada: onde falta um número que só você sabe, ela deixa {XX} para você preencher. Aceita .pdf, .doc, .docx ou o texto do perfil colado.",
   ],
   "corno-limpa": [
-    "Libera espaço em disco no macOS, no Windows ou no Linux sem apagar nada que você sentiria falta. Ela mede antes de propor, então você decide vendo os tamanhos.",
-    "Ela separa o que volta sozinho (caches, dependências, builds, simuladores, emuladores, modelos de IA, versões velhas de navegador) do que é seu e não volta (documentos, fotos, chaves, código sem commit). O primeiro sai com uma confirmação por categoria; o segundo só com a sua decisão.",
-    "Confere o git antes de tocar em qualquer pasta com código, desliga o que se baixa de novo sozinho (como a IA de 4 GB que o Chrome baixa) e termina com o espaço de antes e de depois.",
+    "Uma limpeza completa do macOS, do Windows ou do Linux, sem apagar nada que você sentiria falta. Primeiro ela varre o computador inteiro e só mostra: quanto ocupa cada categoria e quanto dá para liberar.",
+    "Ela separa o que volta sozinho (caches, logs, dependências, builds, simuladores, modelos de IA, sobras de apps que você já desinstalou) do que é seu e não volta (documentos, fotos, chaves, código sem commit, instaladores e arquivos grandes parados). O primeiro sai com uma confirmação só; o segundo, com a sua decisão.",
   ],
   "corno-cria-skill": [
     "Cria uma skill nova ou dá o acabamento numa que já existe, no padrão deste repositório.",

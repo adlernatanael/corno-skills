@@ -87,7 +87,7 @@ Você não precisa chamar pelo nome: fale como sempre falou e o agente puxa a sk
 
 | Skill | O que faz | Diga |
 |---|---|---|
-| [`corno-limpa`](skills/corno-limpa/SKILL.md) | Libera espaço no macOS, Windows ou Linux sem apagar o que importa, incluindo o modelo de IA de 4 GB que o Chrome baixa sozinho. | “disco cheio” |
+| [`corno-limpa`](skills/corno-limpa/SKILL.md) | Limpeza completa do macOS, Windows ou Linux: varre tudo, mostra quanto dá para liberar por categoria, limpa o que volta sozinho com uma confirmação e pergunta sobre o que é seu. | “disco cheio” |
 
 ### Para quem cria skills
 

@@ -160,6 +160,20 @@ done | sort -t'|' -k1,1nr | head -20 | while IFS='|' read -r kb p; do
 done
 echo
 
+echo "== Installers left behind (ask; the app is already installed) =="
+find "$HOME/Downloads" "$HOME/Desktop" -maxdepth 2 -type f \( -iname '*.dmg' -o -iname '*.pkg' -o -iname '*.iso' \
+  -o -iname '*.deb' -o -iname '*.rpm' -o -iname '*.AppImage' -o -iname '*.msi' -o -iname '*.exe' \) 2>/dev/null |
+  while IFS= read -r f; do printf "%s|%s\n" "$(size_kb "$f")" "$f"; done | sort -t'|' -k1,1nr | head -15 |
+  while IFS='|' read -r kb f; do printf "%10s  %s\n" "$(human "$kb")" "${f/#$HOME/$tilde}"; done
+echo
+
+echo "== Files over 1 GB not changed in 6 months (ask; outside Library and code dependencies) =="
+find "$HOME" -xdev \( -path "$HOME/Library" -o -path "$HOME/.Trash" -o -name node_modules -o -name .git \) -prune -o \
+  -type f -size +1G -mtime +180 -print 2>/dev/null |
+  while IFS= read -r f; do printf "%s|%s\n" "$(size_kb "$f")" "$f"; done | sort -t'|' -k1,1nr | head -15 |
+  while IFS='|' read -r kb f; do printf "%10s  %s\n" "$(human "$kb")" "${f/#$HOME/$tilde}"; done
+echo
+
 if [ "$os" = Darwin ]; then
   echo "== Largest in ~/Library/Application Support (>= ${min_mb} MB) =="
   for p in "$AS"/*; do

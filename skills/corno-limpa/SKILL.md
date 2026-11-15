@@ -1,6 +1,6 @@
 ---
 name: corno-limpa
-description: Libera espaço em disco com segurança no macOS, Windows ou Linux - mede primeiro, apaga só o que volta sozinho (caches, node_modules, builds, simuladores, emuladores, modelos de IA, o Gemini Nano de 4 GB que o Chrome baixa sozinho, versões antigas de navegadores e CLIs de agente) e pede decisão para o que é pessoal ou insubstituível. Confere o git antes de tocar em qualquer pasta com código. Use quando disserem "disco cheio", "pouco espaço", "o que posso apagar", "limpa meu computador", "libera espaço", "System Data enorme", "o C: está cheio", "disk full", "free up space", mesmo que citem uma pasta só.
+description: Libera espaço em disco com segurança no macOS, Windows ou Linux, como uma limpeza completa de sistema - varre tudo sem apagar nada, mostra a prévia por categoria com quanto dá para liberar (caches, logs, dependências, builds, simuladores, emuladores, modelos de IA, sobras de apps desinstalados, instaladores esquecidos, arquivos grandes parados), limpa o que volta sozinho com uma confirmação só e pede decisão para o que é pessoal ou insubstituível. Identifica o que se baixa de novo sozinho e desliga antes de apagar, confere o git antes de tocar em código, respeita uma lista de protegidos e guarda o histórico do que apagou. Use quando disserem "disco cheio", "pouco espaço", "o que posso apagar", "limpa meu computador", "libera espaço", "System Data enorme", "o C: está cheio", "disk full", "free up space", mesmo que citem uma pasta só.
 ---
 
 # Corno limpa
@@ -13,7 +13,7 @@ Liberar espaço sem perder nada que a pessoa sentiria falta. Quase tudo que ench
   - macOS e Linux: `bash scripts/scan.sh`
   - Windows: `powershell -ExecutionPolicy Bypass -File scripts/scan.ps1`
   - Pastas de código (qualquer sistema; no Windows via Git Bash): `bash scripts/find-build-dirs.sh <raiz-do-código>`
-- **Dois baldes.** *Regenerável* (reinstalar, recompilar ou baixar de novo traz de volta): uma confirmação por categoria. *Insubstituível ou incerto* (documentos, fotos, chaves, trabalho sem commit, dumps): decisão da pessoa, grupo a grupo.
+- **Dois baldes.** *Volta sozinho* (reinstalar, recompilar ou baixar de novo traz de volta): uma confirmação para o balde inteiro, com a opção de tirar categorias. *Seu* (documentos, fotos, chaves, trabalho sem commit, dumps, instaladores, arquivos grandes parados): decisão da pessoa, grupo a grupo.
 - **Olha o alvo antes de apagar.** Espie arquivos desconhecidos (`head`, `pdftotext -l 1`, `unzip -l`, `file`) em vez de julgar pelo nome. Um `asdsad.pdf` era nota fiscal duplicada; uma pasta com cara de clone velho era a única cópia de um protótipo.
 - **Lixeira para arquivo pessoal, apagar direto para cache.** Arquivo pessoal vai para a lixeira, para poder voltar:
   - macOS 14+: `trash <arquivos>`
@@ -23,8 +23,9 @@ Liberar espaço sem perder nada que a pessoa sentiria falta. Quase tudo que ench
   Mandar 80 GB de `node_modules` para a lixeira não libera nada até esvaziar, então regenerável se apaga direto (`rm -rf`, `Remove-Item -Recurse -Force`).
 - **Git antes de código.** Nunca apague repo, worktree ou branch sem rodar `scripts/git-audit.sh` nele. Veja `references/codigo.md`.
 - **Fecha o app antes de apagar os dados dele.** Confira se está rodando (`pgrep -f '<App>'`, `Get-Process <nome>`). Se estiver, pule e entregue o comando de uma linha para rodar depois de fechar.
-- **Bloqueia o que volta sozinho.** Alguns itens se baixam de novo se você só apagar (o modelo de IA do Chrome é o caso clássico). Desligue o recurso primeiro, depois apague. Veja `references/navegadores-e-ia.md`.
+- **Bloqueia o que se baixa de novo.** Alguns itens voltam sozinhos se você só apagar: modelos de IA que navegadores e apps baixam por conta própria, atualizações baixadas e não instaladas. O scan identifica esses itens; desligue o recurso primeiro, depois apague. Veja `references/navegadores-e-ia.md`.
 - **Relata com números.** Anote o espaço livre antes e depois de cada rodada e diga quanto liberou.
+- **Protegidos e histórico.** Antes de propor, leia `~/.config/corno-limpa/protegidos.txt` (Windows: `%APPDATA%\corno-limpa\protegidos.txt`), um caminho por linha, e nunca proponha nada dentro deles. Quando a pessoa disser "nunca mexe nisso", acrescente a linha. Cada remoção vai para `historico.tsv` na mesma pasta: data, tamanho, caminho e se foi apagado ou para a lixeira.
 - **Admin só com aviso.** Limpezas que pedem `sudo` ou prompt elevado (journal, cache do apt, Windows Update, `DISM`) são opcionais. Explique o que fazem e entregue o comando, ou rode só se a pessoa autorizar.
 
 ## Pedindo decisões
@@ -35,17 +36,31 @@ Para grupos de arquivos que a pessoa precisa ver (prints, fotos, vídeos), **sep
 
 ## Fluxo
 
-1. **Linha de base.** Espaço livre, scan geral e `find-build-dirs.sh` na pasta de código. Mostre os maiores itens numa tabela curta antes de fazer qualquer coisa.
-2. **Escolhe as áreas junto.** Ofereça as áreas que o scan mostrou. Não assuma que Downloads é o alvo só porque é o clássico.
-3. **Trabalha cada área** com o arquivo de referência dela:
+1. **Varredura completa, sem apagar nada.** Espaço livre, o scan geral, `find-build-dirs.sh` nas pastas de código e `docker system df` se houver Docker. Não pergunte antes qual área limpar: varra tudo, como uma prévia.
+2. **Prévia por categoria.** Uma tabela só, com tamanho, balde e o que acontece se apagar, nesta ordem quando houver:
+   - Sistema e logs
+   - Caches de apps
+   - Navegadores e modelos de IA baixados por apps
+   - Nuvem e Office
+   - Ferramentas de dev: dependências, builds, simuladores, emuladores, SDKs, caches de pacote
+   - Virtualização e containers
+   - Sobras de apps desinstalados
+   - Backups de aparelho e firmware
+   - Instaladores esquecidos
+   - Arquivos grandes parados
+   - Lixeira
+
+   No topo, o resumo: "Dá para liberar X GB sem perder nada. Mais Y GB dependem de você." Marque o que se baixa de novo sozinho se não for desligado.
+3. **Uma confirmação para o que volta sozinho**: *Limpar tudo que volta sozinho (Recomendado)* / *Escolher categorias* / *Só me mostra os comandos*.
+4. **Limpa** cada categoria com o arquivo de referência dela, pulando app aberto e protegido:
    - Downloads e pastas pessoais: `references/pastas-pessoais.md`
    - Pastas de código, repos, worktrees, dumps: `references/codigo.md`
    - Simuladores, emuladores, SDKs, caches de pacote, VMs e containers: `references/ferramentas-dev.md`
-   - Navegadores, modelo de IA do Chrome, apps Electron, modelos locais, CLIs e apps de agente: `references/navegadores-e-ia.md`
-   - Sujeira do sistema operacional: `references/sistema-mac.md`, `references/sistema-windows.md` ou `references/sistema-linux.md`
-4. **Confere** que cada remoção liberou espaço mesmo (vários comandos fazem menos do que o nome promete) e mede de novo.
-5. **Fecha.** Antes e depois em números, o que foi apagado, o que ficou e por quê, e o que a pessoa precisa fazer a seguir (instalar dependências antes do próximo build, baixar um runtime de simulador, esvaziar a lixeira). Aponte problemas de segurança achados no caminho (chaves soltas, credenciais em README, dump de produção com dados pessoais) sem imprimir o conteúdo.
-
+   - Navegadores, modelos de IA, apps Electron, modelos locais, CLIs e apps de agente: `references/navegadores-e-ia.md`
+   - Sistema operacional, sobras de apps, firmware e backups: `references/sistema-mac.md`, `references/sistema-windows.md` ou `references/sistema-linux.md`
+5. **Decide o que é seu**, grupo a grupo, como em "Pedindo decisões".
+6. **Confere** que cada remoção liberou espaço mesmo (vários comandos fazem menos do que o nome promete) e mede de novo.
+7. **Fecha.** Antes e depois em números, o que foi apagado, o que ficou e por quê, e o que a pessoa precisa fazer a seguir (instalar dependências antes do próximo build, baixar um runtime de simulador, esvaziar a lixeira). Aponte problemas de segurança achados no caminho (chaves soltas, credenciais em README, dump de produção com dados pessoais) sem imprimir o conteúdo.
 
 ## Nunca mexa
 

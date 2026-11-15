@@ -77,3 +77,7 @@ Abra as pastas separadas e pergunte por grupo. Para documentos que a pessoa quer
 ## 7. Fim
 
 Remova o `_revisar` vazio e relate quantidade de itens e tamanho antes e depois. Lembre que a lixeira precisa ser esvaziada para o espaço aparecer.
+
+## Arquivos grandes parados
+
+O scan lista arquivos acima de 1 GB fora das pastas do sistema e de dependências que não mudam há 6 meses. Costumam ser vídeos exportados, gravações de tela, imagens de VM, backups antigos e dumps. Nunca são lixo por padrão: espie cada um (`file`, `ffprobe`, `unzip -l`) e pergunte, com três saídas: *Apagar*, *Mover para um disco externo* ou *Manter*. Se a pessoa quer manter e o arquivo é grande, sugira o disco externo antes de apagar outra coisa.

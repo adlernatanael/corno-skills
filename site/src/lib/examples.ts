@@ -21,7 +21,7 @@ export const SCENES: Record<string, { you: string; agent: string }> = {
   },
   Máquina: {
     you: "o Mac tá dizendo que o disco tá cheio e eu nem consigo atualizar o sistema",
-    agent: "O Chrome tinha baixado sozinho uma IA de 4 GB. Desliguei antes de apagar, senão ele baixa de novo. Com o resto, foi de 9 GB para 63 GB livres.",
+    agent: "Varri tudo: dá pra liberar 54 GB sem perder nada. Limpei com o seu ok e deixei as pastas com código sem commit pra você decidir. Foi de 9 GB para 63 GB livres.",
   },
   "Para quem cria skills": {
     you: "sempre faço o mesmo ritual pra subir release, vira skill?",
@@ -148,10 +148,11 @@ export const SKILL_RUNS: Record<string, { you: string; steps: Step[]; result: st
   "corno-limpa": {
     you: "o Mac tá dizendo que o disco tá cheio e eu nem consigo atualizar o sistema",
     steps: [
-      { kind: "ok", text: "o Chrome tinha baixado sozinho uma IA de 4 GB: desliguei e apaguei" },
+      { kind: "plain", text: "varri tudo sem apagar nada: 54 GB voltam sozinhos" },
       { kind: "ok", text: "38 GB de dependências de projetos parados (voltam quando precisar)" },
-      { kind: "ok", text: "12 GB de simuladores de iPhone que nem abrem mais" },
-      { kind: "warn", text: "2 pastas com código que você não salvou no git: deixei" },
+      { kind: "ok", text: "12 GB de simuladores e caches de apps" },
+      { kind: "ok", text: "4 GB de um modelo de IA baixado sozinho: desliguei e apaguei" },
+      { kind: "warn", text: "2 pastas com código sem commit: deixei pra você decidir" },
     ],
     result: "Tinha 9 GB livres, agora tem 63 GB. Já dá pra atualizar.",
   },
