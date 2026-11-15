@@ -5,6 +5,7 @@ import MarkdownIt from "markdown-it";
 import Base from "../../layouts/Base.astro";
 import Header from "../../components/Header.astro";
 import Command from "../../components/Command.astro";
+import Footer from "../../components/Footer.astro";
 import { loadSkills, SKILLS_DIR, type Skill } from "../../lib/skills";
 
 export function getStaticPaths() {
@@ -22,6 +23,7 @@ const extras = skill.files
 ---
 <Base title={`${skill.name} · Corno`} description={skill.description}>
   <Header />
+  <div class="page-body">
   <main class="container skill" tabindex="-1">
     <a class="back" href="/#curral">Voltar ao curral</a>
     <h1>{skill.short}</h1>
@@ -67,6 +69,8 @@ const extras = skill.files
       )
     }
   </main>
+  </div>
+  <Footer />
 </Base>
 
 <style>

@@ -38,6 +38,8 @@ html {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
+  /* Anchored sections land below the floating header. */
+  scroll-padding-top: 96px;
 }
 body {
   margin: 0;
@@ -63,6 +65,14 @@ h3 {
 p {
   margin: 0;
   text-wrap: pretty;
+}
+
+/* Everything above the footer: it covers the footer until the page runs out, then slides off it. */
+.page-body {
+  position: relative;
+  z-index: 1;
+  padding-top: 84px;
+  background: var(--page);
 }
 
 .container {

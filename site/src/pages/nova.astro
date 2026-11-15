@@ -1,0 +1,617 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Command from "../components/Command.astro";
+import Boi3D from "../components/Boi3D.astro";
+import { groupedSkills, loadSkills } from "../lib/skills";
+import { INSTALL_CLAUDE } from "../lib/links";
+
+const skills = loadSkills();
+const groups = groupedSkills();
+
+const statement =
+  "Seu agente diz que terminou sem rodar o teste. Chuta a causa do bug. Faz tela roxa com gradiente. Elogia sua ideia ruim. O Corno ensina ele a parar.";
+
+// One illustrative exchange per group, for the sticky stage. Examples, not transcripts.
+const scenes: Record<string, { you: string; agent: string }> = {
+  Código: { you: "corrigi o bug, pode subir?", agent: "Rodei a suíte inteira: um teste ainda falha em auth.test.ts. Não está pronto; olha a saída acima." },
+  Interface: { you: "deixa essa tela mais bonita", agent: "Tirei o gradiente roxo, troquei o div clicável pelo Button da casa e o estado vazio agora tem uma ação." },
+  "Texto e conversa": { you: "humaniza esse post", agent: "Cortei o “não é X, é Y”, os três travessões e o “isso muda tudo”. O resto é a sua voz, intacta." },
+  "Negócio e carreira": { you: "julga minha ideia: Uber de passeador de cachorro", agent: "Veredito: funcionalidade querendo ser empresa. Quem paga, se o vizinho já passeia de graça?" },
+  Máquina: { you: "meu disco tá cheio", agent: "O maior item é o modelo de IA que o Chrome baixa sozinho. Desligo o download antes de apagar, senão ele volta." },
+  "Para quem cria skills": { you: "transforma isso em skill", agent: "Criei com gatilhos, “Quando não usar” e “Pronto quando”. O validador do repo passa." },
+};
+
+const stats = [
+  { value: skills.length, label: "skills no curral" },
+  { value: groups.length, label: "assuntos, do código ao currículo" },
+  { value: 1, label: "comando para instalar tudo" },
+  { value: 0, label: "reais para usar", prefix: "R$ " },
+];
+
+const faq = [
+  ["Funciona fora do Claude Code?", "Funciona em qualquer agente que lê skills no formato de pasta com SKILL.md. Copie as pastas para onde o seu agente procura skills."],
+  ["Por que em português?", "Porque quase tudo que existe está em inglês, e instrução que você entende de primeira é instrução que você ajusta."],
+  ["As skills mandam meus dados para algum lugar?", "Não. São arquivos de texto e alguns scripts que rodam na sua máquina. O recrutador, por exemplo, lê o currículo localmente e não envia nada."],
+  ["Posso mudar uma skill?", "Pode e deve. É Markdown: abra, edite e o agente passa a seguir a sua versão."],
+  ["Por que esse nome?", "Porque agente sem regra faz papel de corno: acredita em tudo, diz que está tudo bem e é o último a saber."],
+];
+---
+<Base title="Corno: o curral das skills" description="Skills que fazem seu agente conferir antes de dizer pronto, investigar antes de chutar e largar a cara de IA." gate>
+  <Header />
+  <div class="page-body">
+    <main tabindex="-1">
+      <section class="hero container">
+        <div class="hero-text">
+          <h1 class="masked">
+            <span class="mask"><span>Seu agente</span></span>
+            <span class="mask"><span>é corno.</span></span>
+            <span class="mask"><span class="soft">A gente resolve.</span></span>
+          </h1>
+          <p class="lead muted rise">
+            {skills.length} skills que fazem ele conferir antes de dizer pronto, investigar antes de chutar e largar a cara de IA.
+          </p>
+          <div class="cta-row rise">
+            <Command code={INSTALL_CLAUDE[0]} />
+            <a class="button" href="/#curral">Ver o curral</a>
+          </div>
+        </div>
+        <div class="hero-art"><Boi3D /></div>
+      </section>
+
+      <section class="statement container" aria-label="O problema">
+        <p data-ink>
+          {statement.split(" ").map((w) => <span class="w">{w} </span>)}
+        </p>
+      </section>
+
+      <section class="stats container" aria-label="Em números">
+        {
+          stats.map((s) => (
+            <div class="stat" data-reveal>
+              <span class="rule" />
+              <p class="num">
+                {s.prefix}
+                <span data-count={s.value}>{s.value}</span>
+              </p>
+              <p class="muted">{s.label}</p>
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="stage container" aria-labelledby="stage-title">
+        <h2 id="stage-title">Uma skill pra cada vez que ele te faz de corno</h2>
+        <div class="stage-grid">
+          <div class="screen" aria-hidden="true">
+            {
+              groups.map((g, i) => (
+                <div class="scene" data-scene={i} data-active={i === 0 ? "" : undefined}>
+                  <p class="you">{scenes[g.title]?.you}</p>
+                  <p class="agent">{scenes[g.title]?.agent}</p>
+                  <p class="tag">exemplo</p>
+                </div>
+              ))
+            }
+          </div>
+          <div class="blocks">
+            {
+              groups.map((g, i) => (
+                <article class="block" data-block={i}>
+                  <h3>{g.title}</h3>
+                  <ul>
+                    {g.skills.map((s) => (
+                      <li>
+                        <a href={`/skills/${s.name}/`}>{s.short}</a>
+                        <span class="muted">{s.summary}.</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="scene inline" aria-hidden="true">
+                    <p class="you">{scenes[g.title]?.you}</p>
+                    <p class="agent">{scenes[g.title]?.agent}</p>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="price container" aria-labelledby="price-title">
+        <div class="price-box" data-reveal>
+          <div>
+            <h2 id="price-title">Quanto custa?</h2>
+            <p class="amount">R$ 0</p>
+            <p class="price-note">Todas as skills, todas as atualizações. O único custo é descobrir que seu agente era corno.</p>
+            <a class="button button-light" href="/downloads/corno-skills.zip" download>Baixar todas (.zip)</a>
+          </div>
+          <ul class="included">
+            {
+              skills.map((s, i) => (
+                <li style={`--i: ${i}`}>
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M3 8.5l3.2 3L13 4.5" />
+                  </svg>
+                  {s.name}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <section class="faq container" aria-labelledby="faq-title">
+        <h2 id="faq-title">Perguntas que todo corno faz</h2>
+        <div class="faq-list">
+          {
+            faq.map(([q, a]) => (
+              <details>
+                <summary>{q}</summary>
+                <p class="muted">{a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="final container">
+        <h2>Bota o boi no curral.</h2>
+        <p class="muted">Dentro do Claude Code:</p>
+        <div class="final-cmds">{INSTALL_CLAUDE.map((c) => <Command code={c} />)}</div>
+      </section>
+    </main>
+  </div>
+  <Footer />
+</Base>
+
+<script>
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.documentElement.dataset.motion = still ? "still" : "on";
+
+  // Reveal-once for blocks that animate in.
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        (e.target as HTMLElement).dataset.in = "";
+        io.unobserve(e.target);
+        for (const el of (e.target as HTMLElement).querySelectorAll<HTMLElement>("[data-count]")) countUp(el);
+      }
+    },
+    { threshold: 0.35 },
+  );
+  document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+
+  function countUp(el: HTMLElement) {
+    const to = Number(el.dataset.count);
+    if (still || to < 2) return;
+    const start = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / 900);
+      el.textContent = String(Math.round(to * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  // The statement inks in word by word as it crosses the middle of the screen.
+  const ink = document.querySelector<HTMLElement>("[data-ink]");
+  const words = ink ? [...ink.querySelectorAll<HTMLElement>(".w")] : [];
+  const paint = () => {
+    if (!ink) return;
+    const r = ink.getBoundingClientRect();
+    const p = still ? 1 : Math.min(1, Math.max(0, (innerHeight * 0.8 - r.top) / (r.height + innerHeight * 0.35)));
+    const lit = Math.round(p * words.length);
+    words.forEach((w, i) => w.toggleAttribute("data-lit", i < lit));
+  };
+  addEventListener("scroll", paint, { passive: true });
+  paint();
+
+  // The sticky screen shows the scene of the block crossing the middle of the viewport.
+  const scenes = [...document.querySelectorAll<HTMLElement>(".screen .scene")];
+  const blockIO = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        const i = (e.target as HTMLElement).dataset.block;
+        scenes.forEach((s) => s.toggleAttribute("data-active", s.dataset.scene === i));
+      }
+    },
+    { rootMargin: "-45% 0px -45% 0px" },
+  );
+  document.querySelectorAll("[data-block]").forEach((el) => blockIO.observe(el));
+</script>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 32px;
+    min-height: min(860px, calc(100dvh - 84px));
+    padding-block: 32px 64px;
+  }
+  h1 {
+    font-size: clamp(48px, 6.6vw, 92px);
+    font-weight: 750;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+  .mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.04em;
+  }
+  .mask > span {
+    display: inline-block;
+  }
+  .soft {
+    color: var(--accent);
+  }
+  .lead {
+    max-width: 40ch;
+    margin-top: 24px;
+    font-size: 19px;
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .cta-row :global(.command) {
+    flex: 1 1 320px;
+    max-width: 480px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .mask > span {
+      animation: rise 900ms var(--ease-out) both;
+    }
+    .mask:nth-child(2) > span {
+      animation-delay: 90ms;
+    }
+    .mask:nth-child(3) > span {
+      animation-delay: 180ms;
+    }
+    .rise {
+      animation: fade 700ms 380ms var(--ease-out) both;
+    }
+  }
+  @keyframes rise {
+    from {
+      transform: translateY(105%);
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  .statement {
+    padding-block: 120px;
+  }
+  .statement p {
+    max-width: 22ch;
+    font-size: clamp(32px, 4.8vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+  }
+  .w {
+    color: var(--line-strong);
+    transition: color 250ms var(--ease-out);
+  }
+  .w[data-lit] {
+    color: var(--ink);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    padding-bottom: 120px;
+  }
+  .stat .rule {
+    display: block;
+    height: 1px;
+    background: var(--line-strong);
+    transform-origin: left;
+  }
+  .num {
+    margin-top: 20px;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .muted {
+    margin-top: 4px;
+    font-size: 15px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .stat .rule {
+      transform: scaleX(0);
+      transition: transform 900ms var(--ease-out);
+    }
+    .stat[data-in] .rule {
+      transform: none;
+    }
+  }
+
+  h2 {
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    max-width: 20ch;
+  }
+  .stage {
+    padding-bottom: 120px;
+  }
+  .stage-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+    margin-top: 48px;
+  }
+  .screen {
+    position: sticky;
+    top: calc(50dvh - 170px);
+    align-self: start;
+    height: 340px;
+    border-radius: 20px;
+    background: var(--ink);
+    overflow: hidden;
+  }
+  .scene {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .screen .scene {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 300ms var(--ease-out),
+      transform 300ms var(--ease-out);
+  }
+  .screen .scene[data-active] {
+    opacity: 1;
+    transform: none;
+  }
+  .you {
+    color: #9fd3a8;
+  }
+  .you::before {
+    content: "> ";
+  }
+  .agent {
+    color: #e8eae4;
+  }
+  .tag {
+    margin-top: auto;
+    color: rgb(255 255 255 / 0.4);
+    font-size: 12px;
+  }
+  .scene.inline {
+    display: none;
+  }
+  .block {
+    min-height: 60dvh;
+    padding-block: 12px;
+  }
+  .block h3 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+  .block ul {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .block li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .block li a {
+    font-size: 18px;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  @media (hover: hover) {
+    .block li a:hover {
+      color: var(--accent-ink);
+    }
+  }
+
+  .price {
+    padding-bottom: 120px;
+  }
+  .price-box {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    padding: clamp(28px, 5vw, 56px);
+    border-radius: 28px;
+    background: var(--accent-ink);
+    color: #fff;
+  }
+  .price-box h2 {
+    color: #fff;
+  }
+  .amount {
+    margin-top: 16px;
+    font-size: clamp(64px, 9vw, 120px);
+    font-weight: 750;
+    letter-spacing: -0.06em;
+    line-height: 1;
+  }
+  .price-note {
+    max-width: 34ch;
+    margin: 16px 0 28px;
+    color: rgb(255 255 255 / 0.75);
+  }
+  .button-light {
+    background: #fff;
+    color: var(--accent-ink);
+    box-shadow: none;
+  }
+  .included {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 20px;
+    align-content: start;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+  .included li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .included svg {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: #b9e3c1;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .included svg {
+      stroke-dashoffset: 16;
+      transition: stroke-dashoffset 400ms var(--ease-out);
+      transition-delay: calc(var(--i) * 45ms);
+    }
+    .price-box[data-in] .included svg {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .faq {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 48px;
+    padding-bottom: 120px;
+  }
+  .faq-list {
+    border-top: 1px solid var(--line);
+  }
+  details {
+    border-bottom: 1px solid var(--line);
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 64px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::after {
+    content: "+";
+    color: var(--ink-3);
+    font-size: 24px;
+    font-weight: 400;
+    transition: rotate 200ms var(--ease-out);
+  }
+  details[open] summary::after {
+    rotate: 45deg;
+  }
+  details p {
+    max-width: 60ch;
+    padding-bottom: 20px;
+  }
+
+  .final {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 140px;
+  }
+  .final h2 {
+    font-size: clamp(40px, 6vw, 80px);
+  }
+  .final-cmds {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: min(100%, 520px);
+    margin-top: 8px;
+  }
+
+  @media (max-width: 860px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+      min-height: 0;
+    }
+    .hero-art {
+      order: -1;
+      max-width: 360px;
+      width: 100%;
+      justify-self: center;
+    }
+    .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .stage-grid,
+    .price-box,
+    .faq {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    /* Phones: no sticky screen; each block carries its own scene. */
+    .screen {
+      display: none;
+    }
+    .scene.inline {
+      display: flex;
+      margin-top: 20px;
+      border-radius: 16px;
+      background: var(--ink);
+      font-size: 14px;
+      padding: 22px;
+    }
+    .block {
+      min-height: 0;
+      padding-block: 24px;
+    }
+    .statement,
+    .stats,
+    .stage,
+    .price,
+    .faq {
+      padding-bottom: 80px;
+    }
+    .statement {
+      padding-top: 64px;
+    }
+  }
+</style>

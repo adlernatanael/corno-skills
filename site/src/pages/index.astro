@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Header from "../components/Header.astro";
 import AsciiBoi from "../components/AsciiBoi.astro";
 import Command from "../components/Command.astro";
+import Footer from "../components/Footer.astro";
 import { groupedSkills } from "../lib/skills";
 import { INSTALL_CLAUDE, INSTALL_CLONE } from "../lib/links";
 
@@ -13,6 +14,7 @@ const description =
 ---
 <Base title={title} description={description} gate>
   <Header />
+  <div class="page-body">
   <main tabindex="-1">
     <section class="hero container">
       <div class="hero-text">
@@ -44,6 +46,7 @@ const description =
                     </a>
                   </div>
                   <p class="muted">{s.summary}.</p>
+                  {s.triggers[0] && <p class="say">Diga “{s.triggers[0]}”</p>}
                   {s.manualOnly && <p class="manual">Só roda quando chamada pelo nome</p>}
                 </li>
               ))}
@@ -72,9 +75,8 @@ const description =
       </div>
     </section>
   </main>
-  <footer class="footer container">
-    <p class="muted">Corno. Sem enrolação e sem cara de IA.</p>
-  </footer>
+  </div>
+  <Footer />
 </Base>
 
 <style>
@@ -188,6 +190,13 @@ const description =
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
   }
+  .card .say {
+    margin-top: auto;
+    padding-top: 4px;
+    color: var(--accent-ink);
+    font-size: 13px;
+    font-weight: 500;
+  }
   .card .manual {
     color: var(--wood);
     font-size: 13px;
@@ -238,11 +247,6 @@ const description =
     font-size: 14px;
   }
 
-  .footer {
-    padding-block: 32px 48px;
-    border-top: 1px solid var(--line);
-    font-size: 14px;
-  }
 
   @media (max-width: 860px) {
     .hero {

@@ -1,0 +1,204 @@
+---
+import { REPO_URL } from "../lib/links";
+
+const lines = ["O CRIADOR", "NÃO É CORNO"];
+const cols = [
+  {
+    title: "Curral",
+    links: [
+      ["corno-confere", "/skills/corno-confere/"],
+      ["corno-visagem", "/skills/corno-visagem/"],
+      ["corno-julgador", "/skills/corno-julgador/"],
+      ["corno-recrutador", "/skills/corno-recrutador/"],
+    ],
+  },
+  {
+    title: "Projeto",
+    links: [
+      ["Instalar", "/#instalar"],
+      ["Baixar todas (.zip)", "/downloads/corno-skills.zip"],
+      ["Código no GitHub", REPO_URL],
+    ],
+  },
+];
+let letter = 0;
+---
+<footer class="footer">
+  <div class="inner container">
+    <div class="top">
+      <div class="about">
+        <a class="brand" href="/">
+          <img src="/boi.svg" alt="" width="28" height="22" />
+          corno
+        </a>
+        <p>Skills pra deixar seu agente menos corno. Sem enrolação e sem cara de IA.</p>
+      </div>
+      {
+        cols.map((c) => (
+          <div class="col">
+            <p class="col-title">{c.title}</p>
+            <ul>
+              {c.links.map(([label, href]) => (
+                <li>
+                  <a href={href}>{label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="sign" aria-label="O criador não é corno">
+      {
+        lines.map((line) => (
+          <span class="line" aria-hidden="true">
+            {[...line].map((ch) => (
+              <span class="ch" style={`--i: ${letter++}`}>
+                {ch === " " ? " " : ch}
+              </span>
+            ))}
+          </span>
+        ))
+      }
+    </p>
+
+    <div class="bottom">
+      <span>© {new Date().getFullYear()} Corno</span>
+      <span>Feito no Brasil, com muito chifre.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // The sign rises letter by letter the first time it comes into view.
+  const sign = document.querySelector<HTMLElement>(".footer .sign");
+  if (sign) {
+    new IntersectionObserver(
+      ([entry], observer) => {
+        if (!entry.isIntersecting) return;
+        sign.dataset.in = "";
+        observer.disconnect();
+      },
+      { threshold: 0.3 },
+    ).observe(sign);
+  }
+</script>
+
+<style>
+  .footer {
+    border-radius: 32px 32px 0 0;
+    background: var(--ink);
+    color: #fff;
+  }
+  /* Tall enough screens reveal the footer from under the page, which slides off it like a curtain. */
+  @media (min-width: 700px) and (min-height: 760px) {
+    .footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 0;
+    }
+  }
+  .inner {
+    padding-block: 56px 28px;
+  }
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .about {
+    max-width: 340px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+  }
+  .brand img {
+    filter: invert(1);
+  }
+  .about p {
+    margin-top: 8px;
+    color: rgb(255 255 255 / 0.62);
+    font-size: 15px;
+  }
+  .col-title {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .col ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .col a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    color: rgb(255 255 255 / 0.62);
+    font-size: 15px;
+    text-decoration: none;
+  }
+  @media (hover: hover) {
+    .col a:hover {
+      color: #fff;
+    }
+  }
+  .footer a:focus-visible {
+    outline-color: #fff;
+  }
+
+  .sign {
+    display: flex;
+    flex-direction: column;
+    margin: 40px 0 0;
+    color: rgb(255 255 255 / 0.14);
+    font-size: clamp(46px, 11.5vw, 168px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.82;
+    user-select: none;
+  }
+  /* The mask clips the rising letters; the top padding keeps the accents of Ã and É inside it. */
+  .line {
+    display: flex;
+    overflow: hidden;
+    padding: 0.14em 0 0.04em;
+  }
+  .ch {
+    display: inline-block;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ch {
+      transform: translateY(105%);
+      transition: transform 700ms var(--ease-out);
+      transition-delay: calc(var(--i) * 28ms);
+    }
+    .sign[data-in] .ch {
+      transform: none;
+    }
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    color: rgb(255 255 255 / 0.5);
+    font-size: 13px;
+  }
+</style>
