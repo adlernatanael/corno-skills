@@ -7,7 +7,7 @@ export const ABOUT: Record<string, string[]> = {
     "A corno-confere é o chicote contra isso. Antes de qualquer “pronto”, ela relê a conversa inteira e põe lado a lado o que foi pedido e o que foi entregue, item por item. Não basta ter feito: tem que ser do jeito que foi pedido, com prova rodada agora (o arquivo e a linha, o teste, o print).",
   ],
   "corno-testa": [
-    "Um QA sênior dentro do seu agente. Ele entende o fluxo antes de testar: lê a conversa, o código mexido e o card. Se você tem o MCP da Atlassian, ele pega o card direto do Jira; se não, você cola o texto.",
+    "Um QA sênior dentro do seu agente. Ele entende o fluxo antes de testar: lê a conversa, o código mexido e o card da tarefa. Basta mandar o link: ele reconhece o gerenciador (Jira, Linear, Asana, Trello, ClickUp, GitHub e outros) e, se ele estiver conectado ao seu agente, lê o card direto. Se não estiver, você cola o texto.",
     "Depois confere o que dá para rodar na sua máquina, monta os casos de teste por risco (caminho feliz, borda, erro, permissão, regressão) e executa de verdade. No front, com Playwright, e pergunta antes se você quer adicionar o MCP dele. No back, com uma collection contra a API. Se for fullstack, também de ponta a ponta, da tela até o banco.",
     "Você recebe uma lista simples: o que foi validado, o que falhou com os passos para reproduzir e o que não deu para testar. Com o seu sim, ele comenta isso no card ou no PR pela sua conta. Funciona bem logo depois da corno-revisa.",
   ],

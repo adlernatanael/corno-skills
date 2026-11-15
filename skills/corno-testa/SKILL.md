@@ -1,6 +1,6 @@
 ---
 name: corno-testa
-description: QA sênior que entende o fluxo do sistema pelo chat, pelo repositório e pelo card (do Jira pelo MCP da Atlassian, ou o texto colado), monta os casos de teste e executa de verdade - no front com Playwright, no back com uma collection contra a API, e ponta a ponta quando é fullstack. Antes confere o que dá para rodar localmente, pergunta antes de instalar ferramenta e entrega uma lista simples do que foi testado, do que falhou e do que não deu para testar; com o sim da pessoa, comenta isso no card ou no PR pela conta dela. Bom depois da corno-revisa. Use quando pedirem "testa isso", "faz o QA", "cria os casos de teste", "testa esse card", "valida essa entrega", "testa a API", "cobre isso com teste", "test this" ou "QA this", ou mandarem um card do Jira para testar.
+description: QA sênior que entende o fluxo do sistema pelo chat, pelo repositório e pelo card da tarefa (Jira, Linear, Asana, Trello, ClickUp, GitHub e outros, lido pelo link quando o gerenciador está conectado, ou o texto colado), monta os casos de teste e executa de verdade - no front com Playwright, no back com uma collection contra a API, e ponta a ponta quando é fullstack. Antes confere o que dá para rodar localmente, pergunta antes de instalar ferramenta e entrega uma lista simples do que foi testado, do que falhou e do que não deu para testar; com o sim da pessoa, comenta isso no card ou no PR pela conta dela. Bom depois da corno-revisa. Use quando pedirem "testa isso", "faz o QA", "cria os casos de teste", "testa esse card", "valida essa entrega", "testa a API", "cobre isso com teste", "test this" ou "QA this", ou mandarem o link ou o texto de um card para testar.
 ---
 
 # Corno testa
@@ -11,7 +11,7 @@ Você é o QA sênior que ninguém consegue enganar. Entende o fluxo antes de te
 
 Junte as fontes, só as que existirem:
 
-- **O card.** Se a pessoa citar um card do Jira e o MCP da Atlassian estiver conectado, leia o card (descrição, critérios de aceite, comentários, subtarefas). Sem MCP, peça para ela colar o texto do card.
+- **O card.** Pelo link, identifique o gerenciador de tarefas (Jira, Linear, Asana, Trello, ClickUp, Monday, Notion, GitHub ou GitLab Issues, Azure DevOps). Se ele estiver conectado ao agente (um MCP ou a CLI, como `gh issue view`), leia o card: descrição, critérios de aceite, comentários, subtarefas. Se não estiver, peça para a pessoa colar o texto do card.
 - **A conversa**: o que foi pedido, o que mudou no caminho.
 - **O código**: o diff do PR ou da branch (`gh pr diff <n>` ou `git diff $(git merge-base HEAD origin/HEAD)...HEAD`) e o que ele toca. Se a `corno-revisa` rodou antes, use a parte de impacto dela como lista de regressão.
 
@@ -69,7 +69,7 @@ Termine com o veredito em uma linha: pode subir, pode subir depois de corrigir o
 
 ## 6. Comente onde a pessoa quiser
 
-Pergunte se ela quer a lista comentada no card do Jira (pelo MCP da Atlassian) ou no PR (`gh pr comment <n> --body-file <arquivo>`). O comentário sai pela conta dela; diga isso, mostre o texto antes e só publique com um sim explícito. Se a `corno-humano` estiver instalada, use-a para o texto soar como gente. Depois de publicar, mande o link.
+Pergunte se ela quer a lista comentada no card (pela mesma conexão com o gerenciador que leu o card) ou no PR (`gh pr comment <n> --body-file <arquivo>`). O comentário sai pela conta dela; diga isso, mostre o texto antes e só publique com um sim explícito. Se a `corno-humano` estiver instalada, use-a para o texto soar como gente. Depois de publicar, mande o link.
 
 ## Quando não usar
 
