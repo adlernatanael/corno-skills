@@ -1,234 +1,385 @@
 ---
 import Base from "../layouts/Base.astro";
 import Header from "../components/Header.astro";
-import AsciiBoi from "../components/AsciiBoi.astro";
-import Command from "../components/Command.astro";
 import Footer from "../components/Footer.astro";
+import Command from "../components/Command.astro";
+import AsciiBoi from "../components/AsciiBoi.astro";
 import { groupedSkills } from "../lib/skills";
 import { INSTALL_CLAUDE } from "../lib/links";
 import Install from "../components/Install.astro";
+import SkillRun from "../components/SkillRun.astro";
+import { ABOUT } from "../lib/about";
 
 const groups = groupedSkills();
-const title = "Corno: skills para o seu agente";
-const description =
-  "Skills para Claude Code e outros agentes: confere antes de dizer pronto, investiga bug com método, tira a cara de IA da sua tela e julga sua ideia e seu currículo sem passar pano.";
+
 ---
-<Base title={title} description={description} gate>
-  <Header />
-  <div class="page-body">
-  <main tabindex="-1">
-    <section class="hero container">
-      <div class="hero-text">
-        <h1>Skills pra deixar seu agente menos corno.</h1>
-        <p class="lead muted">Ele confere antes de dizer pronto, investiga antes de chutar e larga a cara de IA.</p>
-        <div class="hero-install">
+<Base title="Corno: skills pra tu deixar de ser corno junto com teu agente" description="Skills que fazem seu agente terminar de verdade, procurar a causa do bug e parar de elogiar sua ideia ruim." gate>
+  <Header tone="dark" />
+  <div class="page-body v3">
+    <main tabindex="-1">
+      <section class="hero container">
+        <h1>
+          {"Skills pra tu deixar de ser corno junto com teu agente.".split(" ").map((w, i) => (
+            <span class="word">
+              <span style={`--i: ${i}`}>{w}</span>
+            </span>
+          ))}
+        </h1>
+        <div class="hero-cta">
           <Command code={INSTALL_CLAUDE[0]} />
-          <p class="muted small">No Claude Code. Outro agente? <a href="#instalar">Veja como instalar</a>.</p>
         </div>
-      </div>
-      <div class="hero-art"><AsciiBoi /></div>
-    </section>
+        <div class="bull">
+          <AsciiBoi src="/touro.svg" ratio="2 / 1" label="Um touro inteiro desenhado com letras e símbolos" />
+        </div>
+      </section>
 
-    <section class="curral container" id="curral" aria-labelledby="curral-title">
-      <h2 id="curral-title">Curral das skills</h2>
-      {
-        groups.map((g) => (
-          <div class="group">
-            <h3 class="group-title">{g.title}</h3>
-            <ul class="cards">
-              {g.skills.map((s) => (
-                <li class="card">
-                  <div class="card-head">
-                    <h4>
-                      <a href={`/skills/${s.name}/`}>{s.short}</a>
-                    </h4>
-                    <a class="zip" href={`/downloads/${s.name}.zip`} download aria-label={`Baixar ${s.name} em .zip`}>
-                      .zip
-                    </a>
-                  </div>
-                  <p class="muted">{s.summary}.</p>
-                  {s.triggers[0] && <p class="say">Diga “{s.triggers[0]}”</p>}
-                  {s.manualOnly && <p class="manual">Só roda quando chamada pelo nome</p>}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
-    </section>
+      <section class="sec container" id="curral" aria-labelledby="curral-title">
+        <h2 id="curral-title">O curral</h2>
+        <div class="tablist" role="tablist" aria-label="Assuntos">
+          {
+            groups.map((g, i) => (
+              <button type="button" role="tab" id={`tab-${i}`} aria-controls={`panel-${i}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+                {g.title}
+              </button>
+            ))
+          }
+          <span class="tab-ind" aria-hidden="true" />
+        </div>
+        {
+          groups.map((g, i) => (
+            <div class="tabpanel" role="tabpanel" id={`panel-${i}`} aria-labelledby={`tab-${i}`} hidden={i !== 0}>
+              <ul class="skills">
+                {g.skills.map((s, k) => (
+                  <li class="skill">
+                    <button type="button" class="skill-name" aria-expanded={k === 0 ? "true" : "false"} aria-controls={`prev-${s.name}`} data-skill={s.name}>
+                      {s.name}
+                      <span class="chev" aria-hidden="true" />
+                    </button>
+                    <div class="preview" id={`prev-${s.name}`} hidden={k !== 0}>
+                      {(ABOUT[s.name] ?? [`${s.summary}.`]).map((p) => <p>{p}</p>)}
+                      {s.triggers[0] && <p class="say">Diga “{s.triggers[0]}”</p>}
+                      <a href={`/skills/${s.name}/`}>Ver a skill inteira</a>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div class="terms">
+                {g.skills.map((s, k) => (
+                  <SkillRun name={s.name} controlled hidden={k !== 0} />
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </section>
 
-    <section class="install container" id="instalar" aria-labelledby="instalar-title">
-      <h2 id="instalar-title">Bota no curral</h2>
-      <Install />
-    </section>
-  </main>
+      <section class="sec container final" id="instalar">
+        <h2>Bota o boi no curral.</h2>
+        <Install />
+      </section>
+    </main>
   </div>
   <Footer />
 </Base>
 
-<style>
-  .hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    align-items: center;
-    gap: 40px;
-    padding-block: 56px 72px;
+<script>
+  // Picking a skill opens its preview under the name and plays its example run in the terminal beside it.
+  function openSkill(panel: HTMLElement, name: string) {
+    for (const b of panel.querySelectorAll<HTMLButtonElement>("[data-skill]")) {
+      const on = b.dataset.skill === name;
+      b.setAttribute("aria-expanded", String(on));
+      document.getElementById(b.getAttribute("aria-controls")!)!.hidden = !on;
+    }
+    for (const t of panel.querySelectorAll<HTMLElement>("[data-term]")) {
+      t.hidden = t.dataset.term !== name;
+      // Restart the line-by-line reveal each time a run is shown.
+      t.removeAttribute("data-play");
+      if (!t.hidden) requestAnimationFrame(() => t.setAttribute("data-play", ""));
+    }
   }
-  h1 {
-    max-width: 14ch;
-    font-size: clamp(40px, 6vw, 72px);
-    font-weight: 700;
-    letter-spacing: -0.045em;
-    line-height: 1;
-  }
-  .lead {
-    max-width: 36ch;
-    margin-top: 20px;
-    font-size: 19px;
-  }
-  .hero-install {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 520px;
-    margin-top: 32px;
-  }
-  .hero-art {
-    max-width: 520px;
-    justify-self: end;
-    width: 100%;
+  for (const panel of document.querySelectorAll<HTMLElement>('[role="tabpanel"]')) {
+    for (const b of panel.querySelectorAll<HTMLButtonElement>("[data-skill]")) {
+      b.addEventListener("click", () => openSkill(panel, b.dataset.skill!));
+    }
   }
 
-  h2 {
-    font-size: clamp(28px, 3.6vw, 40px);
+  // Tabs: click or arrow keys, with an indicator that slides under the active tab.
+  const tablist = document.querySelector<HTMLElement>('[role="tablist"]');
+  if (tablist) {
+    const tabs = [...tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const ind = tablist.querySelector<HTMLElement>(".tab-ind");
+    const active = () => Math.max(0, tabs.findIndex((t) => t.getAttribute("aria-selected") === "true"));
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, k) => {
+        t.setAttribute("aria-selected", String(k === i));
+        t.tabIndex = k === i ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute("aria-controls")!)!;
+        panel.hidden = k !== i;
+        if (k === i) {
+          const first = panel.querySelector<HTMLButtonElement>("[data-skill]");
+          if (first) openSkill(panel, first.dataset.skill!);
+        }
+      });
+      if (focus) tabs[i].focus();
+      ind?.style.setProperty("--x", `${tabs[i].offsetLeft}px`);
+      ind?.style.setProperty("--w", `${tabs[i].offsetWidth}px`);
+    };
+    tabs.forEach((t, i) => t.addEventListener("click", () => select(i)));
+    tablist.addEventListener("keydown", (e) => {
+      const next = { ArrowRight: active() + 1, ArrowLeft: active() - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (next === undefined) return;
+      e.preventDefault();
+      select((next + tabs.length) % tabs.length, true);
+    });
+    addEventListener("resize", () => {
+      const i = active();
+      ind?.style.setProperty("--x", `${tabs[i].offsetLeft}px`);
+      ind?.style.setProperty("--w", `${tabs[i].offsetWidth}px`);
+    });
+    select(0);
+  }
+</script>
+
+<style is:global>
+  /* The dark page shows through the footer's rounded corners, so the document behind it is dark too. */
+  html:has(.v3) {
+    background: #0a0a0a;
+  }
+</style>
+
+<style>
+  .v3 {
+    --line-d: rgb(255 255 255 / 0.12);
+    --surface-d: #161616;
+    --fg: #fafafa;
+    --fg-2: rgb(250 250 250 / 0.6);
+    padding-top: 0;
+    background: #0a0a0a;
+    color: var(--fg);
+  }
+  .sec {
+    padding-top: 96px;
+  }
+  .sec h2 {
+    margin-bottom: 32px;
+    font-size: clamp(30px, 4vw, 48px);
     font-weight: 700;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.04em;
   }
-  .curral {
-    padding-block: 24px 64px;
+
+  /* Hero: big centered line, the install command, and a whole bull drawn in characters under it. */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 140px;
+    text-align: center;
   }
-  .group {
+  h1 {
+    max-width: 16ch;
+    font-size: clamp(48px, 9vw, 128px);
+    font-weight: 750;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+  .word {
+    display: inline-block;
+    overflow: hidden;
+    margin: 0 0.11em;
+    padding-bottom: 0.06em;
+    vertical-align: top;
+  }
+  .word > span {
+    display: inline-block;
+  }
+  .hero-cta {
+    width: min(100%, 520px);
     margin-top: 36px;
+    text-align: left;
   }
-  .group-title {
-    color: var(--ink-2);
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0;
+  .bull {
+    width: min(100%, 1040px);
+    margin-top: 24px;
+    color: var(--fg);
   }
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-    margin: 12px 0 0;
-    padding: 0;
-    list-style: none;
+  /* The site-wide command block is black; on this black page it needs its own surface to be seen. */
+  .v3 :global(.command) {
+    background: var(--surface-d);
+    box-shadow: inset 0 0 0 1px var(--line-d);
   }
-  .card {
+  @media (prefers-reduced-motion: no-preference) {
+    .word > span {
+      animation: rise 800ms var(--ease-out) both;
+      animation-delay: calc(120ms + var(--i) * 70ms);
+    }
+    .hero-cta {
+      animation: fade 700ms 650ms var(--ease-out) both;
+    }
+  }
+  @keyframes rise {
+    from {
+      transform: translateY(110%);
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  /* Tabs */
+  .tablist {
     position: relative;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--line-d);
+    scrollbar-width: none;
+  }
+  [role="tab"] {
+    flex: none;
+    min-height: 48px;
+    padding: 0 16px;
+    border: 0;
+    background: none;
+    color: var(--fg-2);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  [role="tab"][aria-selected="true"] {
+    color: var(--fg);
+  }
+  [role="tab"]:focus-visible,
+  .skill-name:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: -4px;
+    border-radius: 10px;
+  }
+  .tab-ind {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: var(--w, 0);
+    height: 2px;
+    background: var(--fg);
+    transform: translateX(var(--x, 0));
+    transition:
+      transform 250ms var(--ease-out),
+      width 250ms var(--ease-out);
+  }
+  .tabpanel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 24px;
+    align-items: start;
+    padding-top: 24px;
+  }
+  .tabpanel[hidden] {
+    display: none;
+  }
+
+  /* Skill list with the preview under the open one */
+  .skills {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    padding: 16px 18px;
-    border-radius: var(--radius-card);
-    background: var(--surface);
-    box-shadow: var(--shadow-card);
-    transition: box-shadow 150ms var(--ease-out);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-  @media (hover: hover) {
-    .card:hover {
-      box-shadow: var(--shadow-card-hover);
-    }
+  .skill {
+    border-radius: 14px;
+    transition: background-color 150ms var(--ease-out);
   }
-  /* The card is the target, so the focus ring goes around the card. */
-  .card:has(h4 a:focus-visible) {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+  .skill:has([aria-expanded="true"]) {
+    background: var(--surface-d);
   }
-  .card h4 a:focus-visible {
-    outline: none;
-  }
-  .card-head {
+  .skill-name {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    min-height: 52px;
+    padding: 0 16px;
+    border: 0;
+    background: none;
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 17px;
+    text-align: left;
+    cursor: pointer;
+  }
+  .chev {
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid var(--fg-2);
+    border-bottom: 1.5px solid var(--fg-2);
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 200ms var(--ease-out);
+  }
+  [aria-expanded="true"] .chev {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+  .preview {
+    display: flex;
+    flex-direction: column;
     gap: 8px;
-  }
-  .card h4 {
-    margin: 0;
-    font-size: 19px;
-    font-weight: 650;
-    letter-spacing: -0.02em;
-  }
-  /* The whole card opens the skill; the .zip link sits above that layer. */
-  .card h4 a {
-    text-decoration: none;
-  }
-  .card h4 a::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-  }
-  .card p {
-    display: -webkit-box;
-    overflow: hidden;
+    padding: 0 16px 18px;
+    color: var(--fg-2);
     font-size: 15px;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
   }
-  .card .say {
-    margin-top: auto;
-    padding-top: 4px;
-    color: var(--accent-ink);
-    font-size: 13px;
-    font-weight: 500;
+  .preview[hidden] {
+    display: none;
   }
-  .card .manual {
-    color: var(--wood);
-    font-size: 13px;
-    font-weight: 500;
+  .preview p {
+    line-height: 1.55;
   }
-  .zip {
-    position: relative;
-    z-index: 1;
+  .preview .say {
+    color: var(--fg);
+  }
+  .preview a {
+    align-self: flex-start;
     display: inline-flex;
     align-items: center;
-    min-height: 44px;
-    margin: -10px -10px -10px 0;
-    padding: 0 10px;
-    border-radius: 6px;
-    color: var(--accent-ink);
-    font-size: 14px;
+    min-height: 36px;
+    color: var(--fg);
     font-weight: 600;
-    text-decoration: none;
-  }
-  @media (hover: hover) {
-    .zip:hover {
-      background: var(--accent-tint);
-    }
+    text-underline-offset: 4px;
   }
 
-  .install {
-    padding-block: 24px 80px;
+  /* Terminal */
+  .terms {
+    position: sticky;
+    top: 96px;
   }
-  .install h2 {
-    margin-bottom: 28px;
+  /* Final */
+  .final {
+    padding-bottom: 140px;
   }
-  .small {
-    font-size: 14px;
+  /* The site's primary button and focus ring are black: flip them for this page. */
+  .v3 :global(.button-primary) {
+    background: var(--fg);
+    color: #0a0a0a;
   }
-
+  .v3 :global(a:focus-visible),
+  .v3 :global(button:focus-visible) {
+    outline-color: var(--fg);
+  }
 
   @media (max-width: 860px) {
-    .hero {
+    .tabpanel {
       grid-template-columns: minmax(0, 1fr);
-      padding-block: 24px 48px;
     }
-    .hero-art {
-      justify-self: center;
-      max-width: 360px;
-      order: -1;
+    .terms {
+      position: static;
+    }
+    .hero {
+      padding-top: 112px;
+    }
+    .sec {
+      padding-top: 72px;
     }
   }
 </style>

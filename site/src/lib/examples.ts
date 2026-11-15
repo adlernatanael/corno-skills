@@ -1,34 +1,6 @@
 // Example conversations used by the landings. They show the behaviour, they are not transcripts. Written the way
 // people actually type to an agent, and the way a good colleague would answer.
 
-// One exchange per skill group, for the sticky stage on /nova.
-export const SCENES: Record<string, { you: string; agent: string }> = {
-  Código: {
-    you: "corrigi o bug do login, posso subir?",
-    agent: "Ainda não. Rodei os testes e um ainda falha no auth.test.ts. Arrumo e te aviso.",
-  },
-  Interface: {
-    you: "essa tela tá feia demais, dá um jeito",
-    agent: "Tirei o gradiente roxo, usei o botão que o projeto já tem e a lista vazia agora diz o que fazer.",
-  },
-  "Texto e conversa": {
-    you: "o texto do site e o roteiro do vídeo tão com cara de IA, arruma?",
-    agent: "Troquei “Revolucione sua rotina com o poder da IA” por “Organiza sua agenda sozinho” e cortei o “E isso muda tudo” do roteiro.",
-  },
-  "Negócio e carreira": {
-    you: "tive uma ideia: um Uber pra passear com cachorro. o que acha?",
-    agent: "Por enquanto é funcionalidade querendo ser empresa. Quem tem cachorro já pede pro vizinho de graça.",
-  },
-  Máquina: {
-    you: "o Mac tá dizendo que o disco tá cheio e eu nem consigo atualizar o sistema",
-    agent: "Varri tudo: dá pra liberar 54 GB sem perder nada. Limpei com o seu ok e deixei as pastas com código sem commit pra você decidir. Foi de 9 GB para 63 GB livres.",
-  },
-  "Para quem cria skills": {
-    you: "sempre faço o mesmo ritual pra subir release, vira skill?",
-    agent: "Virou. Coloquei quando usar, quando não usar e quando tá pronto. O validador passou.",
-  },
-};
-
 // One example run per skill, for the curral preview: what the person says, then what the agent does with the skill.
 // "ok" lines are done, "no" lines failed or were cut, "warn" lines are left for the person to decide.
 export type Step = { kind: "ok" | "no" | "warn" | "plain"; text: string };
