@@ -10,7 +10,7 @@ Revisão sem dó das mudanças da branch atual (ou do que pedirem). O foco é a 
 
 ## Ponto de partida
 
-Leia o diff inteiro e o código em volta dele. Pergunte: existe um jeito de reorganizar isso que mantém o comportamento e faz partes inteiras sumirem? Procure esse movimento antes de qualquer ajuste pequeno. A melhor solução é a que parece óbvia depois de pronta.
+Sem alvo dito, revise `git diff $(git merge-base HEAD origin/HEAD)...HEAD` mais o que não foi commitado. Leia o diff inteiro e o código em volta dele. Pergunte: existe um jeito de reorganizar isso que mantém o comportamento e faz partes inteiras sumirem? Procure esse movimento antes de qualquer ajuste pequeno. A melhor solução é a que parece óbvia depois de pronta.
 
 ## Regras da revisão
 
@@ -28,3 +28,7 @@ Leia o diff inteiro e o código em volta dele. Pergunte: existe um jeito de reor
 - Depois, os apontamentos do mais grave para o menos grave, cada um com `arquivo:linha`, o problema e a correção.
 - Se houver um movimento grande de simplificação, descreva ele primeiro e mostre como o código ficaria.
 - Não liste estilo nem formatação a menos que mude o sentido.
+
+## O que fica de fora
+
+Bug de lógica fino, segurança e desempenho só entram se aparecerem no caminho; o foco aqui é estrutura. Estilo e formatação ficam com o formatador do projeto.

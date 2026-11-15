@@ -12,6 +12,12 @@ export interface Skill {
   description: string;
   /** The description's first sentence, for the card. */
   summary: string;
+  /** The description up to its "Use quando…" part: what the skill does, for people. */
+  what: string;
+  /** The phrases that make the agent reach for the skill, from the description's quoted examples. */
+  triggers: string[];
+  /** The "Use quando…" sentence itself, for skills whose triggers are not quoted phrases. */
+  when: string;
   body: string;
   /** Every file in the skill folder, relative to it, SKILL.md first. */
   files: string[];
@@ -48,6 +54,8 @@ export function loadSkills(): Skill[] {
       const dir = join(SKILLS_DIR, name);
       const { data, body } = parse(readFileSync(join(dir, "SKILL.md"), "utf8"));
       const description = data.description ?? "";
+      const cut = description.search(/\bUse (quando|sempre|antes|depois)/);
+      const when = cut === -1 ? "" : description.slice(cut);
       const files = filesUnder(dir)
         .map((p) => relative(dir, p))
         .sort((a, b) => (a === "SKILL.md" ? -1 : b === "SKILL.md" ? 1 : a.localeCompare(b)));
@@ -56,7 +64,11 @@ export function loadSkills(): Skill[] {
         short: name.replace(/^corno-/, ""),
         description,
         summary: description.split(/(?<=[.!?])\s|\s-\s/)[0].replace(/[.]$/, ""),
-        body,
+        what: (cut === -1 ? description : description.slice(0, cut)).trim(),
+        triggers: [...when.matchAll(/"([^"]+)"/g)].map((m) => m[1]),
+        when,
+        // The page already shows the skill's name as its title.
+        body: body.replace(/^\s*# .*\n/, ""),
         files,
         manualOnly: data["disable-model-invocation"] === "true",
       };

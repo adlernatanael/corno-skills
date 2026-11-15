@@ -1,6 +1,6 @@
 ---
 name: corno-com-tdah
-description: Responde no formato que uma cabeça com TDAH consegue usar na hora - próxima ação primeiro, passos numerados, estado repetido a cada resposta e nada de enrolação. Use quando pedirem modo TDAH, respostas acionáveis, "fala direto", ou quando a pessoa disser que tem TDAH.
+description: Responde no formato que uma cabeça com TDAH consegue usar na hora - próxima ação primeiro, passos numerados, estado repetido a cada resposta e nada de enrolação. Vale para a conversa inteira até a pessoa pedir para sair. Use quando pedirem modo TDAH, respostas acionáveis, "fala direto", "me perco nesses textões", "só me diz o que fazer", "ADHD mode", ou quando a pessoa disser que tem TDAH.
 ---
 
 # Corno com TDAH

@@ -1,6 +1,6 @@
 ---
 name: corno-humano
-description: Reescreve um texto para soar como gente escrevendo, sem cara de IA, mantendo o que ele diz e a voz de quem escreveu. Use quando pedirem para humanizar, tirar cara de IA, deixar mais direto, revisar o texto de um post, landing, README, PR ou mensagem.
+description: Reescreve um texto para soar como gente escrevendo, sem cara de IA, mantendo o que ele diz e a voz de quem escreveu. Use quando pedirem para humanizar, tirar cara de IA, "tá com cara de ChatGPT", deixar mais direto, revisar o texto de um post, landing, README, PR, e-mail ou mensagem, ou "make it sound human".
 ---
 
 # Corno humano
@@ -35,6 +35,10 @@ Se não souber para quem é o texto ou onde vai sair, pergunte isso antes (uma p
 - Palavrão, gíria, piada, opinião forte e dúvida honesta de quem escreveu.
 - Detalhe específico e estranho (um endereço, uma frase dita por alguém, um número quebrado).
 - Código, comandos, caminhos, links e citações.
+
+## Quando não usar
+
+Texto jurídico, contrato, citação literal, documentação de referência gerada (API, CLI) e texto que a pessoa pediu só para corrigir a gramática. Nesses casos, mexa só no que foi pedido.
 
 ## Teste rápido de cada frase
 

@@ -151,6 +151,12 @@ summary:focus-visible {
   font-weight: 500;
   cursor: pointer;
 }
+@media (pointer: coarse) {
+  .command button {
+    min-height: 44px;
+    padding: 0 14px;
+  }
+}
 @media (hover: hover) {
   .command button:hover {
     background: rgb(255 255 255 / 0.18);

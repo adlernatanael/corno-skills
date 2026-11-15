@@ -25,7 +25,21 @@ const extras = skill.files
   <main class="container skill" tabindex="-1">
     <a class="back" href="/#curral">Voltar ao curral</a>
     <h1>{skill.short}</h1>
-    <p class="lead muted">{skill.description}</p>
+    <p class="lead muted">{skill.what}</p>
+    {
+      skill.triggers.length >= 2 ? (
+        <div class="triggers">
+          <p>O agente usa quando você diz</p>
+          <ul>
+            {skill.triggers.map((t) => (
+              <li>“{t}”</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        skill.when && <p class="when">{skill.when}</p>
+      )
+    }
     <div class="actions">
       <a class="button button-primary" href={`/downloads/${skill.name}.zip`} download>Baixar {skill.name}.zip</a>
     </div>
@@ -78,8 +92,34 @@ const extras = skill.files
     margin-top: 16px;
     font-size: 17px;
   }
+  .triggers {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .triggers p,
+  .when {
+    color: var(--ink-3);
+    font-size: 14px;
+  }
+  .when {
+    margin-top: 16px;
+  }
+  .triggers ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .triggers li {
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--canvas);
+    color: var(--ink-2);
+  }
   .actions {
-    margin-top: 24px;
+    margin-top: 28px;
   }
   .install {
     display: flex;

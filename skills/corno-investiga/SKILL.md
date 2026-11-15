@@ -1,6 +1,6 @@
 ---
 name: corno-investiga
-description: Investiga bug difícil ou lentidão com método - monta um jeito rápido de reproduzir, levanta hipóteses, testa uma por vez e só corrige quando acha a causa. Use quando disserem "investiga", "debuga", ou relatarem algo quebrado, falhando ou lento.
+description: Investiga bug difícil ou lentidão com método - monta um jeito rápido de reproduzir, levanta hipóteses, testa uma por vez e só corrige quando acha a causa. Use quando disserem "investiga", "debuga", "por que isso quebrou", "tá lento", "teste intermitente", "funcionava ontem", ou colarem um erro, stack trace ou relato de algo quebrado, falhando ou lento.
 ---
 
 # Corno investiga
@@ -37,6 +37,17 @@ Corrija no lugar certo (a raiz, não o sintoma). Transforme o laço em teste par
 ## Lentidão
 
 Meça antes de otimizar: tempo total, onde o tempo vai (perfil, logs com horário), e o número depois da mudança. Sem número, não houve melhora.
+
+## Quando parar e perguntar
+
+Três hipóteses descartadas sem pista nova: pare de mexer. Mostre o laço, o que já foi descartado e por quê, e peça a informação que falta (ambiente, dados, passo exato).
+
+## Relatório
+
+1. **Causa** em uma frase.
+2. **Prova**: o que ligava e desligava o bug.
+3. **Correção**: o que mudou e onde (`arquivo:linha`).
+4. **Trava**: o teste que agora pega a volta do bug, com a saída passando.
 
 ## Cuidado
 

@@ -25,6 +25,7 @@ skills/corno-<nome>/
 - Pasta e `name` iguais, sempre com prefixo `corno-`, em minúsculas e com hífen.
 - `description` em uma linha: o que faz + "Use quando…" com as frases de gatilho. É a única parte que o agente lê antes de decidir usar, então os gatilhos importam mais que o estilo.
 - `disable-model-invocation: true` só para skill que deve rodar apenas quando chamada pelo nome (revisão pesada, coisa destrutiva).
+- O corpo responde, nesta ordem e só o que se aplica: a regra central em uma linha, o fluxo em passos numerados, **Quando não usar** (onde a skill atrapalha), o formato da entrega e **Pronto quando** (o que precisa estar provado para dizer que terminou).
 - `SKILL.md` diz o fluxo e as regras; tabela grande, lista longa de caminhos e receita com número vão para `references/`, citadas pelo caminho relativo no ponto do fluxo em que são usadas.
 
 ## Voz

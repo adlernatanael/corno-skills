@@ -1,6 +1,6 @@
 ---
 name: corno-testa
-description: Desenvolve com teste primeiro - escreve o teste que falha, faz passar com o mínimo e só então arruma. Use quando pedirem TDD, teste primeiro, corrigir bug com teste, ou testes de integração.
+description: Desenvolve com teste primeiro - escreve o teste que falha, faz passar com o mínimo e só então arruma. Use quando pedirem TDD, teste primeiro, "red green refactor", "cobre isso com teste", corrigir bug com teste, testes de integração, ou "test first".
 ---
 
 # Corno testa
@@ -28,8 +28,16 @@ Ache a costura mais alta que ainda é barata: a função pública do módulo, a 
 
 Primeiro um teste que reproduz o bug e falha. Depois a correção. O teste fica para o bug não voltar.
 
+## Quando não usar
+
+Protótipo que vai para o lixo, ajuste puramente visual (prove com print) e script de uma vez só. Diga que pulou o teste e por quê.
+
 ## Não faça
 
 - Escrever vários testes antes de fazer o primeiro passar.
 - Ajustar o teste para bater com o código errado.
 - Dizer que está pronto sem mostrar a saída dos testes passando.
+
+## Pronto quando
+
+Cada comportamento pedido tem um teste que falhou antes e passa agora, a suíte inteira está verde, e a saída está na resposta.
