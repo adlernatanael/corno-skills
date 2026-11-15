@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const skillsDir = join(root, "skills");
 const problems = [];
+const readme = readFileSync(join(root, "README.md"), "utf8");
 
 export function parseFrontmatter(text) {
   const m = text.match(/^---\n([\s\S]*?)\n---\n/);
@@ -50,6 +51,7 @@ for (const name of readdirSync(skillsDir).sort()) {
   const desc = fm.data.description ?? "";
   if (desc.length < 80) problems.push(`${where}/SKILL.md: description too short (${desc.length} chars)`);
   if (desc.length > 1024) problems.push(`${where}/SKILL.md: description over 1024 chars`);
+  if (!readme.includes(`skills/${name}/SKILL.md`)) problems.push(`${where}: missing from the README skills table`);
   if (!/\buse (quando|sempre|antes|depois)/i.test(desc)) problems.push(`${where}/SKILL.md: description has no "Use quando…" triggers`);
 
   // Every relative link or `references/…` / `scripts/…` path mentioned must exist.

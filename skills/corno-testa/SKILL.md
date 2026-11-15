@@ -20,6 +20,12 @@ Um ciclo por vez: vermelho, verde, arruma.
 - Um motivo para falhar. Nome que diz o comportamento: `recusa_senha_vazia`, não `teste_3`.
 - Rápido e determinístico: sem relógio de verdade, rede ou ordem aleatória. Se precisar, injete.
 
+## Teste que engana
+
+- **Preso à implementação**: faz mock de peça interna, testa método privado ou confere pelo banco em vez da interface. O sinal: quebra quando você refatora sem mudar o comportamento.
+- **Tautológico**: calcula o esperado do mesmo jeito que o código (`expect(soma(a, b)).toBe(a + b)`). Passa por construção e nunca discorda do código. O esperado vem de fonte independente: um valor conhecido, um exemplo feito à mão, a especificação.
+- **Fatiado na horizontal**: todos os testes primeiro, depois todo o código. Você testa a forma imaginada, não o comportamento. Trabalhe em fatias verticais: um teste, o código dele, e o próximo teste aprende com o que este ensinou.
+
 ## Onde testar
 
 Ache a costura mais alta que ainda é barata: a função pública do módulo, a rota HTTP, o comando da CLI. Mock só na borda que você não controla (rede, pagamento, e-mail). Mock do próprio código costuma esconder o bug.

@@ -22,6 +22,25 @@ Sem alvo dito, revise `git diff $(git merge-base HEAD origin/HEAD)...HEAD` mais 
 6. **Não carimbe "funciona".** Se o comportamento pode ficar igual com estrutura bem melhor, peça a versão melhor.
 7. **Meça duas vezes.** Cada apontamento precisa de um caminho concreto: o que mudar, onde, e por que fica mais simples. Sem apontamento vago.
 
+## Aponte sem dó
+
+- Implementação complicada onde um outro jeito de pensar apagaria uma categoria inteira de complexidade.
+- Refatoração que só muda código de lugar sem diminuir o que o leitor precisa segurar na cabeça.
+- Booleano de ocasião, modo opcional ou flag que complica um fluxo que já existia.
+- Lógica de uma funcionalidade vazando para módulo genérico, ou na camada errada.
+- Embrulho que só repassa, cast, `any` e parâmetro opcional que borram o contrato.
+- Lógica copiada em vez de extraída, ou helper novo quando o projeto já tem o canônico.
+- Desvio "temporário" que vai virar dívida permanente.
+- Estado atualizado em partes, deixando o meio do caminho inconsistente.
+
+## Remédios preferidos
+
+Apagar uma camada inteira em vez de polir; remodelar o estado para os `if` sumirem em vez de centralizá-los; mudar quem é dono do conceito para a funcionalidade virar extensão natural; trocar caso especial por um fluxo padrão com menos exceções; separar orquestração de regra de negócio; usar o helper que já existe. Não se contente com "renomeia isso" quando o problema é de estrutura.
+
+## Barra para aprovar
+
+Só aprove sem: regressão estrutural clara, chance óbvia perdida de simplificar muito, arquivo inchando sem motivo, `if` espalhado por casos especiais, abstração mágica ou embrulho sem função, vazamento de camada ou helper duplicado. Qualquer um desses é bloqueio até o autor justificar.
+
 ## Formato da resposta
 
 - Comece pelo veredito em uma frase: pode entrar, entra com ajustes, ou precisa repensar.

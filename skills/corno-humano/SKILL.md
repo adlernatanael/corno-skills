@@ -28,7 +28,18 @@ Se não souber para quem é o texto ou onde vai sair, pergunte isso antes (uma p
 - **Autoridade sem nome.** "Especialistas dizem", "estudos mostram". Nome a fonte ou corte.
 - **Negrito e emoji decorando.** Negrito só onde o leitor precisa achar algo rápido. Título em caixa normal, sem emoji.
 - **Sobra de chat.** "Espero ter ajudado", "Ótima pergunta!", "Quer que eu…?". Corte sempre.
+- **Revelação com dois-pontos.** "O segredo: consistência." Escreva a frase inteira.
+- **Dizer ao leitor o que notar.** "Isso importa mais do que parece", "O ponto principal é". Corte e deixe o fato falar.
+- **Lista negativa.** "Não é um app. Não é uma rede. É um movimento." Diga o que é.
+- **Fragmento dramático.** "E é isso. Simples assim." Use frase completa.
+- **Pergunta respondida pelo próprio texto.** "O resultado? Incrível." Afirme direto.
+- **Resumo no final.** "Em resumo", "No fim das contas". O leitor acabou de ler; termine no último ponto concreto.
+- **Trocar sinônimo por estilo.** Se a palavra certa é "agente", repita "agente".
 - **Explicar o que o leitor já sabe.** Em resposta a alguém, comece pela decisão; contexto só o que muda a opinião dele.
+
+## Palavras que quase sempre saem
+
+Alavancar, potencializar, robusto, disruptivo, jornada, ecossistema, mergulhar, desbloquear, transformador, crucial, fundamental, sinergia, de ponta, sem esforço, revolucionar. Advérbios que costumam estar vazios: literalmente, basicamente, simplesmente, realmente, sinceramente. Mantenha quando carregam ênfase ou o ritmo natural de quem escreveu.
 
 ## O que não mexer
 

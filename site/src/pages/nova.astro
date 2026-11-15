@@ -3,25 +3,17 @@ import Base from "../layouts/Base.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Command from "../components/Command.astro";
-import Boi3D from "../components/Boi3D.astro";
+import AsciiBoi from "../components/AsciiBoi.astro";
 import { groupedSkills, loadSkills } from "../lib/skills";
 import { INSTALL_CLAUDE } from "../lib/links";
+import { SCENES as scenes } from "../lib/examples";
 
 const skills = loadSkills();
 const groups = groupedSkills();
 
 const statement =
-  "Seu agente diz que terminou sem rodar o teste. Chuta a causa do bug. Faz tela roxa com gradiente. Elogia sua ideia ruim. O Corno ensina ele a parar.";
+  "Seu agente diz que terminou sem ter terminado? Chuta a causa do bug sem procurar de fato? Faz tela roxa com gradiente e despadroniza? Elogia sua ideia de merda? As skills do Corno ensinam ele a parar. Deixe de ser corno junto com seu agente!";
 
-// One illustrative exchange per group, for the sticky stage. Examples, not transcripts.
-const scenes: Record<string, { you: string; agent: string }> = {
-  Código: { you: "corrigi o bug, pode subir?", agent: "Rodei a suíte inteira: um teste ainda falha em auth.test.ts. Não está pronto; olha a saída acima." },
-  Interface: { you: "deixa essa tela mais bonita", agent: "Tirei o gradiente roxo, troquei o div clicável pelo Button da casa e o estado vazio agora tem uma ação." },
-  "Texto e conversa": { you: "humaniza esse post", agent: "Cortei o “não é X, é Y”, os três travessões e o “isso muda tudo”. O resto é a sua voz, intacta." },
-  "Negócio e carreira": { you: "julga minha ideia: Uber de passeador de cachorro", agent: "Veredito: funcionalidade querendo ser empresa. Quem paga, se o vizinho já passeia de graça?" },
-  Máquina: { you: "meu disco tá cheio", agent: "O maior item é o modelo de IA que o Chrome baixa sozinho. Desligo o download antes de apagar, senão ele volta." },
-  "Para quem cria skills": { you: "transforma isso em skill", agent: "Criei com gatilhos, “Quando não usar” e “Pronto quando”. O validador do repo passa." },
-};
 
 const stats = [
   { value: skills.length, label: "skills no curral" },
@@ -57,7 +49,7 @@ const faq = [
             <a class="button" href="/#curral">Ver o curral</a>
           </div>
         </div>
-        <div class="hero-art"><Boi3D /></div>
+        <div class="hero-art"><AsciiBoi /></div>
       </section>
 
       <section class="statement container" aria-label="O problema">
@@ -296,8 +288,8 @@ const faq = [
     padding-block: 120px;
   }
   .statement p {
-    max-width: 22ch;
-    font-size: clamp(32px, 4.8vw, 64px);
+    max-width: 24ch;
+    font-size: clamp(28px, 4vw, 52px);
     font-weight: 700;
     letter-spacing: -0.04em;
     line-height: 1.08;

@@ -6,7 +6,9 @@ Repositório das skills do Corno e da landing em corno.dev. Leia o `README.md` p
 
 - `skills/corno-*/`: as skills. Cada pasta é publicada como está: no plugin do Claude Code, no `.zip` do site e na página da skill.
 - `site/`: Astro estático. Lê `../skills` no build (`site/src/lib/skills.ts`); nenhum conteúdo de skill é copiado à mão para o site.
-- `scripts/check-skills.mjs`: validador. Roda antes de qualquer commit que mexa em `skills/`.
+- `scripts/check-skills.mjs`: validador. Roda antes de qualquer commit que mexa em `skills/`, e falha se uma skill não estiver na tabela do `README.md`.
+- `.github/workflows/ci.yml`: roda o validador e o build do site em cada push.
+- `CONTRIBUTING.md`: o passo a passo para skill nova.
 - `.claude-plugin/`: um marketplace (`corno`) com um plugin (`corno`) que é o próprio repositório.
 
 ## Regras

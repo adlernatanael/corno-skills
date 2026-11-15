@@ -1,7 +1,12 @@
 ---
 import { REPO, REPO_URL } from "../lib/links";
+interface Props {
+  /** Dark pages get a dark glass bar. */
+  tone?: "light" | "dark";
+}
+const { tone = "light" } = Astro.props;
 ---
-<header class="header">
+<header class="header" data-tone={tone}>
   <div class="bar container">
     <a class="brand" href="/">
       <img src="/boi.svg" alt="" width="28" height="22" />
@@ -88,6 +93,32 @@ import { REPO, REPO_URL } from "../lib/links";
       background: var(--page);
     }
   }
+  .header[data-tone="dark"] .bar {
+    border-color: rgb(255 255 255 / 0.12);
+    background: rgb(22 24 21 / 0.55);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.12),
+      0 8px 24px rgb(0 0 0 / 0.3);
+    color: #f1f2ee;
+  }
+  .header[data-tone="dark"][data-scrolled] .bar {
+    background: rgb(22 24 21 / 0.72);
+  }
+  .header[data-tone="dark"] .brand img {
+    filter: invert(1);
+  }
+  .header[data-tone="dark"] nav a:not(.stars) {
+    color: rgb(255 255 255 / 0.7);
+  }
+  .header[data-tone="dark"] .stars {
+    background: rgb(255 255 255 / 0.1);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
+    color: #fff;
+  }
+  .header[data-tone="dark"] .count {
+    border-color: rgb(255 255 255 / 0.18);
+    color: rgb(255 255 255 / 0.7);
+  }
   .progress {
     position: absolute;
     inset: auto 18px -1px;
@@ -151,6 +182,13 @@ import { REPO, REPO_URL } from "../lib/links";
     }
     .stars:hover {
       background: #fff;
+    }
+    .header[data-tone="dark"] nav a:not(.stars):hover {
+      background: rgb(255 255 255 / 0.08);
+      color: #fff;
+    }
+    .header[data-tone="dark"] .stars:hover {
+      background: rgb(255 255 255 / 0.16);
     }
   }
   @media (max-width: 420px) {

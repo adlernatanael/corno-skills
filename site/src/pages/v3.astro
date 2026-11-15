@@ -1,0 +1,935 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Command from "../components/Command.astro";
+import { groupedSkills, loadSkills } from "../lib/skills";
+import { INSTALL_CLAUDE } from "../lib/links";
+import { BEFORE_AFTER, SCENES } from "../lib/examples";
+
+const skills = loadSkills();
+const groups = groupedSkills();
+const triggers = skills.flatMap((s) => s.triggers.slice(0, 2));
+
+// Rolling pasture drawn in code: each hill line is a sum of sines with seeded phases, so the scene is stable between
+// builds and needs no image.
+function rand(seed: number) {
+  return () => {
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function hill(seed: number, base: number, amp: number) {
+  const r = rand(seed);
+  const waves = [0, 1, 2].map((k) => ({ f: (k + 1) * (0.004 + r() * 0.004), p: r() * 6.28, a: amp / (k + 1) }));
+  let d = `M0 600 L0 ${base}`;
+  for (let x = 0; x <= 1600; x += 16) {
+    const y = base + waves.reduce((sum, w) => sum + Math.sin(x * w.f + w.p) * w.a, 0);
+    d += ` L${x} ${y.toFixed(1)}`;
+  }
+  return d + " L1600 600 Z";
+}
+const hills = [
+  { d: hill(7, 330, 26), fill: "#28302a", depth: 6 },
+  { d: hill(19, 395, 22), fill: "#1f2721", depth: 12 },
+  { d: hill(31, 460, 18), fill: "#171d18", depth: 20 },
+];
+const posts = Array.from({ length: 17 }, (_, i) => 40 + i * 96);
+
+const steps = [
+  { title: "Instala uma vez", text: "Um comando no Claude Code e o curral inteiro fica disponível." },
+  { title: "Pede do seu jeito", text: "Nada de comando especial. Você fala como sempre falou." },
+  { title: "O agente puxa a skill certa", text: "A frase que você usou é o gatilho. A skill entra sozinha." },
+  { title: "Entrega com prova", text: "Saída de teste, print, número antes e depois. Sem “deve funcionar”." },
+];
+
+const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"];
+---
+<Base title="Corno: deixe de ser corno junto com seu agente" description="Skills que fazem seu agente terminar de verdade, procurar a causa do bug e parar de elogiar sua ideia ruim." gate>
+  <Header tone="dark" />
+  <div class="page-body v3">
+    <main tabindex="-1">
+      <section class="hero-wrap" data-hero>
+        <div class="frame">
+          <svg class="scene" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <rect width="1600" height="600" fill="#33403a" />
+            <circle class="moon" cx="1020" cy="150" r="58" fill="#e9e4d2" />
+            {
+              hills.map((h) => (
+                <path class="layer" d={h.d} fill={h.fill} style={`--depth: ${h.depth}`} />
+              ))
+            }
+            <g class="fence layer" style="--depth: 26">
+              <rect x="0" y="508" width="1600" height="6" fill="#0f130f" />
+              <rect x="0" y="540" width="1600" height="6" fill="#0f130f" />
+              {posts.map((x) => <rect x={x} y="486" width="10" height="114" fill="#0f130f" />)}
+            </g>
+          </svg>
+          <div class="hero-copy">
+            <h1>
+              {"Deixe de ser corno junto com seu agente.".split(" ").map((w, i) => (
+                <span class="word">
+                  <span style={`--i: ${i}`}>{w}</span>
+                </span>
+              ))}
+            </h1>
+            <p class="lead">Skills que fazem ele terminar de verdade, procurar a causa do bug e parar de elogiar sua ideia ruim.</p>
+            <div class="hero-cta">
+              <Command code={INSTALL_CLAUDE[0]} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="marquee" aria-label="Frases que chamam as skills">
+        {
+          [0, 1].map((row) => (
+            <div class="track" data-row={row} aria-hidden={row === 1 ? "true" : undefined}>
+              {[...triggers, ...triggers].map((t, i) => (
+                <span class="phrase" aria-hidden={i >= triggers.length ? "true" : undefined}>
+                  “{t}”
+                </span>
+              ))}
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="how container" aria-labelledby="how-title">
+        <h2 id="how-title">Como funciona</h2>
+        <div class="how-grid" data-steps>
+          <ol class="steps">
+            {
+              steps.map((s, i) => (
+                <li>
+                  <button type="button" class="step" data-step={i} aria-pressed={i === 0 ? "true" : "false"}>
+                    <span class="step-n">{i + 1}</span>
+                    <span>
+                      <span class="step-title">{s.title}</span>
+                      <span class="step-text">{s.text}</span>
+                    </span>
+                  </button>
+                </li>
+              ))
+            }
+            <span class="step-line" aria-hidden="true"><span /></span>
+          </ol>
+          <div class="panel" aria-live="polite">
+            <div class="card" data-card="0">
+              <p class="card-label">No Claude Code</p>
+              <Command code={INSTALL_CLAUDE[0]} />
+              <Command code={INSTALL_CLAUDE[1]} />
+            </div>
+            <div class="card" data-card="1" hidden>
+              <p class="card-label">Você</p>
+              <p class="bubble">meu disco tá cheio, o que posso apagar?</p>
+            </div>
+            <div class="card" data-card="2" hidden>
+              <p class="card-label">O agente</p>
+              <p class="using">usando <code>corno-limpa</code></p>
+              <p class="mono">Medindo primeiro. Nada é apagado sem você ver o tamanho e confirmar.</p>
+            </div>
+            <div class="card" data-card="3" hidden>
+              <p class="card-label">Exemplo de entrega</p>
+              <p class="mono">Livre antes: 12 GB. Livre agora: 53 GB.</p>
+              <p class="mono">Pulei 2 pastas com código sem commit. Lista abaixo.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tabs-sec container" aria-labelledby="tabs-title">
+        <h2 id="tabs-title">O curral por assunto</h2>
+        <div class="tablist" role="tablist" aria-label="Assuntos">
+          {
+            groups.map((g, i) => (
+              <button type="button" role="tab" id={`tab-${i}`} aria-controls={`panel-${i}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+                {g.title}
+              </button>
+            ))
+          }
+          <span class="tab-ind" aria-hidden="true" />
+        </div>
+        {
+          groups.map((g, i) => (
+            <div class="tabpanel" role="tabpanel" id={`panel-${i}`} aria-labelledby={`tab-${i}`} hidden={i !== 0}>
+              <ul class="tab-skills">
+                {g.skills.map((s) => (
+                  <li>
+                    <a href={`/skills/${s.name}/`}>{s.name}</a>
+                    <span>{s.summary}.</span>
+                  </li>
+                ))}
+              </ul>
+              {SCENES[g.title] && (
+                <div class="term">
+                  <p class="you">{SCENES[g.title].you}</p>
+                  <p class="agent">{SCENES[g.title].agent}</p>
+                  <p class="tag">exemplo</p>
+                </div>
+              )}
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="price-sec container" aria-labelledby="price-title">
+        <h2 id="price-title">Preço</h2>
+        <div class="billing" role="radiogroup" aria-label="Cobrança">
+          <button type="button" role="radio" aria-checked="true" data-billing="mensal">Mensal</button>
+          <button type="button" role="radio" aria-checked="false" data-billing="anual">Anual</button>
+        </div>
+        <div class="price-card">
+          <p class="amount">R$ <span>0</span></p>
+          <p class="per" data-per>por mês, cobrado nunca.</p>
+          <p class="note">Todas as {skills.length} skills e todas as atualizações. O único custo é descobrir que seu agente era corno.</p>
+          <a class="button button-light" href="/downloads/corno-skills.zip" download>Baixar todas (.zip)</a>
+        </div>
+      </section>
+
+      <section class="wall" aria-labelledby="wall-title">
+        <div class="container">
+          <h2 id="wall-title">Antes e depois</h2>
+          <p class="sub">O que o agente diz sem a skill, e o que ele diz com ela.</p>
+        </div>
+        <div class="columns container">
+          {
+            [0, 1].map((col) => (
+              <div class="col" data-col={col}>
+                <div class="col-track">
+                  {[...BEFORE_AFTER.filter((_, i) => i % 2 === col), ...BEFORE_AFTER.filter((_, i) => i % 2 === col)].map((b, i, all) => (
+                    <figure class="quote" aria-hidden={i >= all.length / 2 ? "true" : undefined}>
+                      <p class="before">{b.before}</p>
+                      <p class="after">{b.after}</p>
+                      <figcaption>
+                        <code>{b.skill}</code>
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="final container" data-final>
+        <div class="final-card">
+          <svg class="flags" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true">
+            {
+              [0, 1].map((row) => {
+                const y0 = 18 + row * 46;
+                return (
+                  <g class="string" style={`--row: ${row}`}>
+                    <path d={`M0 ${y0} Q600 ${y0 + 60} 1200 ${y0}`} fill="none" stroke="#c9c2ae" stroke-width="2" />
+                    {Array.from({ length: 24 }, (_, i) => {
+                      const x = 25 + i * 48.5;
+                      const t = x / 1200;
+                      const y = (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * (y0 + 60) + t * t * y0;
+                      return (
+                        <path
+                          class="flag"
+                          style={`--i: ${i + row * 24}`}
+                          d={`M${x - 14} ${y.toFixed(1)} L${x + 14} ${y.toFixed(1)} L${x} ${(y + 30).toFixed(1)} Z`}
+                          fill={flags[(i + row * 3) % flags.length]}
+                        />
+                      );
+                    })}
+                  </g>
+                );
+              })
+            }
+          </svg>
+          <h2>Bota o boi no curral.</h2>
+          <p>Dentro do Claude Code, dois comandos:</p>
+          <div class="final-cmds">{INSTALL_CLAUDE.map((c) => <Command code={c} />)}</div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <Footer />
+</Base>
+
+<script>
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Hero: the frame closes into a rounded card as the page scrolls, and the hills drift with the pointer.
+  const hero = document.querySelector<HTMLElement>("[data-hero]");
+  if (hero && !still) {
+    const onScroll = () => hero.style.setProperty("--p", String(Math.min(1, Math.max(0, scrollY / (innerHeight * 0.7)))));
+    addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    hero.addEventListener("pointermove", (e) => {
+      hero.style.setProperty("--mx", String(e.clientX / innerWidth - 0.5));
+      hero.style.setProperty("--my", String(e.clientY / innerHeight - 0.5));
+    });
+  }
+
+  // How it works: steps advance on their own every 4.5 s, pause on hover or off screen, and answer clicks.
+  const stepsRoot = document.querySelector<HTMLElement>("[data-steps]");
+  if (stepsRoot) {
+    const buttons = [...stepsRoot.querySelectorAll<HTMLButtonElement>("[data-step]")];
+    const cards = [...stepsRoot.querySelectorAll<HTMLElement>("[data-card]")];
+    let current = 0;
+    let paused = false;
+    let onScreen = true;
+    const show = (i: number) => {
+      current = i;
+      buttons.forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
+      cards.forEach((c, k) => (c.hidden = k !== i));
+      stepsRoot.style.setProperty("--step", String(i));
+    };
+    buttons.forEach((b, i) => b.addEventListener("click", () => show(i)));
+    stepsRoot.addEventListener("pointerenter", () => (paused = true));
+    stepsRoot.addEventListener("pointerleave", () => (paused = false));
+    stepsRoot.addEventListener("focusin", () => (paused = true));
+    stepsRoot.addEventListener("focusout", () => (paused = false));
+    new IntersectionObserver(([e]) => (onScreen = e.isIntersecting)).observe(stepsRoot);
+    if (!still) setInterval(() => !paused && onScreen && show((current + 1) % buttons.length), 4500);
+  }
+
+  // Tabs: click or arrow keys, with an indicator that slides under the active tab.
+  const tablist = document.querySelector<HTMLElement>('[role="tablist"]');
+  if (tablist) {
+    const tabs = [...tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const ind = tablist.querySelector<HTMLElement>(".tab-ind");
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, k) => {
+        const on = k === i;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")!)!.hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+      if (ind) {
+        ind.style.setProperty("--x", `${tabs[i].offsetLeft}px`);
+        ind.style.setProperty("--w", `${tabs[i].offsetWidth}px`);
+      }
+    };
+    tabs.forEach((t, i) => t.addEventListener("click", () => select(i)));
+    tablist.addEventListener("keydown", (e) => {
+      const i = tabs.findIndex((t) => t.getAttribute("aria-selected") === "true");
+      const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (next === undefined) return;
+      e.preventDefault();
+      select((next + tabs.length) % tabs.length, true);
+    });
+    addEventListener("resize", () => select(Math.max(0, tabs.findIndex((t) => t.getAttribute("aria-selected") === "true"))));
+    select(0);
+  }
+
+  // Billing switch: both plans cost the same, which is the joke.
+  const per = document.querySelector<HTMLElement>("[data-per]");
+  const radios = [...document.querySelectorAll<HTMLButtonElement>("[data-billing]")];
+  radios.forEach((r) =>
+    r.addEventListener("click", () => {
+      radios.forEach((o) => o.setAttribute("aria-checked", String(o === r)));
+      if (per) per.textContent = r.dataset.billing === "anual" ? "por ano. Economia de exatamente R$ 0." : "por mês, cobrado nunca.";
+    }),
+  );
+
+  // The final card opens and its flags draw in once it comes into view.
+  const final = document.querySelector<HTMLElement>("[data-final]");
+  if (final) {
+    new IntersectionObserver(
+      ([e], o) => {
+        if (!e.isIntersecting) return;
+        final.dataset.in = "";
+        o.disconnect();
+      },
+      { threshold: 0.3 },
+    ).observe(final);
+  }
+</script>
+
+<style is:global>
+  /* The dark page shows through the footer's rounded corners, so the document behind it is dark too. */
+  html:has(.v3) {
+    background: #121411;
+  }
+</style>
+
+<style>
+  .v3 {
+    --night: #121411;
+    --night-2: #1a1e19;
+    --night-line: rgb(255 255 255 / 0.1);
+    --fg: #eef0ea;
+    --fg-2: rgb(238 240 234 / 0.66);
+    --grass: #8fcf9c;
+    background: var(--night);
+    color: var(--fg);
+    padding-top: 0;
+  }
+  .v3 h2 {
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+
+  /* Hero */
+  .hero-wrap {
+    --p: 0;
+    --mx: 0;
+    --my: 0;
+    padding: 0 calc(var(--p) * 16px);
+  }
+  .frame {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: min(820px, 100dvh);
+    overflow: hidden;
+    border-radius: calc(var(--p) * 28px);
+    clip-path: inset(0 round calc(var(--p) * 28px));
+  }
+  .scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .layer {
+    transform: translate(calc(var(--mx) * var(--depth) * -1px), calc(var(--p) * var(--depth) * 2px));
+    transition: transform 400ms var(--ease-out);
+  }
+  .moon {
+    transform: translateY(calc(var(--p) * 60px));
+  }
+  .hero-copy {
+    position: relative;
+    z-index: 1;
+    width: min(1120px, 100% - 32px);
+    margin: 0 auto;
+    padding: 140px 0 clamp(48px, 9vh, 96px);
+    transform: translateY(calc(var(--p) * -40px));
+    opacity: calc(1 - var(--p) * 0.6);
+  }
+  h1 {
+    max-width: 14ch;
+    color: #f6f4ec;
+    font-size: clamp(44px, 7vw, 96px);
+    font-weight: 750;
+    letter-spacing: -0.05em;
+    line-height: 0.98;
+  }
+  .word {
+    display: inline-block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+    margin-right: 0.22em;
+    vertical-align: top;
+  }
+  .word > span {
+    display: inline-block;
+  }
+  .lead {
+    max-width: 44ch;
+    margin-top: 22px;
+    color: rgb(246 244 236 / 0.78);
+    font-size: 19px;
+  }
+  .hero-cta {
+    max-width: 520px;
+    margin-top: 28px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .word > span {
+      animation: rise 800ms var(--ease-out) both;
+      animation-delay: calc(120ms + var(--i) * 70ms);
+    }
+    .lead,
+    .hero-cta {
+      animation: fade 700ms 650ms var(--ease-out) both;
+    }
+  }
+  @keyframes rise {
+    from {
+      transform: translateY(110%);
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  /* Marquee */
+  .marquee {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-block: 56px;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .track {
+    display: flex;
+    gap: 14px;
+    width: max-content;
+  }
+  .phrase {
+    padding: 10px 16px;
+    border: 1px solid var(--night-line);
+    border-radius: 999px;
+    color: var(--fg-2);
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .track {
+      animation: slide 60s linear infinite;
+    }
+    .track[data-row="1"] {
+      animation-direction: reverse;
+      animation-duration: 75s;
+    }
+    .marquee:hover .track {
+      animation-play-state: paused;
+    }
+  }
+  @keyframes slide {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* How it works */
+  .how {
+    padding-block: 64px 112px;
+  }
+  .how-grid {
+    --step: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    margin-top: 36px;
+  }
+  .steps {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    padding: 16px;
+    border: 0;
+    border-radius: 14px;
+    background: none;
+    color: var(--fg-2);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out);
+  }
+  .step[aria-pressed="true"] {
+    background: var(--night-2);
+    color: var(--fg);
+  }
+  .step-n {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--night-line);
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .step[aria-pressed="true"] .step-n {
+    border-color: var(--grass);
+    color: var(--grass);
+  }
+  .step-title {
+    display: block;
+    font-size: 18px;
+    font-weight: 650;
+  }
+  .step-text {
+    display: block;
+    margin-top: 2px;
+    font-size: 15px;
+  }
+  .step-line {
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: -12px;
+    width: 2px;
+    border-radius: 2px;
+    background: var(--night-line);
+  }
+  .step-line span {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--grass);
+    transform: scaleY(calc((var(--step) + 1) / 4));
+    transform-origin: top;
+    transition: transform 400ms var(--ease-out);
+  }
+  .panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    min-height: 300px;
+    padding: 28px;
+    border-radius: 22px;
+    background: var(--night-2);
+    border: 1px solid var(--night-line);
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card-label {
+    color: var(--fg-2);
+    font-size: 14px;
+  }
+  .bubble {
+    align-self: flex-start;
+    padding: 14px 18px;
+    border-radius: 18px 18px 18px 6px;
+    background: var(--fg);
+    color: var(--night);
+    font-size: 18px;
+  }
+  .using code {
+    color: var(--grass);
+  }
+  .mono,
+  .using {
+    font-family: var(--font-mono);
+    font-size: 15px;
+  }
+
+  /* Tabs */
+  .tabs-sec {
+    padding-bottom: 112px;
+  }
+  .tablist {
+    position: relative;
+    display: flex;
+    gap: 4px;
+    margin-top: 28px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--night-line);
+    scrollbar-width: none;
+  }
+  [role="tab"] {
+    flex: none;
+    min-height: 48px;
+    padding: 0 16px;
+    border: 0;
+    background: none;
+    color: var(--fg-2);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  [role="tab"][aria-selected="true"] {
+    color: var(--fg);
+  }
+  [role="tab"]:focus-visible {
+    outline: 2px solid var(--grass);
+    outline-offset: -4px;
+    border-radius: 8px;
+  }
+  .tab-ind {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: var(--w, 0);
+    height: 2px;
+    background: var(--grass);
+    transform: translateX(var(--x, 0));
+    transition:
+      transform 250ms var(--ease-out),
+      width 250ms var(--ease-out);
+  }
+  .tabpanel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    padding-top: 32px;
+  }
+  .tabpanel[hidden] {
+    display: none;
+  }
+  .tab-skills {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tab-skills li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tab-skills a {
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .tab-skills span {
+    color: var(--fg-2);
+  }
+  @media (hover: hover) {
+    .tab-skills a:hover {
+      color: var(--grass);
+    }
+  }
+  .term {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 220px;
+    padding: 24px;
+    border-radius: 18px;
+    background: #0b0d0b;
+    border: 1px solid var(--night-line);
+    font-family: var(--font-mono);
+    font-size: 15px;
+  }
+  .you {
+    color: var(--grass);
+  }
+  .you::before {
+    content: "> ";
+  }
+  .tag {
+    margin-top: auto;
+    color: rgb(255 255 255 / 0.4);
+    font-size: 12px;
+  }
+
+  /* Price */
+  .price-sec {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 112px;
+    text-align: center;
+  }
+  .billing {
+    display: inline-flex;
+    gap: 4px;
+    margin-top: 24px;
+    padding: 4px;
+    border-radius: 12px;
+    background: var(--night-2);
+    border: 1px solid var(--night-line);
+  }
+  .billing button {
+    min-height: 40px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 9px;
+    background: none;
+    color: var(--fg-2);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .billing [aria-checked="true"] {
+    background: var(--fg);
+    color: var(--night);
+  }
+  .price-card {
+    width: min(100%, 460px);
+    margin-top: 24px;
+    padding: 36px 32px;
+    border-radius: 24px;
+    background: var(--night-2);
+    border: 1px solid var(--night-line);
+  }
+  .amount {
+    font-size: clamp(64px, 9vw, 112px);
+    font-weight: 750;
+    letter-spacing: -0.06em;
+    line-height: 1;
+  }
+  .per {
+    margin-top: 8px;
+    color: var(--fg-2);
+  }
+  .note {
+    margin: 20px auto 24px;
+    max-width: 34ch;
+    color: var(--fg-2);
+    font-size: 15px;
+  }
+  .button-light {
+    background: var(--fg);
+    color: var(--night);
+    box-shadow: none;
+  }
+
+  /* Before and after */
+  .wall {
+    padding-bottom: 112px;
+  }
+  .sub {
+    margin-top: 8px;
+    color: var(--fg-2);
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    height: 520px;
+    margin-top: 32px;
+    overflow: hidden;
+    mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .col-track {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .col-track {
+      animation: up 40s linear infinite;
+    }
+    .col[data-col="1"] .col-track {
+      animation-direction: reverse;
+    }
+    .columns:hover .col-track {
+      animation-play-state: paused;
+    }
+  }
+  @keyframes up {
+    to {
+      transform: translateY(-50%);
+    }
+  }
+  .quote {
+    margin: 0;
+    padding: 20px;
+    border-radius: 18px;
+    background: var(--night-2);
+    border: 1px solid var(--night-line);
+  }
+  .before {
+    color: rgb(238 240 234 / 0.45);
+    text-decoration: line-through;
+    text-decoration-color: rgb(214 73 51 / 0.7);
+  }
+  .after {
+    margin-top: 10px;
+    font-size: 17px;
+  }
+  figcaption {
+    margin-top: 14px;
+    color: var(--grass);
+    font-size: 13px;
+  }
+
+  /* Final */
+  .final {
+    padding-bottom: 140px;
+  }
+  .final-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 150px 24px 64px;
+    border-radius: 28px;
+    background: #f4f1e8;
+    color: var(--night);
+    text-align: center;
+    overflow: hidden;
+  }
+  .final-card h2 {
+    color: var(--night);
+    font-size: clamp(36px, 5.5vw, 72px);
+  }
+  .final-card p {
+    color: #4a4f45;
+  }
+  .final-cmds {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: min(100%, 520px);
+    margin-top: 12px;
+    text-align: left;
+  }
+  .flags {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 160px;
+  }
+  .flag {
+    transform-box: fill-box;
+    transform-origin: top center;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .final-card {
+      clip-path: inset(8% 6% round 28px);
+      transition: clip-path 900ms var(--ease-out);
+    }
+    .final[data-in] .final-card {
+      clip-path: inset(0 round 28px);
+    }
+    .flag {
+      opacity: 0;
+      transform: translateY(-8px);
+      transition:
+        opacity 300ms var(--ease-out),
+        transform 300ms var(--ease-out);
+      transition-delay: calc(var(--i) * 18ms);
+    }
+    .final[data-in] .flag {
+      opacity: 1;
+      transform: none;
+      animation: flutter 2.6s ease-in-out infinite;
+      animation-delay: calc(900ms + var(--i) * 60ms);
+    }
+  }
+  @keyframes flutter {
+    50% {
+      transform: rotate(4deg);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .how-grid,
+    .tabpanel {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .step-line {
+      display: none;
+    }
+    .columns {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .col[data-col="1"] {
+      display: none;
+    }
+    .frame {
+      min-height: 680px;
+    }
+  }
+</style>

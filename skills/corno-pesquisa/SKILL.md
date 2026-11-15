@@ -7,6 +7,8 @@ description: Pesquisa uma pergunta em fontes primárias confiáveis (documentaç
 
 Responda com o que as fontes dizem, não com o que parece certo.
 
+Se o ambiente permite agente em segundo plano, delegue a leitura a ele com a pergunta e o formato abaixo, e siga trabalhando enquanto ele lê.
+
 ## Como
 
 1. **Escreva a pergunta** em uma frase e o que conta como resposta (um número de versão, um comportamento, uma decisão).
