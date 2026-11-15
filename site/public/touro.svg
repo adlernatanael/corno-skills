@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 224">
+  <!-- A whole bull in profile, facing left: low head, horns curving forward, a high shoulder hump, standing on a strip
+       of ground. Drawn flat so the ASCII renderer reads one dense shape; the eye is the only light spot. -->
+  <!-- Far horn -->
+  <path fill="#1a1a1a" d="M100 80 C84 66 80 46 88 26 C92 46 98 60 110 70 Z"/>
+  <!-- Body, head and legs -->
+  <path fill="#0a0a0a" d="M330 66 C300 54 250 50 205 46 C185 30 160 26 140 34 C120 42 104 60 92 78 L70 104 C58 118 52 136 54 150 C56 160 70 162 80 156 C92 150 100 150 108 158 C116 170 118 184 120 198 L122 216 L138 216 L138 196 C144 188 152 186 158 188 L160 216 L174 216 L176 190 C214 198 256 198 286 190 L288 216 L302 216 L304 186 C310 188 314 190 318 192 L320 216 L334 216 L336 180 C348 156 352 124 346 98 C344 84 340 72 330 66 Z"/>
+  <!-- Ear -->
+  <path fill="#0a0a0a" d="M104 84 C114 78 126 82 130 92 C120 95 110 93 104 88 Z"/>
+  <!-- Near horn -->
+  <path fill="#0a0a0a" d="M84 88 C58 84 34 68 28 38 C44 58 66 68 94 74 Z"/>
+  <!-- Tail -->
+  <path fill="#0a0a0a" d="M346 100 C362 114 366 144 360 176 L368 186 L354 184 C358 156 354 124 340 106 Z"/>
+  <!-- Eye -->
+  <circle fill="#fafafa" cx="74" cy="116" r="3.5"/>
+  <!-- Ground -->
+  <rect fill="#262626" x="0" y="217" width="400" height="5"/>
+</svg>

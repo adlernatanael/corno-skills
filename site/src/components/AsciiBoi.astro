@@ -1,15 +1,22 @@
 ---
-// The bull drawn as a field of characters: darker pixels get denser glyphs. It rises in from the bottom, a few
-// glyphs flicker, and the pointer scrambles the ones it passes over. Reduced motion gets the still drawing.
+// A drawing rendered as a field of characters: darker pixels get denser glyphs, painted in the text color. It rises
+// in from the bottom, a few glyphs flicker, and the pointer scrambles the ones it passes over. Reduced motion gets
+// the still drawing.
+interface Props {
+  src?: string;
+  /** Width / height of the canvas box. */
+  ratio?: string;
+  label?: string;
+}
+const { src = "/boi.svg", ratio = "5 / 4", label = "Cabeça de boi com chifres desenhada com letras e símbolos" } = Astro.props;
 ---
-<canvas class="ascii-boi" role="img" aria-label="Cabeça de boi com chifres desenhada com letras e símbolos"></canvas>
+<canvas class="ascii-boi" role="img" aria-label={label} data-src={src} style={`aspect-ratio: ${ratio}`}></canvas>
 
 <style>
   .ascii-boi {
     display: block;
     width: 100%;
-    aspect-ratio: 5 / 4;
-    color: var(--ink);
+    color: inherit;
   }
 </style>
 
@@ -22,7 +29,7 @@
     if (!ctx) continue;
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const img = new Image();
-    img.src = "/boi.svg";
+    img.src = canvas.dataset.src ?? "/boi.svg";
 
     let cols = 0;
     let rows = 0;
