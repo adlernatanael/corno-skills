@@ -1,0 +1,62 @@
+---
+import "../styles/global.css";
+import geistLatin from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+interface Props {
+  title: string;
+  description: string;
+  /** Pages other than the landing skip the mobile gate: someone sent there by a link already chose to look. */
+  gate?: boolean;
+}
+const { title, description, gate = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// Phones get the gate once; the choice is remembered. Storage can be unavailable (private mode), so the gate then
+// simply shows each visit.
+const gateHead = `try {
+  if (matchMedia("(max-width: 700px)").matches && localStorage.getItem("corno-curral") !== "aberto") document.documentElement.dataset.gate = "";
+} catch {
+  if (matchMedia("(max-width: 700px)").matches) document.documentElement.dataset.gate = "";
+}`;
+const gateBody = `(() => {
+  const button = document.querySelector("[data-gate-open]");
+  if (document.documentElement.hasAttribute("data-gate")) button.focus();
+  button.addEventListener("click", () => {
+    try { localStorage.setItem("corno-curral", "aberto"); } catch {}
+    delete document.documentElement.dataset.gate;
+    document.querySelector("main")?.focus({ preventScroll: true });
+  });
+})();`;
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/boi.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#f3f4f0" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Corno" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {gate && <script is:inline set:html={gateHead} />}
+  </head>
+  <body>
+    {
+      gate && (
+        <div class="gate" role="dialog" aria-modal="true" aria-labelledby="gate-text">
+          <p id="gate-text">Tu quer ver um site de skills pelo celular? é um corno mesmo</p>
+          <button class="button button-primary" type="button" data-gate-open>
+            vou abrir o curral pra tu meu boi
+          </button>
+        </div>
+      )
+    }
+    <slot />
+    {gate && <script is:inline set:html={gateBody} />}
+  </body>
+</html>

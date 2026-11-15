@@ -1,0 +1,240 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import AsciiBoi from "../components/AsciiBoi.astro";
+import Command from "../components/Command.astro";
+import { loadSkills } from "../lib/skills";
+import { INSTALL_CLAUDE, INSTALL_CLONE } from "../lib/links";
+
+const skills = loadSkills();
+const title = "Corno: skills em português para o seu agente de código";
+const description =
+  "Um curral de skills para Claude Code e outros agentes: confere antes de dizer pronto, testa primeiro, investiga bug com método, limpa o disco e tira a cara de IA da sua tela.";
+---
+<Base title={title} description={description} gate>
+  <Header />
+  <main tabindex="-1">
+    <section class="hero container">
+      <div class="hero-text">
+        <h1>Skills pra deixar seu agente menos corno.</h1>
+        <p class="lead muted">
+          {skills.length} skills em português para Claude Code e qualquer agente que lê skills. Ele para de dizer "pronto" sem rodar o teste, investiga o
+          bug antes de chutar, limpa o seu disco sem apagar o que importa e tira a cara de IA da sua tela.
+        </p>
+        <div class="actions">
+          <a class="button button-primary" href="#curral">Abrir o curral</a>
+          <a class="button" href="/downloads/corno-skills.zip" download>Baixar todas (.zip)</a>
+        </div>
+      </div>
+      <div class="hero-art"><AsciiBoi /></div>
+    </section>
+
+    <section class="curral container" id="curral" aria-labelledby="curral-title">
+      <h2 id="curral-title">Curral das skills</h2>
+      <ul class="cards">
+        {
+          skills.map((s) => (
+            <li class="card">
+              <h3>
+                <a href={`/skills/${s.name}/`}>{s.short}</a>
+              </h3>
+              <p class="muted">{s.summary}.</p>
+              <div class="card-foot">
+                <code>{s.name}</code>
+                {s.manualOnly && <span class="manual">só chamando pelo nome</span>}
+                <a class="zip" href={`/downloads/${s.name}.zip`} download aria-label={`Baixar ${s.name} em .zip`}>
+                  .zip
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="install container" id="instalar" aria-labelledby="instalar-title">
+      <h2 id="instalar-title">Bota no curral</h2>
+      <div class="install-grid">
+        <div class="install-block">
+          <h3>Claude Code</h3>
+          <p class="muted">Adiciona o curral como marketplace e instala tudo de uma vez. Dentro do Claude Code:</p>
+          {INSTALL_CLAUDE.map((c) => <Command code={c} />)}
+        </div>
+        <div class="install-block">
+          <h3>Qualquer agente</h3>
+          <p class="muted">
+            Clona e copia as pastas para onde o seu agente lê skills. O exemplo usa a pasta do Claude Code; troque pela do seu.
+          </p>
+          {INSTALL_CLONE.map((c) => <Command code={c} />)}
+          <p class="muted small">
+            Ou baixe o <a href="/downloads/corno-skills.zip" download>.zip com todas</a> e descompacte na pasta de skills.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer container">
+    <p class="muted">Corno. Skills em português, sem enrolação e sem cara de IA.</p>
+  </footer>
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: end;
+    gap: 40px;
+    padding-block: 48px 72px;
+  }
+  h1 {
+    max-width: 14ch;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+  .lead {
+    max-width: 52ch;
+    margin-top: 24px;
+    font-size: 18px;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .hero-art {
+    max-width: 520px;
+    justify-self: end;
+    width: 100%;
+  }
+
+  h2 {
+    font-size: clamp(28px, 3.6vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+  .curral {
+    padding-block: 24px 80px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 150ms var(--ease-out);
+  }
+  @media (hover: hover) {
+    .card:hover {
+      box-shadow: var(--shadow-card-hover);
+    }
+  }
+  .card h3 {
+    font-size: 22px;
+    font-weight: 650;
+    letter-spacing: -0.025em;
+  }
+  /* The whole card opens the skill; the .zip link sits above that layer. */
+  .card h3 a {
+    text-decoration: none;
+  }
+  .card h3 a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  .card p {
+    flex: 1;
+    font-size: 15px;
+  }
+  .card-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    font-size: 13px;
+  }
+  .card-foot code {
+    color: var(--ink-3);
+  }
+  .manual {
+    color: var(--wood);
+    font-weight: 500;
+  }
+  .zip {
+    position: relative;
+    z-index: 1;
+    margin-left: auto;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--accent-ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (hover: hover) {
+    .zip:hover {
+      background: var(--accent-tint);
+    }
+  }
+
+  .install {
+    padding-block: 24px 80px;
+  }
+  .install-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 28px;
+  }
+  .install-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    border-radius: var(--radius-card);
+    background: var(--canvas);
+  }
+  .install-block h3 {
+    font-size: 20px;
+    font-weight: 650;
+  }
+  .small {
+    font-size: 14px;
+  }
+
+  .footer {
+    padding-block: 32px 48px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+  }
+
+  @media (max-width: 860px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding-block: 24px 48px;
+    }
+    .hero-art {
+      justify-self: center;
+      max-width: 420px;
+      order: -1;
+    }
+    .install-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

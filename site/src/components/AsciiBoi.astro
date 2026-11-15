@@ -1,0 +1,117 @@
+---
+// The bull drawn as a field of characters: darker pixels get denser glyphs. It rises in from the bottom, a few
+// glyphs flicker, and the pointer scrambles the ones it passes over. Reduced motion gets the still drawing.
+---
+<canvas class="ascii-boi" role="img" aria-label="Cabeça de boi com chifres desenhada com letras e símbolos"></canvas>
+
+<style>
+  .ascii-boi {
+    display: block;
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    color: var(--ink);
+  }
+</style>
+
+<script>
+  const RAMP = " .,:;-~+=*!?%#$&8@";
+  const SCRAMBLE = "@#$%&8BWM*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,.";
+
+  for (const canvas of document.querySelectorAll<HTMLCanvasElement>(".ascii-boi")) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) continue;
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const img = new Image();
+    img.src = "/boi.svg";
+
+    let cols = 0;
+    let rows = 0;
+    let cell = 10;
+    let grid: { c: string; a: number }[] = [];
+    let start = 0;
+    let pointer = { x: -9999, y: -9999 };
+    let frame = 0;
+    let last = 0;
+    let visible = true;
+    const color = getComputedStyle(canvas).color;
+
+    const build = () => {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      if (!w || !h || !img.complete || !img.naturalWidth) return;
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cell = w < 480 ? 7 : 9;
+      cols = Math.floor(w / (cell * 0.62));
+      rows = Math.floor(h / cell);
+      const sample = document.createElement("canvas");
+      sample.width = cols;
+      sample.height = rows;
+      const s = sample.getContext("2d", { willReadFrequently: true })!;
+      // Glyph cells are ~1.6x taller than wide: squash the sample so the bull keeps its shape.
+      const scale = Math.min((cols * 0.95) / img.naturalWidth, (rows / img.naturalHeight) * 1.6 * 0.95);
+      const iw = img.naturalWidth * scale;
+      const ih = (img.naturalHeight * scale) / 1.6;
+      s.drawImage(img, (cols - iw) / 2, rows - ih, iw, ih);
+      const px = s.getImageData(0, 0, cols, rows).data;
+      grid = [];
+      for (let i = 0; i < cols * rows; i++) {
+        const alpha = px[i * 4 + 3] / 255;
+        const lum = (px[i * 4] * 0.3 + px[i * 4 + 1] * 0.59 + px[i * 4 + 2] * 0.11) / 255;
+        const density = alpha < 0.15 ? 0 : 0.16 + (1 - lum) * 0.84;
+        const c = density === 0 ? " " : RAMP[Math.min(RAMP.length - 1, Math.round(density * (RAMP.length - 1)))];
+        grid.push({ c, a: alpha });
+      }
+      ctx.font = `${cell}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+      ctx.textBaseline = "top";
+      start = performance.now();
+      if (still) draw(start);
+    };
+
+    const draw = (t: number) => {
+      if (!cols) return;
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = color;
+      const cw = w / cols;
+      const reveal = still ? 1 : Math.min(1, (t - start) / 1200);
+      const cut = rows * (1 - reveal);
+      for (let y = Math.ceil(cut); y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const g = grid[y * cols + x];
+          if (g.c === " ") continue;
+          const gx = x * cw;
+          const gy = y * cell;
+          const near = Math.hypot(gx - pointer.x, gy - pointer.y) < 64;
+          const c = !still && (near || Math.random() < 0.01) ? SCRAMBLE[(Math.random() * SCRAMBLE.length) | 0] : g.c;
+          ctx.globalAlpha = g.a;
+          ctx.fillText(c, gx, gy);
+        }
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    // 24 fps is plenty for flicker, and the loop stops while the canvas is off screen.
+    const loop = (t: number) => {
+      frame = requestAnimationFrame(loop);
+      if (!visible || t - last < 1000 / 24) return;
+      last = t;
+      draw(t);
+    };
+
+    img.onload = build;
+    new ResizeObserver(build).observe(canvas);
+    new IntersectionObserver(([entry]) => (visible = entry.isIntersecting)).observe(canvas);
+    if (!still) {
+      canvas.addEventListener("pointermove", (e) => {
+        const r = canvas.getBoundingClientRect();
+        pointer = { x: e.clientX - r.left, y: e.clientY - r.top };
+      });
+      canvas.addEventListener("pointerleave", () => (pointer = { x: -9999, y: -9999 }));
+      frame = requestAnimationFrame(loop);
+    }
+  }
+</script>

@@ -1,0 +1,208 @@
+@import "@fontsource-variable/geist";
+
+:root {
+  color-scheme: light;
+  /* The corral in daylight: whitewashed walls, pasture green, weathered fence wood. */
+  --page: #f3f4f0;
+  --canvas: #e9ebe4;
+  --surface: #ffffff;
+  --hover: #e6e9e0;
+  --ink: #1b1d19;
+  --ink-2: #4a4f45;
+  /* Small print keeps 4.5:1 on the page and on a card. */
+  --ink-3: #5f655a;
+  --line: #dcdfd5;
+  --line-strong: #c9cdc0;
+  --accent: #2d6a3e;
+  --accent-ink: #245733;
+  --accent-tint: rgb(45 106 62 / 0.12);
+  --wood: #7a5214;
+  --shadow-btn: 0 0 0 1px rgb(27 29 25 / 0.12), 0 1px 2px rgb(27 29 25 / 0.08);
+  --shadow-card: 0 0 0 1px rgb(27 29 25 / 0.09), 0 1px 2px rgb(27 29 25 / 0.05), 0 2px 6px rgb(27 29 25 / 0.05);
+  --shadow-card-hover: 0 0 0 1px rgb(27 29 25 / 0.14), 0 2px 4px rgb(27 29 25 / 0.06), 0 6px 16px rgb(27 29 25 / 0.07);
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+a {
+  color: inherit;
+}
+code,
+pre {
+  font-family: var(--font-mono);
+}
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.container {
+  width: min(1120px, 100% - 32px);
+  margin-inline: auto;
+}
+/* main takes focus when the gate closes; a ring around the whole page there would only confuse. */
+main:focus {
+  outline: none;
+}
+.muted {
+  color: var(--ink-2);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-btn);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition-property: background-color, scale;
+  transition-duration: 120ms;
+  transition-timing-function: var(--ease-out);
+}
+@media (hover: hover) {
+  .button:hover {
+    background: var(--hover);
+  }
+  .button-primary:hover {
+    background: var(--accent-ink);
+  }
+}
+.button:active {
+  scale: 0.96;
+}
+.button-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: none;
+}
+.button:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.command {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 6px 6px 14px;
+  border-radius: var(--radius-control);
+  background: var(--ink);
+  color: #e8eae4;
+}
+.command code {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size: 14px;
+  scrollbar-width: none;
+}
+.command button {
+  flex: none;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.1);
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .command button:hover {
+    background: rgb(255 255 255 / 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .button {
+    transition: none;
+  }
+  .button:active {
+    scale: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The mobile gate: a joke, one tap away from the site. The head script sets data-gate before first paint. */
+.gate {
+  display: none;
+}
+html[data-gate] body {
+  overflow: hidden;
+}
+html[data-gate] .gate {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  padding: max(24px, env(safe-area-inset-top)) 24px max(32px, env(safe-area-inset-bottom));
+  background: var(--page);
+}
+.gate p {
+  font-size: clamp(30px, 9vw, 40px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+.gate .button {
+  min-height: 52px;
+  font-size: 17px;
+}

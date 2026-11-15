@@ -1,0 +1,44 @@
+---
+---
+<header class="header container">
+  <a class="brand" href="/">corno</a>
+  <nav aria-label="Principal">
+    <a href="/#curral">Curral</a>
+    <a href="/#instalar">Instalar</a>
+  </nav>
+</header>
+
+<style>
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+  }
+  .brand {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    gap: 4px;
+  }
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: var(--radius-control);
+    color: var(--ink-2);
+    font-weight: 500;
+    text-decoration: none;
+  }
+  @media (hover: hover) {
+    nav a:hover {
+      background: var(--hover);
+      color: var(--ink);
+    }
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+// A terminal line with a copy button. The button is only useful with JavaScript, so it starts hidden and the script
+// reveals it.
+interface Props {
+  code: string;
+}
+const { code } = Astro.props;
+---
+<div class="command">
+  <code>{code}</code>
+  <button type="button" data-copy={code} hidden>Copiar</button>
+</div>
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy]")) {
+    button.hidden = false;
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copy ?? "");
+        button.textContent = "Copiado";
+      } catch {
+        button.textContent = "Não deu";
+      }
+      setTimeout(() => (button.textContent = "Copiar"), 1600);
+    });
+  }
+</script>

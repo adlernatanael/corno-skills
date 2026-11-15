@@ -1,0 +1,185 @@
+---
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import MarkdownIt from "markdown-it";
+import Base from "../../layouts/Base.astro";
+import Header from "../../components/Header.astro";
+import Command from "../../components/Command.astro";
+import { loadSkills, SKILLS_DIR, type Skill } from "../../lib/skills";
+
+export function getStaticPaths() {
+  return loadSkills().map((skill) => ({ params: { name: skill.name }, props: { skill } }));
+}
+
+const { skill } = Astro.props as { skill: Skill };
+const md = new MarkdownIt({ html: false, linkify: true });
+const extras = skill.files
+  .filter((f) => f !== "SKILL.md")
+  .map((f) => {
+    const text = readFileSync(join(SKILLS_DIR, skill.name, f), "utf8");
+    return { path: f, html: f.endsWith(".md") ? md.render(text) : null, text };
+  });
+---
+<Base title={`${skill.name} · Corno`} description={skill.description}>
+  <Header />
+  <main class="container skill" tabindex="-1">
+    <a class="back" href="/#curral">Voltar ao curral</a>
+    <h1>{skill.short}</h1>
+    <p class="lead muted">{skill.description}</p>
+    <div class="actions">
+      <a class="button button-primary" href={`/downloads/${skill.name}.zip`} download>Baixar {skill.name}.zip</a>
+    </div>
+    <div class="install">
+      <p class="muted">Ou, com o repositório clonado:</p>
+      <Command code={`cp -R ~/corno-skills/skills/${skill.name} ~/.claude/skills/`} />
+    </div>
+    {skill.manualOnly && <p class="manual">Esta skill só roda quando você chama pelo nome (/{skill.name}).</p>}
+
+    <article class="prose" set:html={md.render(skill.body)} />
+
+    {
+      extras.length > 0 && (
+        <section class="extras" aria-labelledby="arquivos">
+          <h2 id="arquivos">Arquivos de apoio</h2>
+          {extras.map((e) => (
+            <details>
+              <summary>
+                <code>{e.path}</code>
+              </summary>
+              {e.html ? <div class="prose" set:html={e.html} /> : <pre><code>{e.text}</code></pre>}
+            </details>
+          ))}
+        </section>
+      )
+    }
+  </main>
+</Base>
+
+<style>
+  .skill {
+    max-width: 760px;
+    padding-block: 24px 96px;
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink-2);
+    font-size: 15px;
+    text-decoration: none;
+  }
+  h1 {
+    margin-top: 8px;
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+  }
+  .lead {
+    margin-top: 16px;
+    font-size: 17px;
+  }
+  .actions {
+    margin-top: 24px;
+  }
+  .install {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .manual {
+    margin-top: 16px;
+    color: var(--wood);
+    font-weight: 500;
+  }
+
+  .prose {
+    margin-top: 48px;
+    font-size: 16px;
+  }
+  .prose :global(h1) {
+    font-size: 28px;
+  }
+  .prose :global(h2) {
+    margin-top: 40px;
+    font-size: 22px;
+  }
+  .prose :global(h3) {
+    margin-top: 28px;
+    font-size: 18px;
+  }
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol),
+  .prose :global(pre),
+  .prose :global(table) {
+    margin-top: 14px;
+  }
+  .prose :global(li + li) {
+    margin-top: 6px;
+  }
+  .prose :global(code) {
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: var(--canvas);
+    font-size: 0.88em;
+  }
+  .prose :global(pre) {
+    overflow-x: auto;
+    padding: 14px 16px;
+    border-radius: var(--radius-control);
+    background: var(--ink);
+    color: #e8eae4;
+  }
+  .prose :global(pre code) {
+    padding: 0;
+    background: none;
+  }
+  .prose :global(table) {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+  .prose :global(a) {
+    color: var(--accent-ink);
+  }
+
+  .extras {
+    margin-top: 56px;
+  }
+  .extras h2 {
+    font-size: 22px;
+    font-weight: 650;
+  }
+  details {
+    margin-top: 12px;
+    border-radius: var(--radius-control);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 16px;
+    cursor: pointer;
+  }
+  details > :global(.prose),
+  details > pre {
+    margin: 0;
+    padding: 0 16px 16px;
+  }
+  details > pre {
+    overflow-x: auto;
+    font-size: 13px;
+  }
+</style>

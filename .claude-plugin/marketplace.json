@@ -1,0 +1,12 @@
+{
+  "name": "corno",
+  "owner": { "name": "Corno", "url": "https://corno.dev" },
+  "metadata": { "description": "O curral das skills do Corno." },
+  "plugins": [
+    {
+      "name": "corno",
+      "source": "./",
+      "description": "Todas as skills do Corno num plugin só."
+    }
+  ]
+}

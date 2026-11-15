@@ -1,0 +1,17 @@
+{
+  "name": "corno",
+  "version": "0.1.0",
+  "description": "Skills do Corno para agentes de código: confere antes de dizer pronto, testa primeiro, investiga bug com método, revisa sem dó, limpa o disco, tira a cara de IA da interface e mais.",
+  "homepage": "https://corno.dev",
+  "keywords": [
+    "skills",
+    "pt-br",
+    "agentes",
+    "qualidade",
+    "ui"
+  ],
+  "author": {
+    "name": "Corno",
+    "url": "https://corno.dev"
+  }
+}
