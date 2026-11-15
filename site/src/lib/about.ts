@@ -8,9 +8,9 @@ export const ABOUT: Record<string, string[]> = {
     "O que ela corrigir obriga uma segunda volta, inteira, do zero, porque correção quebra o que estava certo. “Pronto” só sai quando uma volta passa sem mudar nada. Instalada como plugin, um hook segura o agente quando ele tenta encerrar dizendo que terminou sem conferir.",
   ],
   "corno-testa": [
-    "Teste primeiro, do jeito que dá certo: escreve o teste que mostra o comportamento, vê ele falhar pelo motivo certo, escreve o mínimo para passar e só então arruma o código.",
-    "Um teste de cada vez, sempre pela interface pública. Ela evita os testes que enganam: o que quebra a cada refatoração, o que calcula o esperado do mesmo jeito que o código e o que foi escrito todo de uma vez antes de qualquer código.",
-    "Em bug, o bug vira primeiro um teste que falha. Depois de corrigido, o teste fica lá para ele não voltar.",
+    "Um QA sênior dentro do seu agente. Ele entende o fluxo antes de testar: lê a conversa, o código mexido e o card. Se você tem o MCP da Atlassian, ele pega o card direto do Jira; se não, você cola o texto.",
+    "Depois confere o que dá para rodar na sua máquina, monta os casos de teste por risco (caminho feliz, borda, erro, permissão, regressão) e executa de verdade. No front, com Playwright, e pergunta antes se você quer adicionar o MCP dele. No back, com uma collection contra a API. Se for fullstack, também de ponta a ponta, da tela até o banco.",
+    "Você recebe uma lista simples: o que foi validado, o que falhou com os passos para reproduzir e o que não deu para testar. Com o seu sim, ele comenta isso no card ou no PR pela sua conta. Funciona bem logo depois da corno-revisa.",
   ],
   "corno-investiga": [
     "Para bug difícil, teste que falha de vez em quando ou coisa que ficou lenta. Em vez de chutar uma correção, ela monta um jeito rápido de fazer o problema aparecer: um teste, um curl, um script de navegador ou um git bisect.",

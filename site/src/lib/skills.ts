@@ -45,7 +45,7 @@ function parse(text: string) {
 
 // How the curral groups skills on the site. A skill missing here lands in "Outras", so a new one never disappears.
 const GROUPS: { title: string; skills: string[] }[] = [
-  { title: "Código", skills: ["corno-confere", "corno-testa", "corno-investiga", "corno-revisa", "corno-pesquisa"] },
+  { title: "Código", skills: ["corno-confere", "corno-revisa", "corno-testa", "corno-investiga", "corno-pesquisa"] },
   { title: "Interface", skills: ["corno-visagem", "corno-sendo-corno"] },
   { title: "Texto e conversa", skills: ["corno-humano", "corno-com-tdah"] },
   { title: "Negócio e carreira", skills: ["corno-julgador", "corno-recrutador"] },

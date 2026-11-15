@@ -46,13 +46,16 @@ export const SKILL_RUNS: Record<string, { you: string; steps: Step[]; result: st
     result: "Agora sim, pronto e conferido. Pode subir.",
   },
   "corno-testa": {
-    you: "o frete grátis acima de 200 tá cobrando 15, cobre isso com teste?",
+    you: "testa o card LOJA-482 do cupom antes de eu subir",
     steps: [
-      { kind: "no", text: "escrevi o teste antes: falhou, veio 15 em vez de 0" },
-      { kind: "ok", text: "corrigi só a regra do frete" },
-      { kind: "ok", text: "rodei tudo: 31 testes passando" },
+      { kind: "plain", text: "li o card no Jira: 4 critérios de aceite" },
+      { kind: "plain", text: "subi o site e a API aqui, tudo respondendo" },
+      { kind: "ok", text: "tela: cupom válido aplica 10% no celular e no desktop" },
+      { kind: "ok", text: "API: 9 chamadas na collection, todas como esperado" },
+      { kind: "no", text: "cupom vencido: aceitou o desconto (passos e resposta salvos)" },
+      { kind: "warn", text: "não testei o pagamento real: sem chave do gateway aqui" },
     ],
-    result: "Pronto. Se alguém quebrar o frete de novo, o teste pega.",
+    result: "Sobe depois de corrigir o cupom vencido. Quer que eu comente isso no card?",
   },
   "corno-investiga": {
     you: "o boleto tá saindo com vencimento errado, ontem tava funcionando",

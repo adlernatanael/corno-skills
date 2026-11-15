@@ -57,7 +57,7 @@ Você não precisa chamar pelo nome: fale como sempre falou e o agente puxa a sk
 | Skill | O que faz | Diga |
 |---|---|---|
 | [`corno-confere`](skills/corno-confere/SKILL.md) | O chicote contra o agente que mente que está pronto: põe cada pedido ao lado do que foi entregue, confere se foi feito do jeito pedido, com prova, e confere tudo de novo numa segunda volta. No plugin, um hook obriga essa conferência. | “veja se faltou coisa”, “terminou?” |
-| [`corno-testa`](skills/corno-testa/SKILL.md) | Teste primeiro: o que falha, o mínimo que passa, e só então arruma. | “cobre isso com teste” |
+| [`corno-testa`](skills/corno-testa/SKILL.md) | QA sênior: entende o fluxo pelo chat, pelo código e pelo card do Jira, monta os casos e testa de verdade (Playwright no front, collection na API, ponta a ponta no fullstack). Entrega o que passou, o que falhou e o que não deu para testar. | “testa esse card” |
 | [`corno-investiga`](skills/corno-investiga/SKILL.md) | Bug difícil ou lentidão com método: reproduz, encolhe, testa hipóteses e só corrige com a causa provada. | “funcionava ontem” |
 | [`corno-revisa`](skills/corno-revisa/SKILL.md) | Revisão pesada e direta de PR: separa o que o PR introduziu do que é observação, confere o impacto, pergunta o que corrigir e oferece comentar no PR pela sua conta. Só roda quando chamada pelo nome. | “/corno-revisa” |
 | [`corno-pesquisa`](skills/corno-pesquisa/SKILL.md) | Pesquisa em fontes primárias e salva o que achou num Markdown com links. | “o que a doc diz sobre” |
