@@ -8,7 +8,7 @@ const { code } = Astro.props;
 ---
 <div class="command">
   <code>{code}</code>
-  <button type="button" data-copy={code} hidden>Copiar</button>
+  <button type="button" data-copy={code} aria-live="polite" hidden>Copiar</button>
 </div>
 
 <script>

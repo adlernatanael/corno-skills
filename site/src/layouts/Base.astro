@@ -16,12 +16,19 @@ const gateHead = `try {
 } catch {
   if (matchMedia("(max-width: 700px)").matches) document.documentElement.dataset.gate = "";
 }`;
+// While the gate is open the page behind it is inert, so Tab and screen readers stay on the gate.
 const gateBody = `(() => {
-  const button = document.querySelector("[data-gate-open]");
-  if (document.documentElement.hasAttribute("data-gate")) button.focus();
+  const gate = document.querySelector(".gate");
+  const button = gate.querySelector("[data-gate-open]");
+  const behind = [...document.body.children].filter((el) => el !== gate && el.tagName !== "SCRIPT");
+  if (document.documentElement.hasAttribute("data-gate")) {
+    behind.forEach((el) => (el.inert = true));
+    button.focus();
+  }
   button.addEventListener("click", () => {
     try { localStorage.setItem("corno-curral", "aberto"); } catch {}
     delete document.documentElement.dataset.gate;
+    behind.forEach((el) => (el.inert = false));
     document.querySelector("main")?.focus({ preventScroll: true });
   });
 })();`;

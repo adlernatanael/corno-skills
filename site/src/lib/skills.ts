@@ -43,6 +43,25 @@ function parse(text: string) {
   return { data, body: text.slice(m[0].length) };
 }
 
+// How the curral groups skills on the site. A skill missing here lands in "Outras", so a new one never disappears.
+const GROUPS: { title: string; skills: string[] }[] = [
+  { title: "Código", skills: ["corno-confere", "corno-testa", "corno-investiga", "corno-revisa", "corno-pesquisa"] },
+  { title: "Interface", skills: ["corno-visagem", "corno-sendo-corno"] },
+  { title: "Texto e conversa", skills: ["corno-humano", "corno-com-tdah"] },
+  { title: "Negócio e carreira", skills: ["corno-julgador", "corno-recrutador"] },
+  { title: "Máquina", skills: ["corno-limpa"] },
+  { title: "Para quem cria skills", skills: ["corno-cria-skill"] },
+];
+
+export function groupedSkills(): { title: string; skills: Skill[] }[] {
+  const all = loadSkills();
+  const placed = new Set(GROUPS.flatMap((g) => g.skills));
+  const groups = GROUPS.map((g) => ({ title: g.title, skills: g.skills.flatMap((n) => all.filter((s) => s.name === n)) }));
+  const rest = all.filter((s) => !placed.has(s.name));
+  if (rest.length) groups.push({ title: "Outras", skills: rest });
+  return groups.filter((g) => g.skills.length);
+}
+
 let cache: Skill[] | undefined;
 
 export function loadSkills(): Skill[] {

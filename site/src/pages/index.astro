@@ -3,13 +3,13 @@ import Base from "../layouts/Base.astro";
 import Header from "../components/Header.astro";
 import AsciiBoi from "../components/AsciiBoi.astro";
 import Command from "../components/Command.astro";
-import { loadSkills } from "../lib/skills";
+import { groupedSkills } from "../lib/skills";
 import { INSTALL_CLAUDE, INSTALL_CLONE } from "../lib/links";
 
-const skills = loadSkills();
-const title = "Corno: skills em português para o seu agente de código";
+const groups = groupedSkills();
+const title = "Corno: skills para o seu agente";
 const description =
-  "Um curral de skills para Claude Code e outros agentes: confere antes de dizer pronto, testa primeiro, investiga bug com método, limpa o disco e tira a cara de IA da sua tela.";
+  "Skills para Claude Code e outros agentes: confere antes de dizer pronto, investiga bug com método, tira a cara de IA da sua tela e julga sua ideia e seu currículo sem passar pano.";
 ---
 <Base title={title} description={description} gate>
   <Header />
@@ -17,13 +17,10 @@ const description =
     <section class="hero container">
       <div class="hero-text">
         <h1>Skills pra deixar seu agente menos corno.</h1>
-        <p class="lead muted">
-          {skills.length} skills em português para Claude Code e qualquer agente que lê skills. Ele para de dizer “pronto” sem rodar o teste, investiga o
-          bug antes de chutar, limpa o seu disco sem apagar o que importa e tira a cara de IA da sua tela.
-        </p>
-        <div class="actions">
-          <a class="button button-primary" href="#curral">Abrir o curral</a>
-          <a class="button" href="/downloads/corno-skills.zip" download>Baixar todas (.zip)</a>
+        <p class="lead muted">Ele confere antes de dizer pronto, investiga antes de chutar e larga a cara de IA.</p>
+        <div class="hero-install">
+          <Command code={INSTALL_CLAUDE[0]} />
+          <p class="muted small">No Claude Code. Outro agente? <a href="#instalar">Veja como instalar</a>.</p>
         </div>
       </div>
       <div class="hero-art"><AsciiBoi /></div>
@@ -31,25 +28,29 @@ const description =
 
     <section class="curral container" id="curral" aria-labelledby="curral-title">
       <h2 id="curral-title">Curral das skills</h2>
-      <ul class="cards">
-        {
-          skills.map((s) => (
-            <li class="card">
-              <h3>
-                <a href={`/skills/${s.name}/`}>{s.short}</a>
-              </h3>
-              <p class="muted">{s.summary}.</p>
-              <div class="card-foot">
-                <code>{s.name}</code>
-                {s.manualOnly && <span class="manual">só chamando pelo nome</span>}
-                <a class="zip" href={`/downloads/${s.name}.zip`} download aria-label={`Baixar ${s.name} em .zip`}>
-                  .zip
-                </a>
-              </div>
-            </li>
-          ))
-        }
-      </ul>
+      {
+        groups.map((g) => (
+          <div class="group">
+            <h3 class="group-title">{g.title}</h3>
+            <ul class="cards">
+              {g.skills.map((s) => (
+                <li class="card">
+                  <div class="card-head">
+                    <h4>
+                      <a href={`/skills/${s.name}/`}>{s.short}</a>
+                    </h4>
+                    <a class="zip" href={`/downloads/${s.name}.zip`} download aria-label={`Baixar ${s.name} em .zip`}>
+                      .zip
+                    </a>
+                  </div>
+                  <p class="muted">{s.summary}.</p>
+                  {s.manualOnly && <p class="manual">Só roda quando chamada pelo nome</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
     </section>
 
     <section class="install container" id="instalar" aria-labelledby="instalar-title">
@@ -57,14 +58,12 @@ const description =
       <div class="install-grid">
         <div class="install-block">
           <h3>Claude Code</h3>
-          <p class="muted">Adiciona o curral como marketplace e instala tudo de uma vez. Dentro do Claude Code:</p>
+          <p class="muted">Dentro de uma sessão, adicione o curral e instale tudo de uma vez:</p>
           {INSTALL_CLAUDE.map((c) => <Command code={c} />)}
         </div>
         <div class="install-block">
           <h3>Qualquer agente</h3>
-          <p class="muted">
-            Clona e copia as pastas para onde o seu agente lê skills. O exemplo usa a pasta do Claude Code; troque pela do seu.
-          </p>
+          <p class="muted">Clone e copie as pastas para onde o seu agente lê skills (o exemplo usa a do Claude Code):</p>
           {INSTALL_CLONE.map((c) => <Command code={c} />)}
           <p class="muted small">
             Ou baixe o <a href="/downloads/corno-skills.zip" download>.zip com todas</a> e descompacte na pasta de skills.
@@ -74,7 +73,7 @@ const description =
     </section>
   </main>
   <footer class="footer container">
-    <p class="muted">Corno. Skills em português, sem enrolação e sem cara de IA.</p>
+    <p class="muted">Corno. Sem enrolação e sem cara de IA.</p>
   </footer>
 </Base>
 
@@ -82,9 +81,9 @@ const description =
   .hero {
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    align-items: end;
+    align-items: center;
     gap: 40px;
-    padding-block: 48px 72px;
+    padding-block: 56px 72px;
   }
   h1 {
     max-width: 14ch;
@@ -94,14 +93,15 @@ const description =
     line-height: 1;
   }
   .lead {
-    max-width: 52ch;
-    margin-top: 24px;
-    font-size: 18px;
+    max-width: 36ch;
+    margin-top: 20px;
+    font-size: 19px;
   }
-  .actions {
+  .hero-install {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 520px;
     margin-top: 32px;
   }
   .hero-art {
@@ -116,13 +116,22 @@ const description =
     letter-spacing: -0.035em;
   }
   .curral {
-    padding-block: 24px 80px;
+    padding-block: 24px 64px;
+  }
+  .group {
+    margin-top: 36px;
+  }
+  .group-title {
+    color: var(--ink-2);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0;
   }
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-    margin: 28px 0 0;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 12px 0 0;
     padding: 0;
     list-style: none;
   }
@@ -130,8 +139,8 @@ const description =
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 20px;
+    gap: 6px;
+    padding: 16px 18px;
     border-radius: var(--radius-card);
     background: var(--surface);
     box-shadow: var(--shadow-card);
@@ -142,46 +151,46 @@ const description =
       box-shadow: var(--shadow-card-hover);
     }
   }
-  .card h3 {
-    font-size: 22px;
-    font-weight: 650;
-    letter-spacing: -0.025em;
-  }
-  /* The whole card opens the skill; the .zip link sits above that layer. */
-  .card h3 a {
-    text-decoration: none;
-  }
   /* The card is the target, so the focus ring goes around the card. */
-  .card:has(h3 a:focus-visible) {
+  .card:has(h4 a:focus-visible) {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
-  .card h3 a:focus-visible {
+  .card h4 a:focus-visible {
     outline: none;
   }
-  .card h3 a::after {
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card h4 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+  /* The whole card opens the skill; the .zip link sits above that layer. */
+  .card h4 a {
+    text-decoration: none;
+  }
+  .card h4 a::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
   }
   .card p {
-    flex: 1;
+    display: -webkit-box;
+    overflow: hidden;
     font-size: 15px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
-  .card-foot {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    margin-top: 4px;
-    font-size: 13px;
-  }
-  .card-foot code {
-    color: var(--ink-3);
-  }
-  .manual {
+  .card .manual {
     color: var(--wood);
+    font-size: 13px;
     font-weight: 500;
   }
   .zip {
@@ -190,10 +199,11 @@ const description =
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    margin: -8px -10px -8px auto;
+    margin: -10px -10px -10px 0;
     padding: 0 10px;
     border-radius: 6px;
     color: var(--accent-ink);
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none;
   }
@@ -236,12 +246,12 @@ const description =
 
   @media (max-width: 860px) {
     .hero {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       padding-block: 24px 48px;
     }
     .hero-art {
       justify-self: center;
-      max-width: 420px;
+      max-width: 360px;
       order: -1;
     }
     .install-grid {
