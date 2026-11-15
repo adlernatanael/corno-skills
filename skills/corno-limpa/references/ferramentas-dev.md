@@ -67,7 +67,7 @@ Tudo isso baixa de novo sob demanda. Limpe com uma confirmação e **meça de no
 
 ## Containers e VMs
 
-- **Docker**: comece por `docker system df`. Em ordem de risco:
+- **Docker**: antes de qualquer comando, rode `docker context show` e `docker context ls`. Se o contexto ativo aponta para outra máquina (`ssh://`, `tcp://`, um nome que não é `default`, `desktop-linux`, `colima` ou `orbstack`), **pare**: limpar ali apaga imagens e volumes de outro computador e não libera nada neste. Use `docker --context <contexto-local>` ou pule o Docker. Depois, `docker system df`. Em ordem de risco:
   1. `docker builder prune` (cache de build, regenerável)
   2. `docker image prune -a` (imagens sem container usando)
   3. `docker container prune` (containers parados)

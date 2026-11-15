@@ -106,4 +106,10 @@ Get-ChildItem -LiteralPath $U -Directory -Force -ErrorAction SilentlyContinue | 
   Sort-Object Length -Descending | Select-Object -First 15 |
   ForEach-Object { '{0,10}  {1}' -f (Human $_.Length), $_.FullName.Replace($U, '~') }
 
-if (Get-Command docker -ErrorAction SilentlyContinue) { ""; "== Docker =="; docker system df 2>$null }
+if (Get-Command docker -ErrorAction SilentlyContinue) {
+  ""; "== Docker (context: $(docker context show 2>$null)) =="
+  if ((docker context inspect --format '{{.Endpoints.docker.Host}}' 2>$null) -match '^(ssh|tcp)://') {
+    "WARNING: this context is another machine; its numbers are not this disk. Do not prune here."
+  }
+  docker system df 2>$null
+}

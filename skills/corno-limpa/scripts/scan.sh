@@ -214,5 +214,8 @@ else
 fi
 
 if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
-  echo; echo "== Docker =="; docker system df 2>/dev/null
+  echo; echo "== Docker (context: $(docker context show 2>/dev/null)) =="
+  docker context inspect --format '{{.Endpoints.docker.Host}}' 2>/dev/null | grep -qE '^(ssh|tcp)://' &&
+    echo "WARNING: this context is another machine; its numbers are not this disk. Do not prune here."
+  docker system df 2>/dev/null
 fi
