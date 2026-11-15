@@ -3,9 +3,9 @@
 // description on the page.
 export const ABOUT: Record<string, string[]> = {
   "corno-confere": [
-    "Agente adora dizer “pronto”. Aí você vai olhar e faltou o item que você pediu no meio da conversa, o teste nem rodou e o “funciona” era palpite.",
-    "A corno-confere entra antes dessa palavra. Ela relê a conversa inteira, lista tudo que foi pedido, inclusive o que chegou depois, e mostra uma prova rodada agora para cada item: o teste, o comando, o arquivo e a linha. O que não tem prova aparece como “falta”, não como “está tudo certo”.",
-    "Instalada como plugin, ela vem com um hook: quando você pergunta “faltou alguma coisa?”, o agente é mandado conferir, e quando ele mexe em arquivo e tenta encerrar dizendo que terminou, é segurado uma vez para provar.",
+    "Agente de IA mente muito dizendo que está pronto. Você vai olhar e faltou o item que pediu no meio da conversa, o botão saiu cinza em vez de preto e o “funciona” era palpite.",
+    "A corno-confere é o chicote contra isso. Antes de qualquer “pronto”, ela relê a conversa inteira e põe lado a lado o que foi pedido e o que foi entregue, item por item. Não basta ter feito: tem que ser do jeito que foi pedido, com prova rodada agora (o arquivo e a linha, o teste, o print).",
+    "O que ela corrigir obriga uma segunda volta, inteira, do zero, porque correção quebra o que estava certo. “Pronto” só sai quando uma volta passa sem mudar nada. Instalada como plugin, um hook segura o agente quando ele tenta encerrar dizendo que terminou sem conferir.",
   ],
   "corno-testa": [
     "Teste primeiro, do jeito que dá certo: escreve o teste que mostra o comportamento, vê ele falhar pelo motivo certo, escreve o mínimo para passar e só então arruma o código.",

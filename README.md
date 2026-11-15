@@ -56,7 +56,7 @@ Você não precisa chamar pelo nome: fale como sempre falou e o agente puxa a sk
 
 | Skill | O que faz | Diga |
 |---|---|---|
-| [`corno-confere`](skills/corno-confere/SKILL.md) | Antes de dizer “pronto”, confere item por item se tudo que foi pedido foi feito, com prova. No plugin, um hook obriga essa conferência. | “veja se faltou coisa”, “terminou?” |
+| [`corno-confere`](skills/corno-confere/SKILL.md) | O chicote contra o agente que mente que está pronto: põe cada pedido ao lado do que foi entregue, confere se foi feito do jeito pedido, com prova, e confere tudo de novo numa segunda volta. No plugin, um hook obriga essa conferência. | “veja se faltou coisa”, “terminou?” |
 | [`corno-testa`](skills/corno-testa/SKILL.md) | Teste primeiro: o que falha, o mínimo que passa, e só então arruma. | “cobre isso com teste” |
 | [`corno-investiga`](skills/corno-investiga/SKILL.md) | Bug difícil ou lentidão com método: reproduz, encolhe, testa hipóteses e só corrige com a causa provada. | “funcionava ontem” |
 | [`corno-revisa`](skills/corno-revisa/SKILL.md) | Revisão pesada de estrutura e manutenção. Só roda quando chamada pelo nome. | “/corno-revisa” |

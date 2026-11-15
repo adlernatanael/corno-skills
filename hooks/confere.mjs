@@ -45,7 +45,7 @@ function main() {
         hookSpecificOutput: {
           hookEventName: "UserPromptSubmit",
           additionalContext:
-            "A pessoa quer saber se falta algo. Use a skill corno-confere: releia tudo que foi pedido nesta conversa, inclusive mensagens que chegaram no meio, liste item por item, confira cada um com prova, faça o que faltou e diga o que não deu para fazer.",
+            "A pessoa quer saber se falta algo. Use a skill corno-confere: releia tudo que foi pedido nesta conversa, inclusive mensagens que chegaram no meio, liste item por item, ponha ao lado o que foi entregue e confira se foi feito do jeito que foi pedido, com prova rodada agora. Faça o que faltou, confira tudo de novo numa segunda volta e diga o que não deu para fazer.",
         },
       }),
     );
@@ -67,7 +67,7 @@ function main() {
         JSON.stringify({
           decision: "block",
           reason:
-            "corno-confere: antes de dizer que terminou, releia tudo que foi pedido nesta conversa desde o último pronto, inclusive mensagens que chegaram no meio. Liste item por item e prove cada um com algo rodado agora (arquivo, teste, build, print, status remoto), faça o que faltou e só então responda, dizendo o que não deu para fazer.",
+            "corno-confere: antes de dizer que terminou, releia tudo que foi pedido nesta conversa desde o último pronto, inclusive mensagens que chegaram no meio. Liste item por item, ponha ao lado o que foi entregue e confira se foi feito do jeito que foi pedido, com prova rodada agora (arquivo, teste, build, print, status remoto). Faça o que faltou, confira a lista inteira de novo numa segunda volta e só então responda, dizendo o que não deu para fazer.",
         }),
       );
     }

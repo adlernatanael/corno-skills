@@ -36,11 +36,14 @@ export const SKILL_RUNS: Record<string, { you: string; steps: Step[]; result: st
   "corno-confere": {
     you: "e aí, terminou? queria subir isso ainda hoje",
     steps: [
-      { kind: "ok", text: "trocar o botão de login: feito (Login.tsx:42)" },
-      { kind: "ok", text: "rodei os testes: 48 passaram" },
-      { kind: "no", text: "tirar a barra do header, que você pediu no meio: esqueci" },
+      { kind: "plain", text: "1ª volta: cada pedido ao lado do que entreguei" },
+      { kind: "ok", text: "botão escrito “Entrar”: igual ao pedido (Login.tsx:42)" },
+      { kind: "no", text: "botão preto: entreguei cinza escuro, não é o que você pediu" },
+      { kind: "no", text: "tirar a barra do header, pedido no meio: esqueci" },
+      { kind: "plain", text: "corrigi os dois" },
+      { kind: "ok", text: "2ª volta, do zero: 3 de 3 iguais ao pedido, 48 testes passando" },
     ],
-    result: "Quase. Faltou a barra do header, já tô tirando e te aviso.",
+    result: "Agora sim, pronto e conferido. Pode subir.",
   },
   "corno-testa": {
     you: "o frete grátis acima de 200 tá cobrando 15, cobre isso com teste?",
