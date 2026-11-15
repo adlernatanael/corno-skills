@@ -5,7 +5,6 @@ export const ABOUT: Record<string, string[]> = {
   "corno-confere": [
     "Agente de IA mente muito dizendo que está pronto. Você vai olhar e faltou o item que pediu no meio da conversa, o botão saiu cinza em vez de preto e o “funciona” era palpite.",
     "A corno-confere é o chicote contra isso. Antes de qualquer “pronto”, ela relê a conversa inteira e põe lado a lado o que foi pedido e o que foi entregue, item por item. Não basta ter feito: tem que ser do jeito que foi pedido, com prova rodada agora (o arquivo e a linha, o teste, o print).",
-    "O que ela corrigir obriga uma segunda volta, inteira, do zero, porque correção quebra o que estava certo. “Pronto” só sai quando uma volta passa sem mudar nada. Instalada como plugin, um hook segura o agente quando ele tenta encerrar dizendo que terminou sem conferir.",
   ],
   "corno-testa": [
     "Um QA sênior dentro do seu agente. Ele entende o fluxo antes de testar: lê a conversa, o código mexido e o card. Se você tem o MCP da Atlassian, ele pega o card direto do Jira; se não, você cola o texto.",
