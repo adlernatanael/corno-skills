@@ -8,6 +8,7 @@ import { groupedSkills } from "../lib/skills";
 import { INSTALL_CLAUDE } from "../lib/links";
 import Install from "../components/Install.astro";
 import SkillRun from "../components/SkillRun.astro";
+import { ABOUT } from "../lib/about";
 
 const groups = groupedSkills();
 
@@ -55,7 +56,7 @@ const groups = groupedSkills();
                       <span class="chev" aria-hidden="true" />
                     </button>
                     <div class="preview" id={`prev-${s.name}`} hidden={k !== 0}>
-                      <p>{s.summary}.</p>
+                      {(ABOUT[s.name] ?? [`${s.summary}.`]).map((p) => <p>{p}</p>)}
                       {s.triggers[0] && <p class="say">Diga “{s.triggers[0]}”</p>}
                       <a href={`/skills/${s.name}/`}>Ver a skill inteira</a>
                     </div>
@@ -331,6 +332,9 @@ const groups = groupedSkills();
   }
   .preview[hidden] {
     display: none;
+  }
+  .preview p {
+    line-height: 1.55;
   }
   .preview .say {
     color: var(--fg);
