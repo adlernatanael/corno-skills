@@ -19,7 +19,6 @@ export const ABOUT: Record<string, string[]> = {
   "corno-revisa": [
     "Revisão de PR pesada e direta, focada em estrutura e manutenção. A pergunta é sempre a mesma: a mudança deixou o código mais simples de entender e de mexer, ou só funciona? Vem o veredito primeiro e poucos apontamentos, cada um com arquivo, linha e a correção.",
     "Ela separa o que o PR introduziu do que já era problema antes. O primeiro pede ajuste; o segundo, como uma mudança de arquitetura maior ou algo de outro lugar, fica como observação para outra tarefa. E confere quem usa o código mexido, para dizer o que o PR afeta e o que continua igual.",
-    "No fim, ela abre as decisões: se o PR é seu, pergunta quais achados corrigir; em qualquer PR, oferece um comentário escrito com a corno-humano e publicado pela sua conta, só depois do seu sim. Como é pesada, só roda quando você chama: /corno-revisa.",
   ],
   "corno-pesquisa": [
     "Responde com o que as fontes dizem, não com o que parece certo. Para perguntas como “qual versão suporta isso”, “a doc ainda diz isso” ou “qual dessas bibliotecas usar”.",
