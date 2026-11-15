@@ -32,20 +32,13 @@ function hill(seed: number, base: number, amp: number) {
   return d + " L1600 600 Z";
 }
 const hills = [
-  { d: hill(7, 330, 26), fill: "#28302a", depth: 6 },
-  { d: hill(19, 395, 22), fill: "#1f2721", depth: 12 },
-  { d: hill(31, 460, 18), fill: "#171d18", depth: 20 },
+  { d: hill(7, 330, 26), fill: "#2a2a2a", depth: 6 },
+  { d: hill(19, 395, 22), fill: "#1c1c1c", depth: 12 },
+  { d: hill(31, 460, 18), fill: "#111111", depth: 20 },
 ];
 const posts = Array.from({ length: 17 }, (_, i) => 40 + i * 96);
-
-const steps = [
-  { title: "Instala uma vez", text: "Um comando no Claude Code e o curral inteiro fica disponível." },
-  { title: "Pede do seu jeito", text: "Nada de comando especial. Você fala como sempre falou." },
-  { title: "O agente puxa a skill certa", text: "A frase que você usou é o gatilho. A skill entra sozinha." },
-  { title: "Entrega com prova", text: "Saída de teste, print, número antes e depois. Sem “deve funcionar”." },
-];
-
-const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"];
+const steps = ["Instala", "Pede do seu jeito", "Recebe com prova"];
+const pairs = BEFORE_AFTER.slice(0, 6);
 ---
 <Base title="Corno: deixe de ser corno junto com seu agente" description="Skills que fazem seu agente terminar de verdade, procurar a causa do bug e parar de elogiar sua ideia ruim." gate>
   <Header tone="dark" />
@@ -54,17 +47,13 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
       <section class="hero-wrap" data-hero>
         <div class="frame">
           <svg class="scene" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-            <rect width="1600" height="600" fill="#33403a" />
-            <circle class="moon" cx="1020" cy="150" r="58" fill="#e9e4d2" />
-            {
-              hills.map((h) => (
-                <path class="layer" d={h.d} fill={h.fill} style={`--depth: ${h.depth}`} />
-              ))
-            }
+            <rect width="1600" height="600" fill="#3a3a3a" />
+            <circle class="moon" cx="1020" cy="150" r="58" fill="#f5f5f5" />
+            {hills.map((h) => <path class="layer" d={h.d} fill={h.fill} style={`--depth: ${h.depth}`} />)}
             <g class="fence layer" style="--depth: 26">
-              <rect x="0" y="508" width="1600" height="6" fill="#0f130f" />
-              <rect x="0" y="540" width="1600" height="6" fill="#0f130f" />
-              {posts.map((x) => <rect x={x} y="486" width="10" height="114" fill="#0f130f" />)}
+              <rect x="0" y="508" width="1600" height="6" fill="#050505" />
+              <rect x="0" y="540" width="1600" height="6" fill="#050505" />
+              {posts.map((x) => <rect x={x} y="486" width="10" height="114" fill="#050505" />)}
             </g>
           </svg>
           <div class="hero-copy">
@@ -75,7 +64,6 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
                 </span>
               ))}
             </h1>
-            <p class="lead">Skills que fazem ele terminar de verdade, procurar a causa do bug e parar de elogiar sua ideia ruim.</p>
             <div class="hero-cta">
               <Command code={INSTALL_CLAUDE[0]} />
             </div>
@@ -97,51 +85,39 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
         }
       </section>
 
-      <section class="how container" aria-labelledby="how-title">
+      <section class="sec container" aria-labelledby="how-title">
         <h2 id="how-title">Como funciona</h2>
-        <div class="how-grid" data-steps>
+        <div class="how" data-steps>
           <ol class="steps">
             {
               steps.map((s, i) => (
                 <li>
                   <button type="button" class="step" data-step={i} aria-pressed={i === 0 ? "true" : "false"}>
                     <span class="step-n">{i + 1}</span>
-                    <span>
-                      <span class="step-title">{s.title}</span>
-                      <span class="step-text">{s.text}</span>
-                    </span>
+                    {s}
                   </button>
                 </li>
               ))
             }
-            <span class="step-line" aria-hidden="true"><span /></span>
           </ol>
           <div class="panel" aria-live="polite">
-            <div class="card" data-card="0">
-              <p class="card-label">No Claude Code</p>
+            <div data-card="0">
               <Command code={INSTALL_CLAUDE[0]} />
               <Command code={INSTALL_CLAUDE[1]} />
             </div>
-            <div class="card" data-card="1" hidden>
-              <p class="card-label">Você</p>
+            <div data-card="1" hidden>
               <p class="bubble">meu disco tá cheio, o que posso apagar?</p>
             </div>
-            <div class="card" data-card="2" hidden>
-              <p class="card-label">O agente</p>
-              <p class="using">usando <code>corno-limpa</code></p>
-              <p class="mono">Medindo primeiro. Nada é apagado sem você ver o tamanho e confirmar.</p>
-            </div>
-            <div class="card" data-card="3" hidden>
-              <p class="card-label">Exemplo de entrega</p>
-              <p class="mono">Livre antes: 12 GB. Livre agora: 53 GB.</p>
-              <p class="mono">Pulei 2 pastas com código sem commit. Lista abaixo.</p>
+            <div data-card="2" hidden>
+              <p class="mono">Livre antes: 12 GB. Agora: 53 GB.</p>
+              <p class="mono dim">Pulei 2 pastas com código sem commit.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="tabs-sec container" aria-labelledby="tabs-title">
-        <h2 id="tabs-title">O curral por assunto</h2>
+      <section class="sec container" aria-labelledby="tabs-title">
+        <h2 id="tabs-title">O curral</h2>
         <div class="tablist" role="tablist" aria-label="Assuntos">
           {
             groups.map((g, i) => (
@@ -155,19 +131,17 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
         {
           groups.map((g, i) => (
             <div class="tabpanel" role="tabpanel" id={`panel-${i}`} aria-labelledby={`tab-${i}`} hidden={i !== 0}>
-              <ul class="tab-skills">
+              <ul class="names">
                 {g.skills.map((s) => (
                   <li>
                     <a href={`/skills/${s.name}/`}>{s.name}</a>
-                    <span>{s.summary}.</span>
                   </li>
                 ))}
               </ul>
               {SCENES[g.title] && (
                 <div class="term">
                   <p class="you">{SCENES[g.title].you}</p>
-                  <p class="agent">{SCENES[g.title].agent}</p>
-                  <p class="tag">exemplo</p>
+                  <p>{SCENES[g.title].agent}</p>
                 </div>
               )}
             </div>
@@ -175,77 +149,23 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
         }
       </section>
 
-      <section class="price-sec container" aria-labelledby="price-title">
-        <h2 id="price-title">Preço</h2>
-        <div class="billing" role="radiogroup" aria-label="Cobrança">
-          <button type="button" role="radio" aria-checked="true" data-billing="mensal">Mensal</button>
-          <button type="button" role="radio" aria-checked="false" data-billing="anual">Anual</button>
-        </div>
-        <div class="price-card">
-          <p class="amount">R$ <span>0</span></p>
-          <p class="per" data-per>por mês, cobrado nunca.</p>
-          <p class="note">Todas as {skills.length} skills e todas as atualizações. O único custo é descobrir que seu agente era corno.</p>
-          <a class="button button-light" href="/downloads/corno-skills.zip" download>Baixar todas (.zip)</a>
-        </div>
-      </section>
-
-      <section class="wall" aria-labelledby="wall-title">
-        <div class="container">
-          <h2 id="wall-title">Antes e depois</h2>
-          <p class="sub">O que o agente diz sem a skill, e o que ele diz com ela.</p>
-        </div>
-        <div class="columns container">
+      <section class="sec container" aria-labelledby="wall-title">
+        <h2 id="wall-title">Antes e depois</h2>
+        <ul class="pairs">
           {
-            [0, 1].map((col) => (
-              <div class="col" data-col={col}>
-                <div class="col-track">
-                  {[...BEFORE_AFTER.filter((_, i) => i % 2 === col), ...BEFORE_AFTER.filter((_, i) => i % 2 === col)].map((b, i, all) => (
-                    <figure class="quote" aria-hidden={i >= all.length / 2 ? "true" : undefined}>
-                      <p class="before">{b.before}</p>
-                      <p class="after">{b.after}</p>
-                      <figcaption>
-                        <code>{b.skill}</code>
-                      </figcaption>
-                    </figure>
-                  ))}
-                </div>
-              </div>
+            pairs.map((b) => (
+              <li class="pair">
+                <p class="before">{b.before}</p>
+                <p class="after">{b.after}</p>
+              </li>
             ))
           }
-        </div>
+        </ul>
       </section>
 
-      <section class="final container" data-final>
-        <div class="final-card">
-          <svg class="flags" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true">
-            {
-              [0, 1].map((row) => {
-                const y0 = 18 + row * 46;
-                return (
-                  <g class="string" style={`--row: ${row}`}>
-                    <path d={`M0 ${y0} Q600 ${y0 + 60} 1200 ${y0}`} fill="none" stroke="#c9c2ae" stroke-width="2" />
-                    {Array.from({ length: 24 }, (_, i) => {
-                      const x = 25 + i * 48.5;
-                      const t = x / 1200;
-                      const y = (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * (y0 + 60) + t * t * y0;
-                      return (
-                        <path
-                          class="flag"
-                          style={`--i: ${i + row * 24}`}
-                          d={`M${x - 14} ${y.toFixed(1)} L${x + 14} ${y.toFixed(1)} L${x} ${(y + 30).toFixed(1)} Z`}
-                          fill={flags[(i + row * 3) % flags.length]}
-                        />
-                      );
-                    })}
-                  </g>
-                );
-              })
-            }
-          </svg>
-          <h2>Bota o boi no curral.</h2>
-          <p>Dentro do Claude Code, dois comandos:</p>
-          <div class="final-cmds">{INSTALL_CLAUDE.map((c) => <Command code={c} />)}</div>
-        </div>
+      <section class="sec container final">
+        <h2>Bota o boi no curral.</h2>
+        <div class="final-cmds">{INSTALL_CLAUDE.map((c) => <Command code={c} />)}</div>
       </section>
     </main>
   </div>
@@ -261,13 +181,10 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
     const onScroll = () => hero.style.setProperty("--p", String(Math.min(1, Math.max(0, scrollY / (innerHeight * 0.7)))));
     addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    hero.addEventListener("pointermove", (e) => {
-      hero.style.setProperty("--mx", String(e.clientX / innerWidth - 0.5));
-      hero.style.setProperty("--my", String(e.clientY / innerHeight - 0.5));
-    });
+    hero.addEventListener("pointermove", (e) => hero.style.setProperty("--mx", String(e.clientX / innerWidth - 0.5)));
   }
 
-  // How it works: steps advance on their own every 4.5 s, pause on hover or off screen, and answer clicks.
+  // Steps advance on their own every 4 s, pause on hover, focus or off screen, and answer clicks.
   const stepsRoot = document.querySelector<HTMLElement>("[data-steps]");
   if (stepsRoot) {
     const buttons = [...stepsRoot.querySelectorAll<HTMLButtonElement>("[data-step]")];
@@ -279,15 +196,14 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
       current = i;
       buttons.forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
       cards.forEach((c, k) => (c.hidden = k !== i));
-      stepsRoot.style.setProperty("--step", String(i));
     };
     buttons.forEach((b, i) => b.addEventListener("click", () => show(i)));
-    stepsRoot.addEventListener("pointerenter", () => (paused = true));
-    stepsRoot.addEventListener("pointerleave", () => (paused = false));
-    stepsRoot.addEventListener("focusin", () => (paused = true));
-    stepsRoot.addEventListener("focusout", () => (paused = false));
+    for (const [on, off] of [["pointerenter", "pointerleave"], ["focusin", "focusout"]]) {
+      stepsRoot.addEventListener(on, () => (paused = true));
+      stepsRoot.addEventListener(off, () => (paused = false));
+    }
     new IntersectionObserver(([e]) => (onScreen = e.isIntersecting)).observe(stepsRoot);
-    if (!still) setInterval(() => !paused && onScreen && show((current + 1) % buttons.length), 4500);
+    if (!still) setInterval(() => !paused && onScreen && show((current + 1) % buttons.length), 4000);
   }
 
   // Tabs: click or arrow keys, with an indicator that slides under the active tab.
@@ -295,75 +211,53 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
   if (tablist) {
     const tabs = [...tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
     const ind = tablist.querySelector<HTMLElement>(".tab-ind");
+    const active = () => Math.max(0, tabs.findIndex((t) => t.getAttribute("aria-selected") === "true"));
     const select = (i: number, focus = false) => {
       tabs.forEach((t, k) => {
-        const on = k === i;
-        t.setAttribute("aria-selected", String(on));
-        t.tabIndex = on ? 0 : -1;
-        document.getElementById(t.getAttribute("aria-controls")!)!.hidden = !on;
+        t.setAttribute("aria-selected", String(k === i));
+        t.tabIndex = k === i ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")!)!.hidden = k !== i;
       });
       if (focus) tabs[i].focus();
-      if (ind) {
-        ind.style.setProperty("--x", `${tabs[i].offsetLeft}px`);
-        ind.style.setProperty("--w", `${tabs[i].offsetWidth}px`);
-      }
+      ind?.style.setProperty("--x", `${tabs[i].offsetLeft}px`);
+      ind?.style.setProperty("--w", `${tabs[i].offsetWidth}px`);
     };
     tabs.forEach((t, i) => t.addEventListener("click", () => select(i)));
     tablist.addEventListener("keydown", (e) => {
-      const i = tabs.findIndex((t) => t.getAttribute("aria-selected") === "true");
-      const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      const next = { ArrowRight: active() + 1, ArrowLeft: active() - 1, Home: 0, End: tabs.length - 1 }[e.key];
       if (next === undefined) return;
       e.preventDefault();
       select((next + tabs.length) % tabs.length, true);
     });
-    addEventListener("resize", () => select(Math.max(0, tabs.findIndex((t) => t.getAttribute("aria-selected") === "true"))));
+    addEventListener("resize", () => select(active()));
     select(0);
-  }
-
-  // Billing switch: both plans cost the same, which is the joke.
-  const per = document.querySelector<HTMLElement>("[data-per]");
-  const radios = [...document.querySelectorAll<HTMLButtonElement>("[data-billing]")];
-  radios.forEach((r) =>
-    r.addEventListener("click", () => {
-      radios.forEach((o) => o.setAttribute("aria-checked", String(o === r)));
-      if (per) per.textContent = r.dataset.billing === "anual" ? "por ano. Economia de exatamente R$ 0." : "por mês, cobrado nunca.";
-    }),
-  );
-
-  // The final card opens and its flags draw in once it comes into view.
-  const final = document.querySelector<HTMLElement>("[data-final]");
-  if (final) {
-    new IntersectionObserver(
-      ([e], o) => {
-        if (!e.isIntersecting) return;
-        final.dataset.in = "";
-        o.disconnect();
-      },
-      { threshold: 0.3 },
-    ).observe(final);
   }
 </script>
 
 <style is:global>
   /* The dark page shows through the footer's rounded corners, so the document behind it is dark too. */
   html:has(.v3) {
-    background: #121411;
+    background: #0a0a0a;
   }
 </style>
 
 <style>
   .v3 {
-    --night: #121411;
-    --night-2: #1a1e19;
-    --night-line: rgb(255 255 255 / 0.1);
-    --fg: #eef0ea;
-    --fg-2: rgb(238 240 234 / 0.66);
-    --grass: #8fcf9c;
-    background: var(--night);
-    color: var(--fg);
+    --line-d: rgb(255 255 255 / 0.12);
+    --surface-d: #161616;
+    --fg: #fafafa;
+    --fg-2: rgb(250 250 250 / 0.6);
     padding-top: 0;
+    background: #0a0a0a;
+    color: var(--fg);
   }
-  .v3 h2 {
+
+  /* One rhythm for every section: same top space, same heading, same width. */
+  .sec {
+    padding-block: 96px 0;
+  }
+  .sec h2 {
+    margin-bottom: 32px;
     font-size: clamp(30px, 4vw, 48px);
     font-weight: 700;
     letter-spacing: -0.04em;
@@ -373,16 +267,14 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
   .hero-wrap {
     --p: 0;
     --mx: 0;
-    --my: 0;
     padding: 0 calc(var(--p) * 16px);
   }
   .frame {
     position: relative;
     display: flex;
     align-items: flex-end;
-    min-height: min(820px, 100dvh);
+    min-height: min(780px, 100dvh);
     overflow: hidden;
-    border-radius: calc(var(--p) * 28px);
     clip-path: inset(0 round calc(var(--p) * 28px));
   }
   .scene {
@@ -403,13 +295,11 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
     z-index: 1;
     width: min(1120px, 100% - 32px);
     margin: 0 auto;
-    padding: 140px 0 clamp(48px, 9vh, 96px);
+    padding: 140px 0 clamp(56px, 10vh, 104px);
     transform: translateY(calc(var(--p) * -40px));
-    opacity: calc(1 - var(--p) * 0.6);
   }
   h1 {
-    max-width: 14ch;
-    color: #f6f4ec;
+    max-width: 13ch;
     font-size: clamp(44px, 7vw, 96px);
     font-weight: 750;
     letter-spacing: -0.05em;
@@ -418,29 +308,22 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
   .word {
     display: inline-block;
     overflow: hidden;
-    padding-bottom: 0.06em;
     margin-right: 0.22em;
+    padding-bottom: 0.06em;
     vertical-align: top;
   }
   .word > span {
     display: inline-block;
   }
-  .lead {
-    max-width: 44ch;
-    margin-top: 22px;
-    color: rgb(246 244 236 / 0.78);
-    font-size: 19px;
-  }
   .hero-cta {
     max-width: 520px;
-    margin-top: 28px;
+    margin-top: 32px;
   }
   @media (prefers-reduced-motion: no-preference) {
     .word > span {
       animation: rise 800ms var(--ease-out) both;
       animation-delay: calc(120ms + var(--i) * 70ms);
     }
-    .lead,
     .hero-cta {
       animation: fade 700ms 650ms var(--ease-out) both;
     }
@@ -461,19 +344,19 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
   .marquee {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding-block: 56px;
+    gap: 12px;
+    padding-top: 56px;
     overflow: hidden;
     mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
   }
   .track {
     display: flex;
-    gap: 14px;
+    gap: 12px;
     width: max-content;
   }
   .phrase {
     padding: 10px 16px;
-    border: 1px solid var(--night-line);
+    border: 1px solid var(--line-d);
     border-radius: 999px;
     color: var(--fg-2);
     font-size: 15px;
@@ -499,17 +382,11 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
 
   /* How it works */
   .how {
-    padding-block: 64px 112px;
-  }
-  .how-grid {
-    --step: 0;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 48px;
-    margin-top: 36px;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 24px;
   }
   .steps {
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -519,113 +396,83 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
   }
   .step {
     display: flex;
-    gap: 16px;
+    align-items: center;
+    gap: 14px;
     width: 100%;
-    padding: 16px;
+    min-height: 60px;
+    padding: 0 16px;
     border: 0;
     border-radius: 14px;
     background: none;
     color: var(--fg-2);
     font: inherit;
+    font-size: 18px;
+    font-weight: 600;
     text-align: left;
     cursor: pointer;
-    transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out);
+    transition:
+      background-color 150ms var(--ease-out),
+      color 150ms var(--ease-out);
   }
   .step[aria-pressed="true"] {
-    background: var(--night-2);
+    background: var(--surface-d);
     color: var(--fg);
   }
   .step-n {
     display: inline-grid;
     flex: none;
     place-items: center;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--line-d);
     border-radius: 50%;
-    border: 1px solid var(--night-line);
     font-size: 14px;
-    font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
   .step[aria-pressed="true"] .step-n {
-    border-color: var(--grass);
-    color: var(--grass);
-  }
-  .step-title {
-    display: block;
-    font-size: 18px;
-    font-weight: 650;
-  }
-  .step-text {
-    display: block;
-    margin-top: 2px;
-    font-size: 15px;
-  }
-  .step-line {
-    position: absolute;
-    top: 16px;
-    bottom: 16px;
-    left: -12px;
-    width: 2px;
-    border-radius: 2px;
-    background: var(--night-line);
-  }
-  .step-line span {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: var(--grass);
-    transform: scaleY(calc((var(--step) + 1) / 4));
-    transform-origin: top;
-    transition: transform 400ms var(--ease-out);
+    border-color: var(--fg);
   }
   .panel {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-items: center;
-    min-height: 300px;
+    min-height: 220px;
     padding: 28px;
-    border-radius: 22px;
-    background: var(--night-2);
-    border: 1px solid var(--night-line);
+    border: 1px solid var(--line-d);
+    border-radius: 20px;
+    background: var(--surface-d);
   }
-  .card {
+  .panel > div {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
-  .card-label {
-    color: var(--fg-2);
-    font-size: 14px;
+  .panel > div[hidden] {
+    display: none;
   }
   .bubble {
     align-self: flex-start;
     padding: 14px 18px;
     border-radius: 18px 18px 18px 6px;
     background: var(--fg);
-    color: var(--night);
+    color: #0a0a0a;
     font-size: 18px;
   }
-  .using code {
-    color: var(--grass);
-  }
-  .mono,
-  .using {
+  .mono {
     font-family: var(--font-mono);
-    font-size: 15px;
+    font-size: 16px;
+  }
+  .dim {
+    color: var(--fg-2);
   }
 
   /* Tabs */
-  .tabs-sec {
-    padding-bottom: 112px;
-  }
   .tablist {
     position: relative;
     display: flex;
     gap: 4px;
-    margin-top: 28px;
     overflow-x: auto;
-    border-bottom: 1px solid var(--night-line);
+    border-bottom: 1px solid var(--line-d);
     scrollbar-width: none;
   }
   [role="tab"] {
@@ -643,7 +490,7 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
     color: var(--fg);
   }
   [role="tab"]:focus-visible {
-    outline: 2px solid var(--grass);
+    outline: 2px solid var(--fg);
     outline-offset: -4px;
     border-radius: 8px;
   }
@@ -653,7 +500,7 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
     left: 0;
     width: var(--w, 0);
     height: 2px;
-    background: var(--grass);
+    background: var(--fg);
     transform: translateX(var(--x, 0));
     transition:
       transform 250ms var(--ease-out),
@@ -661,275 +508,102 @@ const flags = ["#d64933", "#f2b134", "#2d6a3e", "#2e6fb5", "#e07a2e", "#f4f1e8"]
   }
   .tabpanel {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 40px;
-    padding-top: 32px;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 24px;
+    padding-top: 24px;
   }
   .tabpanel[hidden] {
     display: none;
   }
-  .tab-skills {
+  .names {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 4px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .tab-skills li {
+  .names a {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .tab-skills a {
+    align-items: center;
+    min-height: 48px;
+    padding: 0 16px;
+    border-radius: 12px;
     color: var(--fg);
     font-family: var(--font-mono);
     font-size: 17px;
-    font-weight: 600;
     text-decoration: none;
   }
-  .tab-skills span {
-    color: var(--fg-2);
-  }
   @media (hover: hover) {
-    .tab-skills a:hover {
-      color: var(--grass);
+    .names a:hover {
+      background: var(--surface-d);
     }
   }
   .term {
     display: flex;
     flex-direction: column;
     gap: 14px;
-    min-height: 220px;
-    padding: 24px;
-    border-radius: 18px;
-    background: #0b0d0b;
-    border: 1px solid var(--night-line);
+    padding: 28px;
+    border: 1px solid var(--line-d);
+    border-radius: 20px;
+    background: var(--surface-d);
     font-family: var(--font-mono);
     font-size: 15px;
   }
   .you {
-    color: var(--grass);
+    color: var(--fg-2);
   }
   .you::before {
     content: "> ";
   }
-  .tag {
-    margin-top: auto;
-    color: rgb(255 255 255 / 0.4);
-    font-size: 12px;
-  }
-
-  /* Price */
-  .price-sec {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 112px;
-    text-align: center;
-  }
-  .billing {
-    display: inline-flex;
-    gap: 4px;
-    margin-top: 24px;
-    padding: 4px;
-    border-radius: 12px;
-    background: var(--night-2);
-    border: 1px solid var(--night-line);
-  }
-  .billing button {
-    min-height: 40px;
-    padding: 0 18px;
-    border: 0;
-    border-radius: 9px;
-    background: none;
-    color: var(--fg-2);
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .billing [aria-checked="true"] {
-    background: var(--fg);
-    color: var(--night);
-  }
-  .price-card {
-    width: min(100%, 460px);
-    margin-top: 24px;
-    padding: 36px 32px;
-    border-radius: 24px;
-    background: var(--night-2);
-    border: 1px solid var(--night-line);
-  }
-  .amount {
-    font-size: clamp(64px, 9vw, 112px);
-    font-weight: 750;
-    letter-spacing: -0.06em;
-    line-height: 1;
-  }
-  .per {
-    margin-top: 8px;
-    color: var(--fg-2);
-  }
-  .note {
-    margin: 20px auto 24px;
-    max-width: 34ch;
-    color: var(--fg-2);
-    font-size: 15px;
-  }
-  .button-light {
-    background: var(--fg);
-    color: var(--night);
-    box-shadow: none;
-  }
 
   /* Before and after */
-  .wall {
-    padding-bottom: 112px;
-  }
-  .sub {
-    margin-top: 8px;
-    color: var(--fg-2);
-  }
-  .columns {
+  .pairs {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
-    height: 520px;
-    margin-top: 32px;
-    overflow: hidden;
-    mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-  .col-track {
+  .pair {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .col-track {
-      animation: up 40s linear infinite;
-    }
-    .col[data-col="1"] .col-track {
-      animation-direction: reverse;
-    }
-    .columns:hover .col-track {
-      animation-play-state: paused;
-    }
-  }
-  @keyframes up {
-    to {
-      transform: translateY(-50%);
-    }
-  }
-  .quote {
-    margin: 0;
-    padding: 20px;
-    border-radius: 18px;
-    background: var(--night-2);
-    border: 1px solid var(--night-line);
+    gap: 12px;
+    padding: 24px;
+    border: 1px solid var(--line-d);
+    border-radius: 20px;
   }
   .before {
-    color: rgb(238 240 234 / 0.45);
+    color: rgb(250 250 250 / 0.4);
     text-decoration: line-through;
-    text-decoration-color: rgb(214 73 51 / 0.7);
   }
   .after {
-    margin-top: 10px;
     font-size: 17px;
-  }
-  figcaption {
-    margin-top: 14px;
-    color: var(--grass);
-    font-size: 13px;
   }
 
   /* Final */
   .final {
     padding-bottom: 140px;
   }
-  .final-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 150px 24px 64px;
-    border-radius: 28px;
-    background: #f4f1e8;
-    color: var(--night);
-    text-align: center;
-    overflow: hidden;
-  }
-  .final-card h2 {
-    color: var(--night);
-    font-size: clamp(36px, 5.5vw, 72px);
-  }
-  .final-card p {
-    color: #4a4f45;
-  }
   .final-cmds {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: min(100%, 520px);
-    margin-top: 12px;
-    text-align: left;
-  }
-  .flags {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 160px;
-  }
-  .flag {
-    transform-box: fill-box;
-    transform-origin: top center;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .final-card {
-      clip-path: inset(8% 6% round 28px);
-      transition: clip-path 900ms var(--ease-out);
-    }
-    .final[data-in] .final-card {
-      clip-path: inset(0 round 28px);
-    }
-    .flag {
-      opacity: 0;
-      transform: translateY(-8px);
-      transition:
-        opacity 300ms var(--ease-out),
-        transform 300ms var(--ease-out);
-      transition-delay: calc(var(--i) * 18ms);
-    }
-    .final[data-in] .flag {
-      opacity: 1;
-      transform: none;
-      animation: flutter 2.6s ease-in-out infinite;
-      animation-delay: calc(900ms + var(--i) * 60ms);
-    }
-  }
-  @keyframes flutter {
-    50% {
-      transform: rotate(4deg);
-    }
+    max-width: 520px;
   }
 
   @media (max-width: 860px) {
-    .how-grid,
-    .tabpanel {
+    .how,
+    .tabpanel,
+    .pairs {
       grid-template-columns: minmax(0, 1fr);
-    }
-    .step-line {
-      display: none;
-    }
-    .columns {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .col[data-col="1"] {
-      display: none;
     }
     .frame {
-      min-height: 680px;
+      min-height: 640px;
+    }
+    .sec {
+      padding-top: 72px;
     }
   }
 </style>

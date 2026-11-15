@@ -41,7 +41,7 @@ Você não precisa chamar pelo nome: fale como sempre falou e o agente puxa a sk
 
 | Skill | O que faz | Diga |
 |---|---|---|
-| [`corno-confere`](skills/corno-confere/SKILL.md) | Antes de dizer que terminou, roda a verificação agora e mostra a saída. Sem exceção. | “pronto”, “os testes passam” |
+| [`corno-confere`](skills/corno-confere/SKILL.md) | Antes de dizer “pronto”, confere item por item se tudo que foi pedido foi feito, com prova. No plugin, um hook obriga essa conferência. | “veja se faltou coisa”, “terminou?” |
 | [`corno-testa`](skills/corno-testa/SKILL.md) | Teste primeiro: o que falha, o mínimo que passa, e só então arruma. | “cobre isso com teste” |
 | [`corno-investiga`](skills/corno-investiga/SKILL.md) | Bug difícil ou lentidão com método: reproduz, encolhe, testa hipóteses e só corrige com a causa provada. | “funcionava ontem” |
 | [`corno-revisa`](skills/corno-revisa/SKILL.md) | Revisão pesada de estrutura e manutenção. Só roda quando chamada pelo nome. | “/corno-revisa” |
@@ -87,6 +87,7 @@ skills/<nome>/       uma pasta por skill: SKILL.md, references/ e scripts/
 scripts/             check-skills.mjs, o validador do repositório
 site/                a landing de corno.dev (Astro), gerada a partir das próprias skills
 assets/              imagens do README
+hooks/               o hook da corno-confere: manda conferir o pedido antes do "pronto"
 .claude-plugin/      manifesto do plugin e do marketplace do Claude Code
 .github/workflows/   CI: valida as skills e builda o site em cada push
 ```

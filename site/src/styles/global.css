@@ -2,24 +2,24 @@
 
 :root {
   color-scheme: light;
-  /* The corral in daylight: whitewashed walls, pasture green, weathered fence wood. */
-  --page: #f3f4f0;
-  --canvas: #e9ebe4;
+  /* Black and white: the brand has no accent color. Grays carry hierarchy. */
+  --page: #fafafa;
+  --canvas: #f0f0f0;
   --surface: #ffffff;
-  --hover: #e6e9e0;
-  --ink: #1b1d19;
-  --ink-2: #4a4f45;
+  --hover: #ededed;
+  --ink: #0a0a0a;
+  --ink-2: #525252;
   /* Small print keeps 4.5:1 on the page and on a card. */
-  --ink-3: #5f655a;
-  --line: #dcdfd5;
-  --line-strong: #c9cdc0;
-  --accent: #2d6a3e;
-  --accent-ink: #245733;
-  --accent-tint: rgb(45 106 62 / 0.12);
-  --wood: #7a5214;
-  --shadow-btn: 0 0 0 1px rgb(27 29 25 / 0.12), 0 1px 2px rgb(27 29 25 / 0.08);
-  --shadow-card: 0 0 0 1px rgb(27 29 25 / 0.09), 0 1px 2px rgb(27 29 25 / 0.05), 0 2px 6px rgb(27 29 25 / 0.05);
-  --shadow-card-hover: 0 0 0 1px rgb(27 29 25 / 0.14), 0 2px 4px rgb(27 29 25 / 0.06), 0 6px 16px rgb(27 29 25 / 0.07);
+  --ink-3: #666666;
+  --line: #e5e5e5;
+  --line-strong: #d4d4d4;
+  --accent: #0a0a0a;
+  --accent-ink: #0a0a0a;
+  --accent-tint: rgb(0 0 0 / 0.06);
+  --wood: #525252;
+  --shadow-btn: 0 0 0 1px rgb(10 10 10 / 0.12), 0 1px 2px rgb(10 10 10 / 0.08);
+  --shadow-card: 0 0 0 1px rgb(10 10 10 / 0.09), 0 1px 2px rgb(10 10 10 / 0.05), 0 2px 6px rgb(10 10 10 / 0.05);
+  --shadow-card-hover: 0 0 0 1px rgb(10 10 10 / 0.14), 0 2px 4px rgb(10 10 10 / 0.06), 0 6px 16px rgb(10 10 10 / 0.07);
   --radius-control: 8px;
   --radius-card: 12px;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -138,7 +138,7 @@ summary:focus-visible {
   padding: 6px 6px 6px 14px;
   border-radius: var(--radius-control);
   background: var(--ink);
-  color: #e8eae4;
+  color: #f5f5f5;
 }
 .command code {
   flex: 1;

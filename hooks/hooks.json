@@ -1,0 +1,7 @@
+{
+  "description": "corno-confere: manda conferir item por item o que foi pedido quando a pessoa pergunta se falta algo e antes do 'pronto'.",
+  "hooks": {
+    "UserPromptSubmit": [{ "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/confere.mjs\"", "timeout": 10 }] }],
+    "Stop": [{ "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/confere.mjs\"", "timeout": 10 }] }]
+  }
+}

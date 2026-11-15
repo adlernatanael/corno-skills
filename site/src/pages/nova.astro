@@ -19,7 +19,6 @@ const stats = [
   { value: skills.length, label: "skills no curral" },
   { value: groups.length, label: "assuntos, do código ao currículo" },
   { value: 1, label: "comando para instalar tudo" },
-  { value: 0, label: "reais para usar", prefix: "R$ " },
 ];
 
 const faq = [
@@ -108,29 +107,6 @@ const faq = [
               ))
             }
           </div>
-        </div>
-      </section>
-
-      <section class="price container" aria-labelledby="price-title">
-        <div class="price-box" data-reveal>
-          <div>
-            <h2 id="price-title">Quanto custa?</h2>
-            <p class="amount">R$ 0</p>
-            <p class="price-note">Todas as skills, todas as atualizações. O único custo é descobrir que seu agente era corno.</p>
-            <a class="button button-light" href="/downloads/corno-skills.zip" download>Baixar todas (.zip)</a>
-          </div>
-          <ul class="included">
-            {
-              skills.map((s, i) => (
-                <li style={`--i: ${i}`}>
-                  <svg viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M3 8.5l3.2 3L13 4.5" />
-                  </svg>
-                  {s.name}
-                </li>
-              ))
-            }
-          </ul>
         </div>
       </section>
 
@@ -240,7 +216,7 @@ const faq = [
     display: inline-block;
   }
   .soft {
-    color: var(--accent);
+    color: var(--ink-3);
   }
   .lead {
     max-width: 40ch;
@@ -304,7 +280,7 @@ const faq = [
 
   .stats {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
     padding-bottom: 120px;
   }
@@ -382,13 +358,13 @@ const faq = [
     transform: none;
   }
   .you {
-    color: #9fd3a8;
+    color: #a3a3a3;
   }
   .you::before {
     content: "> ";
   }
   .agent {
-    color: #e8eae4;
+    color: #f5f5f5;
   }
   .tag {
     margin-top: auto;
@@ -428,76 +404,6 @@ const faq = [
   @media (hover: hover) {
     .block li a:hover {
       color: var(--accent-ink);
-    }
-  }
-
-  .price {
-    padding-bottom: 120px;
-  }
-  .price-box {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 48px;
-    padding: clamp(28px, 5vw, 56px);
-    border-radius: 28px;
-    background: var(--accent-ink);
-    color: #fff;
-  }
-  .price-box h2 {
-    color: #fff;
-  }
-  .amount {
-    margin-top: 16px;
-    font-size: clamp(64px, 9vw, 120px);
-    font-weight: 750;
-    letter-spacing: -0.06em;
-    line-height: 1;
-  }
-  .price-note {
-    max-width: 34ch;
-    margin: 16px 0 28px;
-    color: rgb(255 255 255 / 0.75);
-  }
-  .button-light {
-    background: #fff;
-    color: var(--accent-ink);
-    box-shadow: none;
-  }
-  .included {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px 20px;
-    align-content: start;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-family: var(--font-mono);
-    font-size: 14px;
-  }
-  .included li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .included svg {
-    flex: none;
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: #b9e3c1;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 16;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .included svg {
-      stroke-dashoffset: 16;
-      transition: stroke-dashoffset 400ms var(--ease-out);
-      transition-delay: calc(var(--i) * 45ms);
-    }
-    .price-box[data-in] .included svg {
-      stroke-dashoffset: 0;
     }
   }
 
@@ -575,7 +481,6 @@ const faq = [
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .stage-grid,
-    .price-box,
     .faq {
       grid-template-columns: minmax(0, 1fr);
     }
@@ -598,7 +503,6 @@ const faq = [
     .statement,
     .stats,
     .stage,
-    .price,
     .faq {
       padding-bottom: 80px;
     }

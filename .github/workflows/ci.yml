@@ -17,6 +17,8 @@ jobs:
           cache-dependency-path: site/package-lock.json
       - name: Validate skills
         run: node scripts/check-skills.mjs
+      - name: Hook tests
+        run: node --test hooks/*.test.mjs
       - name: Shell scripts parse
         run: for f in skills/*/scripts/*.sh; do bash -n "$f"; done
       - name: Build site

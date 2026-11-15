@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160">
   <!-- Horns: ivory, so they draw as light glyphs against the dark head. -->
-  <path fill="#d9d2c3" d="M76 50 C52 50 26 40 12 10 C26 26 50 36 78 40 Z"/>
-  <path fill="#d9d2c3" d="M124 50 C148 50 174 40 188 10 C174 26 150 36 122 40 Z"/>
+  <path fill="#d4d4d4" d="M76 50 C52 50 26 40 12 10 C26 26 50 36 78 40 Z"/>
+  <path fill="#d4d4d4" d="M124 50 C148 50 174 40 188 10 C174 26 150 36 122 40 Z"/>
   <!-- Ears -->
-  <path fill="#2b2620" d="M72 60 C58 54 44 58 36 68 C50 74 62 74 73 71 Z"/>
-  <path fill="#2b2620" d="M128 60 C142 54 156 58 164 68 C150 74 138 74 127 71 Z"/>
+  <path fill="#262626" d="M72 60 C58 54 44 58 36 68 C50 74 62 74 73 71 Z"/>
+  <path fill="#262626" d="M128 60 C142 54 156 58 164 68 C150 74 138 74 127 71 Z"/>
   <!-- Head -->
-  <path fill="#1c1916" d="M68 52 C70 38 130 38 132 52 L129 96 C127 122 114 142 100 142 C86 142 73 122 71 96 Z"/>
+  <path fill="#0a0a0a" d="M68 52 C70 38 130 38 132 52 L129 96 C127 122 114 142 100 142 C86 142 73 122 71 96 Z"/>
   <!-- Forehead tuft -->
-  <path fill="#4a4036" d="M86 44 C92 52 108 52 114 44 C110 58 90 58 86 44 Z"/>
+  <path fill="#404040" d="M86 44 C92 52 108 52 114 44 C110 58 90 58 86 44 Z"/>
   <!-- Eyes -->
-  <ellipse fill="#f2efe8" cx="84" cy="76" rx="6" ry="4.5"/>
-  <ellipse fill="#f2efe8" cx="116" cy="76" rx="6" ry="4.5"/>
+  <ellipse fill="#fafafa" cx="84" cy="76" rx="6" ry="4.5"/>
+  <ellipse fill="#fafafa" cx="116" cy="76" rx="6" ry="4.5"/>
   <!-- Muzzle and nostrils -->
-  <ellipse fill="#b9ada0" cx="100" cy="126" rx="21" ry="15"/>
-  <ellipse fill="#1c1916" cx="92" cy="127" rx="4" ry="5"/>
-  <ellipse fill="#1c1916" cx="108" cy="127" rx="4" ry="5"/>
+  <ellipse fill="#a3a3a3" cx="100" cy="126" rx="21" ry="15"/>
+  <ellipse fill="#0a0a0a" cx="92" cy="127" rx="4" ry="5"/>
+  <ellipse fill="#0a0a0a" cx="108" cy="127" rx="4" ry="5"/>
 </svg>
