@@ -49,7 +49,6 @@ const GROUPS: { title: string; skills: string[] }[] = [
   { title: "Interface", skills: ["corno-visagem", "corno-sendo-corno"] },
   { title: "Texto e conversa", skills: ["corno-humano", "corno-com-tdah"] },
   { title: "Negócio e carreira", skills: ["corno-julgador", "corno-recrutador"] },
-  { title: "Máquina", skills: ["corno-limpa"] },
   { title: "Para quem cria skills", skills: ["corno-cria-skill"] },
 ];
 
@@ -62,12 +61,15 @@ export function groupedSkills(): { title: string; skills: Skill[] }[] {
   return groups.filter((g) => g.skills.length);
 }
 
+// Skills that stay in the repo but are not shown or offered for download on the site.
+const OFF_SITE = new Set(["corno-limpa"]);
+
 let cache: Skill[] | undefined;
 
 export function loadSkills(): Skill[] {
   if (cache) return cache;
   cache = readdirSync(SKILLS_DIR)
-    .filter((name) => statSync(join(SKILLS_DIR, name)).isDirectory())
+    .filter((name) => !OFF_SITE.has(name) && statSync(join(SKILLS_DIR, name)).isDirectory())
     .sort()
     .map((name) => {
       const dir = join(SKILLS_DIR, name);

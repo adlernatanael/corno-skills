@@ -55,10 +55,6 @@ export const ABOUT: Record<string, string[]> = {
     "Ela lê o arquivo como os sistemas de triagem leem, dá uma nota de 0 a 100, aponta o que te elimina e monta um plano de até 7 mudanças, da que mais rende para a que menos rende. Com uma vaga junto, mede também a aderência a ela.",
     "Reescreve os itens mais fracos sem inventar nada: onde falta um número que só você sabe, ela deixa {XX} para você preencher. Aceita .pdf, .doc, .docx ou o texto do perfil colado.",
   ],
-  "corno-limpa": [
-    "Uma limpeza completa do macOS, do Windows ou do Linux, sem apagar nada que você sentiria falta. Primeiro ela varre o computador inteiro e só mostra: quanto ocupa cada categoria e quanto dá para liberar.",
-    "Ela separa o que volta sozinho (caches, logs, dependências, builds, simuladores, modelos de IA, sobras de apps que você já desinstalou) do que é seu e não volta (documentos, fotos, chaves, código sem commit, instaladores e arquivos grandes parados). O primeiro sai com uma confirmação só; o segundo, com a sua decisão.",
-  ],
   "corno-cria-skill": [
     "Cria uma skill nova ou dá o acabamento numa que já existe, no padrão deste repositório.",
     "Antes de escrever, ela responde que comportamento do agente muda e com que frases a skill deve disparar. Depois escreve curto, em português direto, com o detalhe em arquivos de referência e os scripts testados.",

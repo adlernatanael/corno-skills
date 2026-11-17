@@ -117,17 +117,6 @@ export const SKILL_RUNS: Record<string, { you: string; steps: Step[]; result: st
     ],
     result: "Nota 58. Reescrevi os 5 piores itens, só falta você pôr os números.",
   },
-  "corno-limpa": {
-    you: "o Mac tá dizendo que o disco tá cheio e eu nem consigo atualizar o sistema",
-    steps: [
-      { kind: "plain", text: "varri tudo sem apagar nada: 54 GB voltam sozinhos" },
-      { kind: "ok", text: "38 GB de dependências de projetos parados (voltam quando precisar)" },
-      { kind: "ok", text: "12 GB de simuladores e caches de apps" },
-      { kind: "ok", text: "4 GB de um modelo de IA baixado sozinho: desliguei e apaguei" },
-      { kind: "warn", text: "2 pastas com código sem commit: deixei pra você decidir" },
-    ],
-    result: "Tinha 9 GB livres, agora tem 63 GB. Já dá pra atualizar.",
-  },
 
   "corno-cria-skill": {
     you: "sempre faço o mesmo ritual pra subir release, vira skill?",
