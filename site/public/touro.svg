@@ -1,20 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 224">
-  <!-- A whole bull in profile, facing left: low head, horns curving forward, a high shoulder hump, standing on a strip
-       of ground. Drawn flat so the ASCII renderer reads one dense shape; the eye is the only light spot. -->
-  <!-- Far horn -->
-  <path fill="#1a1a1a" d="M100 80 C84 66 80 46 88 26 C92 46 98 60 110 70 Z"/>
-  <!-- Body, head and legs -->
-  <path fill="#0a0a0a" d="M330 66 C300 54 250 50 205 46 C185 30 160 26 140 34 C120 42 104 60 92 78 L70 104 C58 118 52 136 54 150 C56 160 70 162 80 156 C92 150 100 150 108 158 C116 170 118 184 120 198 L122 216 L138 216 L138 196 C144 188 152 186 158 188 L160 216 L174 216 L176 190 C214 198 256 198 286 190 L288 216 L302 216 L304 186 C310 188 314 190 318 192 L320 216 L334 216 L336 180 C348 156 352 124 346 98 C344 84 340 72 330 66 Z"/>
+  <!-- A whole bull in profile, facing left: heavy shoulder hump, head carried low, horns sweeping forward and up, a
+       dewlap under the neck, a bent hock and a tufted tail. The ASCII renderer turns darker greys into denser glyphs and
+       near white into blanks, so far legs and horn sit lighter to fall behind, and thin white strokes carve the head,
+       the haunch and the legs out of the body. -->
+  <!-- Behind: far horn, far legs -->
+  <path fill="#707070" d="M114 68 C110 52 114 36 128 22 C126 38 126 52 130 64 Z"/>
+  <path fill="#6a6a6a" d="M168 156 L170 211 L185 211 L186 156 Z"/>
+  <path fill="#6a6a6a" d="M314 140 C330 152 342 166 340 184 L338 211 L324 211 L324 188 C322 176 314 166 304 156 Z"/>
+  <!-- Body -->
+  <path fill="#262626" d="M112 72 C126 52 148 34 176 30 C200 28 218 40 236 50 C268 56 300 56 326 58 C344 60 354 72 356 92 C358 112 352 132 342 146 L334 154 C316 158 298 158 278 158 C250 160 222 162 196 162 C180 164 166 168 156 170 C144 172 132 168 124 160 C116 152 112 146 110 138 Z"/>
+  <!-- Light on the hump and the haunch -->
+  <path fill="#4a4a4a" d="M150 48 C166 36 192 32 212 42 C192 46 172 54 160 68 C154 62 150 56 150 48 Z"/>
+  <path fill="#3a3a3a" d="M304 72 C324 68 342 78 346 98 C344 120 330 136 312 142 C300 122 296 96 304 72 Z"/>
+  <!-- Dewlap -->
+  <path fill="#262626" d="M110 138 C116 156 128 170 146 178 C140 168 134 160 132 148 Z"/>
+  <!-- Near legs: front straight, back with the hock bent -->
+  <path fill="#141414" d="M138 160 C136 178 138 196 138 211 L155 211 C155 194 160 178 164 160 Z"/>
+  <path fill="#141414" d="M296 118 C316 124 330 140 330 158 C328 170 322 180 320 192 L318 211 L303 211 L305 190 C305 178 298 170 288 162 Z"/>
+  <!-- Hooves -->
+  <path fill="#050505" d="M136 205 L156 205 L158 214 L134 214 Z M302 205 L320 205 L322 214 L300 214 Z"/>
+  <path fill="#5a5a5a" d="M169 206 L186 206 L188 214 L167 214 Z M323 206 L339 206 L341 214 L321 214 Z"/>
+  <!-- Head, a shade apart from the neck -->
+  <path fill="#0a0a0a" d="M118 70 C106 66 94 70 88 80 C78 96 68 116 62 132 C58 142 60 152 68 156 C76 158 86 156 94 152 C104 148 112 142 118 134 C124 120 126 96 118 70 Z"/>
+  <path fill="#303030" d="M64 130 C60 140 62 150 68 154 C74 156 80 154 84 150 C80 142 74 134 64 130 Z"/>
+  <circle fill="#ffffff" cx="68" cy="140" r="3.5"/>
   <!-- Ear -->
-  <path fill="#0a0a0a" d="M104 84 C114 78 126 82 130 92 C120 95 110 93 104 88 Z"/>
-  <!-- Near horn -->
-  <path fill="#0a0a0a" d="M84 88 C58 84 34 68 28 38 C44 58 66 68 94 74 Z"/>
+  <path fill="#262626" d="M118 88 C130 82 146 86 152 98 C140 100 128 98 118 94 Z"/>
+  <!-- Near horn: out from the poll, forward and up to a sharp tip -->
+  <path fill="#0a0a0a" d="M98 78 C80 76 62 68 52 52 C46 42 46 30 50 18 C54 34 62 46 76 54 C88 60 102 62 112 66 Z"/>
   <!-- Tail -->
-  <path fill="#0a0a0a" d="M346 100 C362 114 366 144 360 176 L368 186 L354 184 C358 156 354 124 340 106 Z"/>
-  <!-- "você" cut out of the flank: the corno in question. Light pixels become the sparsest glyphs. -->
-  <text x="222" y="158" fill="#ffffff" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="88" font-weight="900" text-anchor="middle" letter-spacing="-3">você</text>
+  <path fill="#141414" d="M352 70 C364 84 370 116 366 156 L364 172 L358 172 L360 154 C362 118 358 92 346 78 Z"/>
+  <path fill="#0a0a0a" d="M356 166 C352 178 354 190 362 198 C368 188 372 180 370 166 Z"/>
+  <!-- Carved lines: back of the head, the jaw, the haunch, the top of the near legs -->
+  <g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round">
+    <path d="M122 74 C128 96 126 120 118 140"/>
+    <path d="M74 158 C88 156 102 150 112 142"/>
+    <path d="M298 116 C290 132 288 148 292 160"/>
+    <path d="M140 162 C148 164 156 164 164 162"/>
+  </g>
+  <!-- "você" cut out of the flank: the corno in question. -->
+  <text x="232" y="138" fill="#ffffff" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="54" font-weight="700" text-anchor="middle" letter-spacing="8">você</text>
   <!-- Eye -->
-  <circle fill="#fafafa" cx="74" cy="116" r="3.5"/>
+  <circle fill="#fafafa" cx="96" cy="98" r="6"/>
   <!-- Ground -->
   <rect fill="#262626" x="0" y="217" width="400" height="5"/>
 </svg>

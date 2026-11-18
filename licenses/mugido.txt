@@ -1,0 +1,11 @@
+site/public/muu.m4a
+
+Excerpt of "Single Cow Moo" by MichaeltheFox8621, Wikimedia Commons:
+https://commons.wikimedia.org/wiki/File:Single_Cow_Moo.ogg
+
+License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Changes: mixed to mono, trimmed to 0.7–2.95 s so the moo ends on its own, 50 ms fade-in,
+250 ms fade-out, peak at -1 dB. This altered file is shared under the same CC BY-SA 4.0
+license (the audio file only).
