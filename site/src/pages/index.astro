@@ -28,9 +28,9 @@ const groups = groupedSkills();
         <div class="hero-cta">
           <Command code={INSTALL_CLAUDE[0]} />
         </div>
-        <div class="bull">
+        <button type="button" class="bull" aria-label="Fazer o touro mugir">
           <AsciiBoi src="/touro.svg" ratio="2 / 1" label="Um touro inteiro desenhado com letras e símbolos" />
-        </div>
+        </button>
       </section>
 
       <section class="sec container" id="curral" aria-labelledby="curral-title">
@@ -85,6 +85,36 @@ const groups = groupedSkills();
 </Base>
 
 <script>
+  // The bull moos on the first click or key of the visit (browsers block sound until then) and on every click on it.
+  const moo = new Audio("/muu.m4a");
+  const bull = document.querySelector<HTMLButtonElement>(".bull");
+  const play = () => {
+    moo.currentTime = 0;
+    moo.play().catch(() => {});
+    bull?.removeAttribute("data-moo");
+    void bull?.offsetWidth; // restart the shake
+    bull?.setAttribute("data-moo", "");
+  };
+  bull?.addEventListener("click", play);
+  bull?.addEventListener("animationend", () => bull.removeAttribute("data-moo"));
+  let mooed = false;
+  try {
+    mooed = sessionStorage.getItem("corno-mugiu") === "1";
+  } catch {}
+  const first = (e: Event) => {
+    removeEventListener("click", first);
+    removeEventListener("keydown", first);
+    try {
+      sessionStorage.setItem("corno-mugiu", "1");
+    } catch {}
+    // A first click on the bull already moos through its own handler.
+    if (!bull?.contains(e.target as Node)) play();
+  };
+  if (!mooed) {
+    addEventListener("click", first);
+    addEventListener("keydown", first);
+  }
+
   // Picking a skill opens its preview under the name and plays its example run in the terminal beside it.
   function expand(b: HTMLButtonElement, on: boolean) {
     b.setAttribute("aria-expanded", String(on));
@@ -203,9 +233,31 @@ const groups = groupedSkills();
     text-align: left;
   }
   .bull {
+    display: block;
     width: min(100%, 1040px);
     margin-top: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: none;
     color: var(--fg);
+    cursor: pointer;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .bull[data-moo] {
+      animation: moo 600ms var(--ease-out);
+    }
+  }
+  @keyframes moo {
+    20% {
+      transform: rotate(-1deg) scale(1.01);
+    }
+    45% {
+      transform: rotate(0.8deg);
+    }
+    70% {
+      transform: rotate(-0.4deg);
+    }
   }
   /* The site-wide command block is black; on this black page it needs its own surface to be seen. */
   .v3 :global(.command) {
